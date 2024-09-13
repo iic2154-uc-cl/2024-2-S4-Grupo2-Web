@@ -1,0 +1,43 @@
+name: Commit Review
+
+on:
+  push:  # Triggered on pushes to any branch
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          pip install code-diff-review
+      - name: Run Python script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_KEY }}
+          OPENAI_ASSISTANT_ID: ${{ secrets.COMMIT_ASSISTANT }}
+          GH_TOKEN: ${{ secrets.GH_API_KEY}}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          GH_BEFORE: ${{ github.event.before }} 
+          SHA: ${{ github.sha }}
+          MESSAGE: ${{github.event.head_commit.message}}
+          WEBHOOK: ${{ secrets.WEBHOOK }}
+          WEBSECRET: ${{ secrets.WEBSECRET }}
+        run: |
+          code-diff-review \
+            --openai-key "$OPENAI_API_KEY" \
+            --assistant-id "$OPENAI_ASSISTANT_ID" \
+            --token "$GH_TOKEN" \
+            --repo "$REPO" \
+            --branch "$BRANCH" \
+            --gh-before "$GH_BEFORE" \
+            --sha "$SHA" \
+            --message "$MESSAGE" \
+            --webhook "$WEBHOOK" \
+            --websecret "$WEBSECRET"
