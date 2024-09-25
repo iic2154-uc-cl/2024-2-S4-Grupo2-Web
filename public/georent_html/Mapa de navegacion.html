@@ -3,6 +3,21 @@
 <head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ERY2T2BCDF"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E&region=CL&language=es&callback=initMap">
+</script>
+<style>
+  #map {
+    height: 400px; /* Establecer altura */
+    width: 100%;  /* Establecer ancho */
+  }
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -19,6 +34,7 @@
 
   gtag('config', 'G-H2FH6Q0M88');
 </script>
+
 <title>Inicio</title>
 <link rel="icon" type="image/x-icon" href="img/Logo_Favicon-48px.ico">
 <meta charset="UTF-8">
@@ -114,6 +130,46 @@ ul {
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Podrás estar frente a la propiedad o camping y verificar que lo que se ofrece es lo que estás viendo y con toda tranquilidad podrás llamar o chatear por whatsapp con el oferente, y llegar a acuerdo respecto de fechas y precios del bien. </p>
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Ya no tendrás que buscar y llamar a cada número que aparece en cartelitos "SE ARRIENDA", sin saber disponibilidad y precios. No más vueltas interminables buscando la propiedad que requieres, en el sector que a ti te gusta, y por sobre todo, podrás estar seguro de estar negociando unas vacaciones en el lugar correcto, minimizando estafas.</p>
     </div>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+    <script>
+      function initMap() {
+        // Usa la API de geolocalización del navegador para obtener la ubicación actual
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            // Obtén la latitud y longitud del usuario
+            var userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+  
+            // Inicializa el mapa centrado en la ubicación actual
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: userLocation,
+              zoom: 12
+            });
+  
+            // Agrega un marcador en la ubicación actual
+            var marker = new google.maps.Marker({
+              position: userLocation,
+              map: map,
+              title: 'Tu ubicación'
+            });
+          }, function() {
+            handleLocationError(true, map.getCenter());
+          });
+        } else {
+          // El navegador no soporta geolocalización
+          handleLocationError(false, map.getCenter());
+        }
+      }
+  
+      function handleLocationError(browserHasGeolocation, pos) {
+        alert(browserHasGeolocation
+          ? "Error: El servicio de geolocalización falló."
+          : "Error: Tu navegador no soporta la geolocalización.");
+      }
+    </script>
     
   </div>
 </div>
@@ -136,6 +192,47 @@ ul {
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Podrás estar frente a la propiedad o camping y verificar que lo que se ofrece es lo que estás viendo y con toda tranquilidad podrás llamar o chatear por whatsapp con el oferente, y llegar a acuerdo respecto de fechas y precios del bien. </p>
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Ya no tendrás que buscar y llamar a cada número que aparece en cartelitos de "SE ARRIENDA", sin saber disponibilidad y precios. No más vueltas interminables buscando la propiedad que requieres, en el sector que a ti te gusta, y por sobre todo, podrás estar seguro de estar negociando unas vacaciones en el lugar correcto, minimizando estafas.</p>
     </div>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+    <script>
+      function initMap() {
+        // Usa la API de geolocalización del navegador para obtener la ubicación actual
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            // Obtén la latitud y longitud del usuario
+            var userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+  
+            // Inicializa el mapa centrado en la ubicación actual
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: userLocation,
+              zoom: 12
+            });
+  
+            // Agrega un marcador en la ubicación actual
+            var marker = new google.maps.Marker({
+              position: userLocation,
+              map: map,
+              title: 'Tu ubicación'
+            });
+          }, function() {
+            handleLocationError(true, map.getCenter());
+          });
+        } else {
+          // El navegador no soporta geolocalización
+          handleLocationError(false, map.getCenter());
+        }
+      }
+  
+      function handleLocationError(browserHasGeolocation, pos) {
+        alert(browserHasGeolocation
+          ? "Error: El servicio de geolocalización falló."
+          : "Error: Tu navegador no soporta la geolocalización.");
+      }
+    </script>
+  
     
   </div>
 </div>
@@ -162,93 +259,6 @@ ul {
 
 
 <br>
-<!---->
-<div class="w3-container w3-center w3-padding-16 w3-hide-large w3-hide-medium">
-  <p class="w3-margin" style="font-size: 21px; text-align: justify; color: #373737;">Descarga nuestra aplicación en las plataformas de distribución para dispositivos móviles</p>
-</div>
-<div class="w3-container w3-center w3-padding-16 w3-hide-small">
-  <p class="w3-margin" style="font-size: 21px; text-align: center; color: #373737;">Descarga nuestra aplicación en las plataformas de distribución para dispositivos móviles</p>
-</div>
-<!-- BOTONES DE REDIRECCIÓN--> <!--1-->
-<div class="w3-row-padding w3-padding-16 w3-container w3-hide-small">
-  <div class="w3-content">
-
-    <div class="w3-half w3-center">
-      <div class="w3-half w3-margin-bottom w3-center" style="width:100%; margin-left: auto; margin-right: auto;">
-        <div class="w3-display-container">
-          <a target="_blank" rel="noopener noreferrer" href="#"><img src="img/boton-ios.png"  style="width:35%;">
-            <p style="color:#373737; font-size: 18px;">IOS Apple</p></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="w3-half w3-center">
-      <div class="w3-half w3-margin-bottom w3-center" style="width:100%; margin-left: auto; margin-right: auto;">
-        <div class="w3-display-container">
-          <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=com.prod.georentmobile&pcampaignid=web_share"><img src="img/boton-ps.png" style="width:35%;">
-            <p style="color:#373737; font-size: 18px;">PlayStore Android</p></a>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
-<!-- BOTONES DE REDIRECCIÓN--> <!--1-->
-<div class="w3-row-padding w3-padding-16 w3-container w3-hide-large w3-hide-medium">
-  <div class="w3-content">
-
-    <div class="w3-half w3-center">
-      <div class="w3-half w3-margin-bottom w3-center" style="width:100%; margin-left: auto; margin-right: auto;">
-        <div class="w3-display-container">
-          <a target="_blank" rel="noopener noreferrer" href="#"><img src="img/boton-ios.png"  style="width:25%;">
-            <p style="color:#373737; font-size: 18px;">IOS Apple</p></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="w3-half w3-center">
-      <div class="w3-half w3-margin-bottom w3-center" style="width:100%; margin-left: auto; margin-right: auto;">
-        <div class="w3-display-container">
-          <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=com.prod.georentmobile&pcampaignid=web_share"><img src="img/boton-ps.png" style="width:25%;">
-            <p style="color:#373737; font-size: 18px;">PlayStore Android</p></a>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
-
-<!---->
-<div class="w3-container w3-center w3-padding-16 w3-hide-large w3-hide-medium">
-  <p class="w3-margin" style="font-size: 21px; text-align: justify; color: #373737;">Navega desde nuestra Solución Web</p> <!--4-->
-</div> 
-<div class="w3-container w3-center w3-padding-16 w3-hide-small">
-  <p class="w3-margin" style="font-size: 21px; text-align: center; color: #373737;">Navega desde nuestra Solución Web</p> <!--4-->
-</div> 
-<!-- BOTÓN DE REDIRECCIÓN--> <!--1-->
-<div class="w3-container w3-center">
-
-  <div class="w3-text-white w3-center">
-    <div class="w3-row-padding w3-center" style="width:100%; margin-left: auto; margin-right: auto;">
-          <div class="w3-margin-bottom w3-center">
-            <div class="w3-display-container w3-hide-small w3-hide-medium">
-              <a target="_blank" rel="noopener noreferrer" href="https://georent.cl/georent_html/inicio.html"><img src="img/boton-gr.png" style="width:12%;">
-              <p style="color:#373737; font-size: 18px;">Mapas GeoRent</p></a> 
-            </div>
-            <div class="w3-display-container w3-hide-large w3-hide-medium">
-              <a target="_blank" rel="noopener noreferrer" href="https://georent.cl/georent_html/inicio.html"><img src="img/boton-gr.png" style="width:25%;">
-              <p style="color:#373737; font-size: 18px;">Mapas GeoRent</p></a> 
-            </div>
-            <div class="w3-display-container w3-hide-large w3-hide-small">
-              <a target="_blank" rel="noopener noreferrer" href="https://georent.cl/georent_html/inicio.html"><img src="img/boton-gr.png" style="width:20%;">
-              <p style="color:#373737; font-size: 18px;">Mapas GeoRent</p></a> 
-            </div>
-          </div>
-  </div>
-</div>
-  
-</div>
-
 <br><br><br><br><br>
 
 <!-- Footer --><!--5-->
