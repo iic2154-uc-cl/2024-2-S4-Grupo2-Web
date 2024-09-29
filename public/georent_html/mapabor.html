@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa con Lugares Falsos y Ubicación Actual</title>
+  
+  <!-- Google Maps API Script -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E&callback=initMap"></script>
+
+  <style>
+    #map {
+      height: 400px; /* Establecer altura */
+      width: 100%;  /* Establecer ancho */
+    }
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+
+<body style="line-height: 1.2;">
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-card w3-left-align w3-large" style="background-color: #ffffff; color: #373737;">
+      <a href="inicio.html" class="w3-bar-item w3-button w3-padding-large w3-white">
+        <img src="img/Logo160.png" style="width: 35%;">
+      </a>
+      <a href="Mapa de navegacion.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="margin-top: 12px;">Mapa de navegación</a>
+      <a href="Publicar.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="margin-top: 12px;">Publicar</a>
+      <a href="Servicios.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" style="margin-top: 12px;">Servicios</a>
+    </div>
+  </div>
+
+  <!-- INFO medium -->
+  <div class="w3-row-padding w3-padding-16 w3-container w3-hide-large w3-hide-small">
+    <div class="w3-content">
+      <div class="w3-third w3-center">
+        <br><br>
+        <a href="Publicar.html"><img class="fa fa-anchor w3-padding-64 w3-text-red" src="img/pin2.png" style="width:90%; padding-left: 20px; padding-right: 20px;"></a>
+      </div>
+      <div class="w3-twothird">
+        <br><br><br>
+        <h1 class="w3-center" style="color: #373737;">Busca tu lugar de destino en el Mapa de propiedades Publicadas</h1>
+        <p class="w3-center" style="font-size: 24px; color: rgba(114, 71, 200, 0.85); font-weight: bold;">Busca la propiedad donde quieres vacacionar a través de mapas de navegación.</p>
+        <br>
+        <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">En tiempo real podrás visualizar las diferentes ofertas de casas, departamentos, alojamientos y camping, que están disponibles en las fechas seleccionadas y de acuerdo a los criterios de búsqueda que selecciones.</p>
+        <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Las propiedades y camping se desplegarán en el mapa con el ícono de GeoRent, de manera tal que podrás dirigirte hacia ellas conduciendo tu vehículo o navegando a través del mapa desde tu dispositivo.</p>
+        <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Podrás estar frente a la propiedad o camping y verificar que lo que se ofrece es lo que estás viendo y con toda tranquilidad podrás llamar o chatear por whatsapp con el oferente, y llegar a acuerdo respecto de fechas y precios del bien. </p>
+        <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Ya no tendrás que buscar y llamar a cada número que aparece en cartelitos de "SE ARRIENDA", sin saber disponibilidad y precios. No más vueltas interminables buscando la propiedad que requieres, en el sector que a ti te gusta.</p>
+      </div>
+
+      <!-- Mapa -->
+      <div id="map"></div>
+
+      <button>Ver servicios disponibles</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-row-padding w3-padding-32 w3-card w3-center">
+    <div class="w3-content">
+      <div class="w3-half w3-center w3-hide-small" style="margin-top: 25px;">
+        <a target="_blank" rel="noopener noreferrer" href="https://wa.me/56992679247"><img src="img/wpplogo.png" width="40px"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script para inicializar el mapa -->
+  <script>
+    function initMap() {
+      // Verifica si la geolocalización está disponible
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+  
+          // Inicializa el mapa centrado en la ubicación del usuario
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: userLocation,
+            zoom: 12
+          });
+
+          // Agrega un marcador para la ubicación del usuario
+          var userMarker = new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            title: 'Tu ubicación',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Marcador azul
+          });
+
+          // Lugares falsos con coordenadas
+          var lugares = [
+            {nombre: 'Lugar 1', lat: -33.4489, lng: -70.6693},
+            {nombre: 'Lugar 2', lat: -33.456, lng: -70.650},
+            {nombre: 'Lugar 3', lat: -33.460, lng: -70.680}
+          ];
+
+          // Añade los marcadores en el mapa
+          lugares.forEach(function(lugar) {
+            var marker = new google.maps.Marker({
+              position: {lat: lugar.lat, lng: lugar.lng},
+              map: map,
+              title: lugar.nombre
+            });
+          });
+
+        }, function() {
+          handleLocationError(true);
+        });
+      } else {
+        // Si la geolocalización no es compatible
+        handleLocationError(false);
+      }
+    }
+
+    // Manejo de errores de geolocalización
+    function handleLocationError(hasGeolocation) {
+      if (hasGeolocation) {
+        alert("Error: El servicio de geolocalización falló.");
+      } else {
+        alert("Error: Tu navegador no soporta la geolocalización.");
+      }
+    }
+  </script>
+
+</body>
+</html>

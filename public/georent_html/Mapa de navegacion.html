@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ERY2T2BCDF"></script>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-ERY2T2BCDF"></script> -->
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E&region=CL&language=es&callback=initMap">
 </script>
@@ -105,9 +105,9 @@ ul {
 </div>
 
 <!--WPP-->
-<div id='box' class="w3-hide-large w3-hide-medium">
+<!-- <div id='box' class="w3-hide-large w3-hide-medium">
   <a target="_blank" rel="noopener noreferrer" href="https://wa.me/56992679247"><img src="img/wpp-hover.png" style="width:15%;"></a>
-</div>
+</div> -->
 
 <br><br>
 
@@ -133,46 +133,70 @@ ul {
 
 
 
+
+
+
     <h4 style="color: #373737; font-size: 36px;">Mi ubicación</h4>
     <div id="map" style="height: 400px; width: 100%;"></div>
     <script>
       function initMap() {
-        // Usa la API de geolocalización del navegador para obtener la ubicación actual
+        // Verifica si la geolocalización está disponible
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            // Obtén la latitud y longitud del usuario
             var userLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-  
-            // Inicializa el mapa centrado en la ubicación actual
+    
+            // Inicializa el mapa centrado en la ubicación del usuario
             var map = new google.maps.Map(document.getElementById('map'), {
               center: userLocation,
               zoom: 12
             });
   
-            // Agrega un marcador en la ubicación actual
-            var marker = new google.maps.Marker({
+            // Agrega un marcador para la ubicación del usuario
+            var userMarker = new google.maps.Marker({
               position: userLocation,
               map: map,
-              title: 'Tu ubicación'
+              title: 'Tu ubicación',
+              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Marcador azul
             });
+  
+            // Lugares falsos con coordenadas
+            var lugares = [
+              {nombre: 'Lugar 1', lat: -33.4489, lng: -70.6693},
+              {nombre: 'Lugar 2', lat: -33.456, lng: -70.650},
+              {nombre: 'Lugar 3', lat: -33.460, lng: -70.680}
+            ];
+  
+            // Añade los marcadores en el mapa
+            lugares.forEach(function(lugar) {
+              var marker = new google.maps.Marker({
+                position: {lat: lugar.lat, lng: lugar.lng},
+                map: map,
+                title: lugar.nombre
+              });
+            });
+  
           }, function() {
-            handleLocationError(true, map.getCenter());
+            handleLocationError(true);
           });
         } else {
-          // El navegador no soporta geolocalización
-          handleLocationError(false, map.getCenter());
+          // Si la geolocalización no es compatible
+          handleLocationError(false);
         }
       }
   
-      function handleLocationError(browserHasGeolocation, pos) {
-        alert(browserHasGeolocation
-          ? "Error: El servicio de geolocalización falló."
-          : "Error: Tu navegador no soporta la geolocalización.");
+      // Manejo de errores de geolocalización
+      function handleLocationError(hasGeolocation) {
+        if (hasGeolocation) {
+          alert("Error: El servicio de geolocalización falló.");
+        } else {
+          alert("Error: Tu navegador no soporta la geolocalización.");
+        }
       }
     </script>
+    
     
   </div>
 </div>
@@ -199,42 +223,66 @@ ul {
 
     <script>
       function initMap() {
-        // Usa la API de geolocalización del navegador para obtener la ubicación actual
+        // Verifica si la geolocalización está disponible
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            // Obtén la latitud y longitud del usuario
             var userLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-  
-            // Inicializa el mapa centrado en la ubicación actual
+    
+            // Inicializa el mapa centrado en la ubicación del usuario
             var map = new google.maps.Map(document.getElementById('map'), {
               center: userLocation,
               zoom: 12
             });
   
-            // Agrega un marcador en la ubicación actual
-            var marker = new google.maps.Marker({
+            // Agrega un marcador para la ubicación del usuario
+            var userMarker = new google.maps.Marker({
               position: userLocation,
               map: map,
-              title: 'Tu ubicación'
+              title: 'Tu ubicación',
+              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Marcador azul
             });
+  
+            // Lugares falsos con coordenadas
+            var lugares = [
+              {nombre: 'Lugar 1', lat: -33.4489, lng: -70.6693},
+              {nombre: 'Lugar 2', lat: -33.456, lng: -70.650},
+              {nombre: 'Lugar 3', lat: -33.460, lng: -70.680}
+            ];
+  
+            // Añade los marcadores en el mapa
+            lugares.forEach(function(lugar) {
+              var marker = new google.maps.Marker({
+                position: {lat: lugar.lat, lng: lugar.lng},
+                map: map,
+                title: lugar.nombre
+              });
+            });
+  
           }, function() {
-            handleLocationError(true, map.getCenter());
+            handleLocationError(true);
           });
         } else {
-          // El navegador no soporta geolocalización
-          handleLocationError(false, map.getCenter());
+          // Si la geolocalización no es compatible
+          handleLocationError(false);
         }
       }
   
-      function handleLocationError(browserHasGeolocation, pos) {
-        alert(browserHasGeolocation
-          ? "Error: El servicio de geolocalización falló."
-          : "Error: Tu navegador no soporta la geolocalización.");
+      // Manejo de errores de geolocalización
+      function handleLocationError(hasGeolocation) {
+        if (hasGeolocation) {
+          alert("Error: El servicio de geolocalización falló.");
+        } else {
+          alert("Error: Tu navegador no soporta la geolocalización.");
+        }
       }
     </script>
+
+
+     
+    <button>Ver servicios disponibles</button>
   
     
   </div>
@@ -291,7 +339,7 @@ ul {
     </div>
   </div>
   </footer>
-<script>
+<!-- <script>
   // Used to toggle the menu on small screens when clicking on the menu button
   function myFunction() {
     var x = document.getElementById("navDemo");
@@ -330,7 +378,7 @@ ul {
    
   };
   
-  </script>
+  </script> -->
 
 </body>
 </html>
