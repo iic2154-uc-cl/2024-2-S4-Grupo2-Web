@@ -137,66 +137,94 @@ ul {
 
 
     <h4 style="color: #373737; font-size: 36px;">Mi ubicación</h4>
-    <div id="map" style="height: 400px; width: 100%;"></div>
-    <script>
-      function initMap() {
-        // Verifica si la geolocalización está disponible
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var userLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-    
-            // Inicializa el mapa centrado en la ubicación del usuario
-            var map = new google.maps.Map(document.getElementById('map'), {
-              center: userLocation,
-              zoom: 12
-            });
-  
-            // Agrega un marcador para la ubicación del usuario
-            var userMarker = new google.maps.Marker({
-              position: userLocation,
-              map: map,
-              title: 'Tu ubicación',
-              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Marcador azul
-            });
-  
-            // Lugares falsos con coordenadas
-            var lugares = [
-              {nombre: 'Lugar 1', lat: -33.4489, lng: -70.6693},
-              {nombre: 'Lugar 2', lat: -33.456, lng: -70.650},
-              {nombre: 'Lugar 3', lat: -33.460, lng: -70.680}
-            ];
-  
-            // Añade los marcadores en el mapa
-            lugares.forEach(function(lugar) {
-              var marker = new google.maps.Marker({
-                position: {lat: lugar.lat, lng: lugar.lng},
-                map: map,
-                title: lugar.nombre
-              });
-            });
-  
-          }, function() {
-            handleLocationError(true);
+
+    <!-- Mapa y contenedor para mostrar la información del lugar -->
+<div id="map" style="height: 400px; width: 100%;"></div>
+
+<!-- Contenedor para mostrar la información del lugar -->
+<div id="info-lugar" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; display: none;">
+  <h2 id="titulo-lugar"></h2>
+  <p id="descripcion-lugar"></p>
+</div>
+
+<script>
+  function initMap() {
+    // Verifica si la geolocalización está disponible
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        // Inicializa el mapa centrado en la ubicación del usuario
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: userLocation,
+          zoom: 12
+        });
+
+        // Agrega un marcador para la ubicación del usuario
+        const userMarker = new google.maps.Marker({
+          position: userLocation,
+          map: map,
+          title: 'Tu ubicación'
+        });
+
+        // Lugares falsos con coordenadas y descripciones
+        const lugares = [
+          {nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.'}, 
+          {nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.'}, 
+          {nombre: 'Plaza Baquedano', lat: -33.4369, lng: -70.6344, descripcion: 'Conocida también como Plaza Italia, es un importante punto de encuentro en Santiago.'}, 
+          {nombre: 'Barrio Bellavista', lat: -33.4332, lng: -70.6416, descripcion: 'Un barrio bohemio famoso por su vida nocturna y cultura.'}, 
+          {nombre: 'Parque Araucano', lat: -33.4023, lng: -70.5768, descripcion: 'Un parque familiar ubicado en Las Condes, popular entre los locales.'}, 
+          {nombre: 'Mall Alto Las Condes', lat: -33.4007, lng: -70.5364, descripcion: 'Uno de los centros comerciales más exclusivos en Santiago.'}, 
+          {nombre: 'Casa Museo La Chascona', lat: -33.4323, lng: -70.6369, descripcion: 'Una de las casas de Pablo Neruda, ahora un museo.'}, 
+          {nombre: 'Parque Uruguay', lat: -33.4148, lng: -70.6061, descripcion: 'Un pequeño parque situado a lo largo de la ribera del río Mapocho en Las Condes.'}
+        ];
+
+        // Añade los marcadores en el mapa
+        lugares.forEach((lugar) => {
+          const marker = new google.maps.Marker({
+            position: {lat: lugar.lat, lng: lugar.lng},
+            map: map,
+            title: lugar.nombre
           });
-        } else {
-          // Si la geolocalización no es compatible
-          handleLocationError(false);
-        }
-      }
-  
-      // Manejo de errores de geolocalización
-      function handleLocationError(hasGeolocation) {
-        if (hasGeolocation) {
-          alert("Error: El servicio de geolocalización falló.");
-        } else {
-          alert("Error: Tu navegador no soporta la geolocalización.");
-        }
-      }
-    </script>
-    
+
+          // Evento de clic en el marcador
+          marker.addListener('click', () => {
+            mostrarInformacionLugar(lugar);
+          });
+        });
+
+      }, function() {
+        handleLocationError(true);
+      });
+    } else {
+      handleLocationError(false);
+    }
+  }
+
+  // Función para mostrar la información del lugar
+  function mostrarInformacionLugar(lugar) {
+    // Muestra el contenedor de información
+    const infoLugar = document.getElementById('info-lugar');
+    infoLugar.style.display = 'block';
+
+    // Actualiza el contenido del contenedor con el título y descripción del lugar
+    document.getElementById('titulo-lugar').innerText = lugar.nombre;
+    document.getElementById('descripcion-lugar').innerText = lugar.descripcion;
+  }
+
+  // Manejo de errores de geolocalización
+  function handleLocationError(hasGeolocation) {
+    if (hasGeolocation) {
+      alert("Error: El servicio de geolocalización falló.");
+    } else {
+      alert("Error: Tu navegador no soporta la geolocalización.");
+    }
+  }
+</script>
+
     
   </div>
 </div>
@@ -219,70 +247,104 @@ ul {
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Podrás estar frente a la propiedad o camping y verificar que lo que se ofrece es lo que estás viendo y con toda tranquilidad podrás llamar o chatear por whatsapp con el oferente, y llegar a acuerdo respecto de fechas y precios del bien. </p>
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Ya no tendrás que buscar y llamar a cada número que aparece en cartelitos de "SE ARRIENDA", sin saber disponibilidad y precios. No más vueltas interminables buscando la propiedad que requieres, en el sector que a ti te gusta, y por sobre todo, podrás estar seguro de estar negociando unas vacaciones en el lugar correcto, minimizando estafas.</p>
     </div>
-    <div id="map" style="height: 400px; width: 100%;"></div>
 
-    <script>
-      function initMap() {
-        // Verifica si la geolocalización está disponible
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var userLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-    
-            // Inicializa el mapa centrado en la ubicación del usuario
-            var map = new google.maps.Map(document.getElementById('map'), {
-              center: userLocation,
-              zoom: 12
-            });
-  
-            // Agrega un marcador para la ubicación del usuario
-            var userMarker = new google.maps.Marker({
-              position: userLocation,
-              map: map,
-              title: 'Tu ubicación',
-              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Marcador azul
-            });
-  
-            // Lugares falsos con coordenadas
-            var lugares = [
-              {nombre: 'Lugar 1', lat: -33.4489, lng: -70.6693},
-              {nombre: 'Lugar 2', lat: -33.456, lng: -70.650},
-              {nombre: 'Lugar 3', lat: -33.460, lng: -70.680}
-            ];
-  
-            // Añade los marcadores en el mapa
-            lugares.forEach(function(lugar) {
-              var marker = new google.maps.Marker({
-                position: {lat: lugar.lat, lng: lugar.lng},
-                map: map,
-                title: lugar.nombre
-              });
-            });
-  
-          }, function() {
-            handleLocationError(true);
+    <!-- Mapa y contenedor para mostrar la información del lugar -->
+<div id="map" style="height: 400px; width: 100%;"></div>
+
+<!-- Contenedor para mostrar la información del lugar -->
+<div id="info-lugar" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; display: none;">
+  <h2 id="titulo-lugar"></h2>
+  <p id="descripcion-lugar"></p>
+</div>
+
+<script>
+  function initMap() {
+    // Verifica si la geolocalización está disponible
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        // Inicializa el mapa centrado en la ubicación del usuario
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: userLocation,
+          zoom: 12
+        });
+
+        // Agrega un marcador para la ubicación del usuario
+        const userMarker = new google.maps.Marker({
+          position: userLocation,
+          map: map,
+          title: 'Tu ubicación'
+        });
+
+        // Lugares falsos con coordenadas y descripciones
+        const lugares = [
+          {nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.'}, 
+          {nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.'}, 
+          {nombre: 'Plaza Baquedano', lat: -33.4369, lng: -70.6344, descripcion: 'Conocida también como Plaza Italia, es un importante punto de encuentro en Santiago.'}, 
+          {nombre: 'Barrio Bellavista', lat: -33.4332, lng: -70.6416, descripcion: 'Un barrio bohemio famoso por su vida nocturna y cultura.'}, 
+          {nombre: 'Parque Araucano', lat: -33.4023, lng: -70.5768, descripcion: 'Un parque familiar ubicado en Las Condes, popular entre los locales.'}, 
+          {nombre: 'Mall Alto Las Condes', lat: -33.4007, lng: -70.5364, descripcion: 'Uno de los centros comerciales más exclusivos en Santiago.'}, 
+          {nombre: 'Casa Museo La Chascona', lat: -33.4323, lng: -70.6369, descripcion: 'Una de las casas de Pablo Neruda, ahora un museo.'}, 
+          {nombre: 'Parque Uruguay', lat: -33.4148, lng: -70.6061, descripcion: 'Un pequeño parque situado a lo largo de la ribera del río Mapocho en Las Condes.'}
+        ];
+
+        // Añade los marcadores en el mapa
+        lugares.forEach((lugar) => {
+          const marker = new google.maps.Marker({
+            position: {lat: lugar.lat, lng: lugar.lng},
+            map: map,
+            title: lugar.nombre
           });
-        } else {
-          // Si la geolocalización no es compatible
-          handleLocationError(false);
-        }
-      }
-  
-      // Manejo de errores de geolocalización
-      function handleLocationError(hasGeolocation) {
-        if (hasGeolocation) {
-          alert("Error: El servicio de geolocalización falló.");
-        } else {
-          alert("Error: Tu navegador no soporta la geolocalización.");
-        }
-      }
-    </script>
+
+          // Evento de clic en el marcador
+          marker.addListener('click', () => {
+            mostrarInformacionLugar(lugar);
+          });
+        });
+
+      }, function() {
+        handleLocationError(true);
+      });
+    } else {
+      handleLocationError(false);
+    }
+  }
+
+  // Función para mostrar la información del lugar
+  function mostrarInformacionLugar(lugar) {
+    // Muestra el contenedor de información
+    const infoLugar = document.getElementById('info-lugar');
+    infoLugar.style.display = 'block';
+
+    // Actualiza el contenido del contenedor con el título y descripción del lugar
+    document.getElementById('titulo-lugar').innerText = lugar.nombre;
+    document.getElementById('descripcion-lugar').innerText = lugar.descripcion;
+  }
+
+  // Manejo de errores de geolocalización
+  function handleLocationError(hasGeolocation) {
+    if (hasGeolocation) {
+      alert("Error: El servicio de geolocalización falló.");
+    } else {
+      alert("Error: Tu navegador no soporta la geolocalización.");
+    }
+  }
+</script>
+
+
+    
+    
+
+    
+           
 
 
      
-    <button>Ver servicios disponibles</button>
+    
   
     
   </div>
