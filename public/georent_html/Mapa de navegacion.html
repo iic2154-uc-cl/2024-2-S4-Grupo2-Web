@@ -14,6 +14,18 @@
   body {
     font-family: Arial, sans-serif;
   }
+  .update-location-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .update-location-btn:hover {
+    background-color: #45a049;
+  }
 </style>
 
 
@@ -135,7 +147,12 @@ ul {
 
     <h4 style="color: #373737; font-size: 36px;">Mi ubicación</h4>
     <div id="map" style="height: 400px; width: 100%;"></div>
+    <!-- Botón para actualizar ubicación -->
+    <button class="update-location-btn" onclick="updateLocation()">Actualizar ubicación</button>
     <script>
+      let map;
+      let marker;
+
       function initMap() {
         // Usa la API de geolocalización del navegador para obtener la ubicación actual
         if (navigator.geolocation) {
@@ -147,13 +164,13 @@ ul {
             };
   
             // Inicializa el mapa centrado en la ubicación actual
-            var map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('map'), {
               center: userLocation,
               zoom: 12
             });
   
             // Agrega un marcador en la ubicación actual
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
               position: userLocation,
               map: map,
               title: 'Tu ubicación'
@@ -163,6 +180,28 @@ ul {
           });
         } else {
           // El navegador no soporta geolocalización
+          handleLocationError(false, map.getCenter());
+        }
+      }
+
+      function updateLocation() {
+        // Actualiza la ubicación del usuario
+        console.log("llegue aqui")
+        if (navigator.geolocation) {
+          console.log("llegue a esta parte")
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+          console.log("user location", userLocation)
+            // Actualiza el centro del mapa y la posición del marcador
+            map.setCenter(userLocation);
+            marker.setPosition(userLocation);
+          }, function() {
+            handleLocationError(true, map.getCenter());
+          });
+        } else {
           handleLocationError(false, map.getCenter());
         }
       }
@@ -196,6 +235,8 @@ ul {
     <p class="w3-text-grey" style="font-size: 18px; text-align: justify;">Ya no tendrás que buscar y llamar a cada número que aparece en cartelitos de "SE ARRIENDA", sin saber disponibilidad y precios. No más vueltas interminables buscando la propiedad que requieres, en el sector que a ti te gusta, y por sobre todo, podrás estar seguro de estar negociando unas vacaciones en el lugar correcto, minimizando estafas.</p>
     </div>
     <div id="map" style="height: 400px; width: 100%;"></div>
+    <!-- Botón para actualizar ubicación -->
+    <button class="update-location-btn" onclick="updateLocation()">Actualizar ubicación</button>
 
     <script>
       function initMap() {
@@ -209,13 +250,13 @@ ul {
             };
   
             // Inicializa el mapa centrado en la ubicación actual
-            var map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('map'), {
               center: userLocation,
               zoom: 12
             });
   
             // Agrega un marcador en la ubicación actual
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
               position: userLocation,
               map: map,
               title: 'Tu ubicación'
@@ -225,6 +266,29 @@ ul {
           });
         } else {
           // El navegador no soporta geolocalización
+          handleLocationError(false, map.getCenter());
+        }
+      }
+
+      function updateLocation() {
+        // Actualiza la ubicación del usuario
+        console.log("llegue aqui")
+        if (navigator.geolocation) {
+          console.log("llegue a esta parte")
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            console.log("user location", userLocation)
+
+            // Actualiza el centro del mapa y la posición del marcador
+            map.setCenter(userLocation);
+            marker.setPosition(userLocation);
+          }, function() {
+            handleLocationError(true, map.getCenter());
+          });
+        } else {
           handleLocationError(false, map.getCenter());
         }
       }
