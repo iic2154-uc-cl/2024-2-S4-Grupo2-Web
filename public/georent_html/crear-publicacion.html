@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Publicación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {font-family: 'Nunito', sans-serif;}
+        .navbar {background-color: #f4f4f4; padding: 1em; display: flex; justify-content: space-between;}
+        .navbar a {text-decoration: none; color: #333; padding: 0.5em;}
+        .main {padding: 1em;}
+        .form-container {padding: 1em;}
+        .form-container input, .form-container textarea {width: 100%; padding: 0.5em; margin-bottom: 1em; border: 1px solid #ddd;}
+        .form-container button {background-color: #d3d3d3; color: white; padding: 10px 20px; border: none; cursor: pointer;} /* Botones de tipo y servicio */
+        #siguiente-btn, #siguiente-btn-2, #siguiente-btn-3, #publicar-btn {background-color: purple; color: white;} /* Botón siguiente y publicar siempre morado */
+        .step-circle {display: inline-block; width: 30px; height: 30px; border: 2px solid #333; border-radius: 50%; text-align: center; line-height: 30px; margin: 0 5px;}
+        .step-circle.active {background-color: purple; color: white;}
+        .volver-btn, #publicar-btn { /* Ajuste aquí */
+            background-color: purple !important; /* Asegúrate de que se aplique */
+            color: white !important; /* Asegúrate de que se aplique */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="crear-publicacion.html">Crear Publicación</a>
+        <a href="mis-publicaciones.html">Mis Publicaciones</a>
+        <a href="logout.html" onclick="logout()">Cerrar Sesión</a>
+    </div>
+
+    <div class="main">
+        <!-- Paso 1 -->
+        <div class="form-container" id="step1">
+            <h2>Crear Publicación</h2>
+            <div>
+                <span class="step-circle active">1</span>
+                <span class="step-circle">2</span>
+                <span class="step-circle">3</span>
+                <span class="step-circle">4</span>
+            </div>
+
+            <label for="tipo">Tipo de Publicación:</label>
+            <button onclick="selectTipo('propiedad')">Propiedad</button>
+            <button onclick="selectTipo('camping')">Camping</button>
+            <button onclick="selectTipo('servicio')">Servicio</button>
+            
+            <div id="tipo-mensaje"></div>
+
+            <div id="servicio-opciones" style="display: none;">
+                <button onclick="selectServicio('oficio')">Oficio</button>
+                <button onclick="selectServicio('entretenimiento')">Entretención</button>
+                <button onclick="selectServicio('comidas')">Comidas</button>
+                <button onclick="selectServicio('negocios')">Negocios</button>
+                <div id="servicio-mensaje"></div>
+            </div>
+
+            <button id="siguiente-btn" onclick="nextStep()">Siguiente</button>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="form-container" id="step2" style="display: none;">
+            <h2>Subir Imágenes</h2>
+            <label for="imagenes">Subir Imágenes:</label>
+            <input type="file" id="imagenes" name="imagenes" multiple>
+
+            <button class="volver-btn" onclick="prevStep(1)">Volver</button>
+            <button id="siguiente-btn-2" onclick="nextStep(2)">Siguiente</button>
+        </div>
+
+        <!-- Paso 3 -->
+        <!-- Paso 3 -->
+        <div class="form-container" id="step3" style="display: none;">
+            <h2>Rellenar Información</h2>
+
+            <!--<label for="categoria-seleccionada">Categoría seleccionada:</label>-->
+            <!-- <p id="categoria-seleccionada"></p>  Aquí se mostrará la categoría seleccionada -->
+
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Título de la Publicación" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" placeholder="Detalles relevantes..." required></textarea>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle 123" required>
+
+            <label for="depto">Depto / Cabaña:</label>
+            <input type="text" id="depto" name="depto" placeholder="Ej: Depto 4 o Cabaña A" required>
+
+            <label for="dormitorios">Dormitorios:</label>
+            <input type="number" id="dormitorios" name="dormitorios" placeholder="Cantidad de Dormitorios" required>
+
+            <label for="camas-simples">Camas Simples:</label>
+            <input type="number" id="camas-simples" name="camas-simples" placeholder="Cantidad de Camas Simples" required>
+
+            <label for="camas-dobles">Camas Dobles:</label>
+            <input type="number" id="camas-dobles" name="camas-dobles" placeholder="Cantidad de Camas Dobles" required>
+
+            <label for="contacto-telefono">Teléfono de Contacto:</label>
+            <input type="text" id="contacto-telefono" name="contacto-telefono" placeholder="Teléfono de contacto" required>
+
+            <label for="contacto-nombre">Nombre de Contacto:</label>
+            <input type="text" id="contacto-nombre" name="contacto-nombre" placeholder="Nombre de contacto" required>
+
+            <label for="precio-diario">Precio Diario:</label>
+            <input type="number" id="precio-diario" name="precio-diario" placeholder="Ej: 10000" required>
+
+            <label for="sitio-web">Sitio Web (Opcional):</label>
+            <input type="url" id="sitio-web" name="sitio-web" placeholder="http://example.com">
+
+            <label for="facebook">Facebook (Opcional):</label>
+            <input type="url" id="facebook" name="facebook" placeholder="http://facebook.com/usuario">
+
+            <label for="instagram">Instagram (Opcional):</label>
+            <input type="url" id="instagram" name="instagram" placeholder="http://instagram.com/usuario">
+
+            <label for="disponibilidad">Disponibilidad:</label>
+            <select id="disponibilidad" name="disponibilidad">
+                <option value="disponible">Disponible</option>
+                <option value="no-disponible">No Disponible</option>
+            </select>
+
+            <button class="volver-btn" onclick="prevStep(2)">Volver</button>
+            <button id="siguiente-btn-3" onclick="nextStep(3)">Siguiente</button>
+        </div>
+
+
+        <!-- Paso 4 -->
+        <div class="form-container" id="step4" style="display: none;">
+            <h2>Publicar</h2>
+            <button class="volver-btn" onclick="prevStep(3)">Volver</button>
+            <button id="publicar-btn" onclick="handleSubmit()">Publicar</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedTipo = null;
+        let selectedServicio = null;
+
+        function selectTipo(tipo) {
+            selectedTipo = tipo;
+            document.querySelectorAll('.form-container button').forEach(btn => {
+                if (!btn.id.startsWith('siguiente-btn')) { // No cambiar color de botón siguiente
+                    btn.classList.remove('active');
+                    btn.style.backgroundColor = '#d3d3d3'; // Color más gris
+                }
+            });
+            document.querySelector(`button[onclick="selectTipo('${tipo}')"]`).classList.add('active');
+            document.querySelector(`button[onclick="selectTipo('${tipo}')"]`).style.backgroundColor = 'purple'; // Color morado
+
+            const tipoMensaje = {
+                propiedad: "Publicar alojamiento en Propiedad.",
+                camping: "Publicar alojamiento en Camping.",
+                servicio: "Selecciona el tipo de servicio que deseas publicar."
+            };
+
+            document.getElementById('tipo-mensaje').innerText = tipoMensaje[tipo];
+
+            if (tipo === 'servicio') {
+                document.getElementById('servicio-opciones').style.display = 'block';
+            } else {
+                document.getElementById('servicio-opciones').style.display = 'none';
+            }
+        }
+
+        function selectServicio(servicio) {
+            selectedServicio = servicio;
+            document.querySelectorAll('#servicio-opciones button').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.backgroundColor = '#d3d3d3'; // Color más gris
+            });
+            document.querySelector(`button[onclick="selectServicio('${servicio}')"]`).classList.add('active');
+            document.querySelector(`button[onclick="selectServicio('${servicio}')"]`).style.backgroundColor = 'purple'; // Color morado
+
+            const servicioMensaje = {
+                oficio: "Con Servicio de Oficio, podrás ofrecer tus habilidades y experiencia en una variedad de áreas profesionales. Si eres plomero, electricista, carpintero o tienes cualquier otro talento útil, esta categoría te permite conectar con clientes que buscan soluciones para sus necesidades domésticas o empresariales.",
+                entretenimiento: "Si eres un proveedor de servicios de entretenimiento, la categoría 'Entretención' es perfecta para ti. Aquí puedes ofrecer tus servicios para eventos culturales, espectáculos en vivo, actividades recreativas y mucho más.",
+                comidas: "¿Tienes un negocio de comida o restaurante? La categoría 'Comidas' te brinda la oportunidad de mostrar tu exquisita cocina y atraer a nuevos comensales.",
+                negocios: "En la categoría 'Negocios', podrás mostrar tu emprendimiento o pequeño negocio y soluciones prácticas para la comunidad local."
+            };
+
+            document.getElementById('servicio-mensaje').innerText = servicioMensaje[servicio];
+        }
+
+        function nextStep(step = 1) {
+            const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3'), document.getElementById('step4')];
+            steps.forEach((s, index) => {
+                s.style.display = index === step ? 'block' : 'none';
+            });
+
+            const circles = document.querySelectorAll('.step-circle');
+            circles.forEach((circle, index) => {
+                circle.classList.toggle('active', index === step);
+            });
+        }
+
+        function prevStep(step) {
+            nextStep(step - 1);
+           
+        }
+
+        function handleSubmit() {
+            const titulo = document.getElementById('titulo').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const direccion = document.getElementById('direccion').value;
+            const depto = document.getElementById('depto').value;
+            const dormitorios = document.getElementById('dormitorios').value;
+            const camasSimples = document.getElementById('camas-simples').value;
+            const camasDobles = document.getElementById('camas-dobles').value;
+            const contactoTelefono = document.getElementById('contacto-telefono').value;
+            const contactoNombre = document.getElementById('contacto-nombre').value;
+            const precioDiario = document.getElementById('precio-diario').value;
+            //const precio = parseInt(document.getElementById('precio-diario').value);
+            const sitioWeb = document.getElementById('sitio-web').value;
+            const facebook = document.getElementById('facebook').value;
+            const instagram = document.getElementById('instagram').value;
+            const disponibilidad = document.getElementById('disponibilidad').value === 'disponible';
+
+            const newPublication = {
+                id: Date.now(),
+                tipo: selectedTipo,
+                servicio: selectedServicio,
+                titulo: titulo,
+                descripcion: descripcion,
+                direccion: direccion,
+                depto: depto,
+                dormitorios: dormitorios,
+                camasSimples: camasSimples,
+                camasDobles: camasDobles,
+                contactoTelefono: contactoTelefono,
+                contactoNombre: contactoNombre,
+                precioDiario: precioDiario,
+                //precio: precio,
+                sitioWeb: sitioWeb || null,  // Opcional
+                facebook: facebook || null,  // Opcional
+                instagram: instagram || null,  // Opcional
+                disponible: disponibilidad
+            };
+
+            const publications = JSON.parse(localStorage.getItem('publications')) || [];
+            publications.push(newPublication);
+            localStorage.setItem('publications', JSON.stringify(publications));
+
+            alert(`Publicación creada:\nTipo: ${selectedTipo}\nServicio: ${selectedServicio}\nTítulo: ${titulo}\nDescripción: ${descripcion}\nDisponibilidad: ${disponibilidad ? 'Disponible' : 'No Disponible'}`);
+
+            window.location.href = 'mis-publicaciones.html';
+        }
+
+
+        function logout() {
+            // Lógica de cierre de sesión
+            alert("Cerrando sesión...");
+        }
+    </script>
+
+</body>
+</html>

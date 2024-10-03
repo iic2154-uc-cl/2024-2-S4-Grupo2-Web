@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Publicación</title>
+    <style>
+        body {font-family: 'Nunito', sans-serif;}
+        .form-container {padding: 1em;}
+        .form-container input, .form-container select, .form-container textarea {
+            width: 100%; 
+            padding: 0.5em; 
+            margin-bottom: 1em; 
+            border: 1px solid #ddd;
+        }
+        .form-container button {background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;}
+        .tipo-button {margin: 5px; padding: 10px; background-color: #f1f1f1; border: 1px solid #ddd; cursor: pointer;}
+        .tipo-button.selected {background-color: #4CAF50; color: white;}
+        #servicio-opciones {display: none; margin-top: 10px;}
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Modificar Publicación</h2>
+
+        <form onsubmit="handleModify(event)">
+            <label for="tipo">Tipo de Publicación:</label>
+            <div>
+                <button type="button" class="tipo-button" onclick="selectTipo('propiedad')">Propiedad</button>
+                <button type="button" class="tipo-button" onclick="selectTipo('camping')">Camping</button>
+                <button type="button" class="tipo-button" onclick="selectTipo('servicio')">Servicio</button>
+            </div>
+            <div id="tipo-mensaje"></div>
+
+            <div id="servicio-opciones">
+                <button type="button" class="tipo-button" onclick="selectServicio('oficio')">Oficio</button>
+                <button type="button" class="tipo-button" onclick="selectServicio('entretenimiento')">Entretención</button>
+                <button type="button" class="tipo-button" onclick="selectServicio('comidas')">Comidas</button>
+                <button type="button" class="tipo-button" onclick="selectServicio('negocios')">Negocios</button>
+                <div id="servicio-mensaje"></div>
+            </div>
+
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" required></textarea>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+
+            <label for="depto">Departamento/Cabaña:</label>
+            <input type="text" id="depto" name="depto" required>
+
+            <label for="dormitorios">Dormitorios:</label>
+            <input type="number" id="dormitorios" name="dormitorios" required>
+
+            <label for="camasSimples">Camas Simples:</label>
+            <input type="number" id="camasSimples" name="camasSimples" required>
+
+            <label for="camasDobles">Camas Dobles:</label>
+            <input type="number" id="camasDobles" name="camasDobles" required>
+
+            <label for="telefono">Teléfono de Contacto:</label>
+            <input type="tel" id="telefono" name="telefono" required>
+
+            <label for="nombreContacto">Nombre de Contacto:</label>
+            <input type="text" id="nombreContacto" name="nombreContacto" required>
+
+            <label for="precio">Precio Diario:</label>
+            <input type="number" id="precio" name="precio" required>
+
+            <label for="sitioWeb">Sitio Web (opcional):</label>
+            <input type="url" id="sitioWeb" name="sitioWeb">
+
+            <label for="facebook">Facebook (opcional):</label>
+            <input type="url" id="facebook" name="facebook">
+
+            <label for="instagram">Instagram (opcional):</label>
+            <input type="url" id="instagram" name="instagram">
+
+            <label for="disponibilidad">Disponibilidad:</label>
+            <select id="disponibilidad" name="disponibilidad">
+                <option value="disponible">Disponible</option>
+                <option value="no-disponible">No Disponible</option>
+            </select>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+
+    <script>
+        let tipoSeleccionado = '';
+
+        function selectTipo(tipo) {
+            tipoSeleccionado = tipo;
+            const botones = document.querySelectorAll('.tipo-button');
+            botones.forEach(boton => {
+                boton.classList.remove('selected');
+            });
+            document.querySelector(`button[onclick="selectTipo('${tipo}')"]`).classList.add('selected');
+
+            // Mostrar opciones de servicio si se selecciona 'Servicio'
+            if (tipo === 'servicio') {
+                document.getElementById('servicio-opciones').style.display = 'block';
+            } else {
+                document.getElementById('servicio-opciones').style.display = 'none';
+            }
+
+            // Actualizar el mensaje de tipo
+            document.getElementById('tipo-mensaje').innerText = `Tipo seleccionado: ${tipoSeleccionado}`;
+        }
+
+        function selectServicio(servicio) {
+            document.getElementById('servicio-mensaje').innerText = `Servicio seleccionado: ${servicio}`;
+            if (servicio === 'comidas') {
+                document.getElementById('precio').value = 5000; // Ejemplo: cambia el precio cuando se selecciona 'comidas'
+            }
+        }
+
+        // Cargar la publicación a modificar
+        function loadPublication() {
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id'));
+
+            if (!isNaN(id)) {
+                const publications = JSON.parse(localStorage.getItem('publications')) || [];
+                const publication = publications.find(pub => pub.id === id);
+
+                if (publication) {
+                    tipoSeleccionado = publication.tipo; // Guardar tipo seleccionado
+                    document.getElementById('titulo').value = publication.titulo;
+                    document.getElementById('descripcion').value = publication.descripcion; // Cargar la descripción
+                    document.getElementById('direccion').value = publication.direccion;
+                    document.getElementById('depto').value = publication.depto;
+                    document.getElementById('dormitorios').value = publication.dormitorios;
+                    document.getElementById('camasSimples').value = publication.camasSimples;
+                    document.getElementById('camasDobles').value = publication.camasDobles;
+                    document.getElementById('telefono').value = publication.telefono;
+                    document.getElementById('nombreContacto').value = publication.nombreContacto;
+                    document.getElementById('precio').value = publication.precio; //OJOOOO
+                    document.getElementById('sitioWeb').value = publication.sitioWeb || '';
+                    document.getElementById('facebook').value = publication.facebook || '';
+                    document.getElementById('instagram').value = publication.instagram || '';
+                    document.getElementById('disponibilidad').value = publication.disponible ? 'disponible' : 'no-disponible';
+
+                    // Seleccionar el tipo de publicación correspondiente
+                    selectTipo(publication.tipo);
+                }
+            }
+        }
+
+        function handleModify(event) {
+            event.preventDefault();
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id'));
+
+            if (!isNaN(id)) {
+                const publications = JSON.parse(localStorage.getItem('publications')) || [];
+                const publicationIndex = publications.findIndex(pub => pub.id === id);
+
+                if (publicationIndex !== -1) {
+                    // Obtener nuevos valores
+                    const titulo = document.getElementById('titulo').value;
+                    const descripcion = document.getElementById('descripcion').value; // Tomar nueva descripción
+                    const direccion = document.getElementById('direccion').value;
+                    const depto = document.getElementById('depto').value;
+                    const dormitorios = parseInt(document.getElementById('dormitorios').value);
+                    const camasSimples = parseInt(document.getElementById('camasSimples').value);
+                    const camasDobles = parseInt(document.getElementById('camasDobles').value);
+                    const telefono = document.getElementById('telefono').value;
+                    const nombreContacto = document.getElementById('nombreContacto').value;
+                    const precio = parseInt(document.getElementById('precio').value);
+                    const sitioWeb = document.getElementById('sitioWeb').value;
+                    const facebook = document.getElementById('facebook').value;
+                    const instagram = document.getElementById('instagram').value;
+                    const disponible = document.getElementById('disponibilidad').value === 'disponible';
+
+                    // Actualizar publicación
+                    publications[publicationIndex] = {
+                        ...publications[publicationIndex],
+                        titulo,
+                        descripcion, // Actualizar descripción
+                        direccion,
+                        depto,
+                        dormitorios,
+                        camasSimples,
+                        camasDobles,
+                        telefono,
+                        nombreContacto,
+                        precio,
+                        sitioWeb,
+                        facebook,
+                        instagram,
+                        disponible
+                    };
+
+                    // Guardar en localStorage
+                    localStorage.setItem('publications', JSON.stringify(publications));
+                    alert('Publicación modificada con éxito.');
+                    window.location.href = 'mis-publicaciones.html';
+                }
+            }
+        }
+
+        window.onload = loadPublication;
+    </script>
+
+</body>
+</html>

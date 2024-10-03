@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Publicaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {font-family: 'Nunito', sans-serif; background-color: #f9f9f9; padding: 20px;}
+        .navbar {background-color: #f4f4f4; padding: 1em; display: flex; justify-content: space-between;}
+        .navbar a {text-decoration: none; color: #333; padding: 0.5em;}
+        .main {padding: 1em;}
+        .publication-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: white;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .publication-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .publication-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .publication-price {
+            font-size: 1.2rem;
+            color: green;
+        }
+        .publication-status {
+            color: #4CAF50; /* Color verde para "activa" */
+        }
+        .publication-info {
+            margin: 10px 0;
+        }
+        .publication-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        .btn {background-color: #e7e7e7; border: none; padding: 10px; border-radius: 5px; cursor: pointer;}
+        .add-btn {background-color: purple; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="crear-publicacion.html">Crear Publicación</a>
+        <a href="mis-publicaciones.html">Mis Publicaciones</a>
+        <a href="logout.html" onclick="logout()">Cerrar Sesión</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+        <h2>Mis Publicaciones</h2>
+
+        <div id="publicationsContainer"></div>
+
+        <!-- Create new publication button -->
+        <button class="add-btn" onclick="window.location.href='crear-publicacion.html'">Crear Publicación</button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function displayPublications() {
+            const publicationsContainer = document.getElementById('publicationsContainer');
+            publicationsContainer.innerHTML = '';
+
+            const publications = JSON.parse(localStorage.getItem('publications')) || [];
+
+            publications.forEach(pub => {
+                const publicationCard = document.createElement('div');
+                publicationCard.className = 'publication-card';
+
+                // Determinar el estado de la publicación
+                const statusText = pub.disponible ? 'Publicación Disponible' : 'Publicación No Disponible';
+                const statusColor = pub.disponible ? '#4CAF50' : 'red'; // Color verde para activa, rojo para no disponible
+
+                // Crear la estructura de la publicación
+                publicationCard.innerHTML = `
+                    <div class="publication-header">
+                        <div class="publication-title">${pub.titulo}</div>
+                        <div class="publication-price">$${pub.precioDiario}/Noche</div>
+                    </div>
+                    <div class="publication-status" style="color: ${statusColor};">${statusText}</div>
+                    <div class="publication-info">
+                        <p><strong>Descripción:</strong> ${pub.descripcion}</p>
+                        <p><strong>Dormitorios:</strong> ${pub.dormitorios}</p>
+                        <p><strong>Camas Simples:</strong> ${pub.camasSimples}</p>
+                        <p><strong>Camas Dobles:</strong> ${pub.camasDobles}</p>
+                    </div>
+                    <div class="publication-buttons">
+                        <button class="btn" onclick="editPublication(${pub.id})">Editar</button>
+                        <button class="btn" onclick="confirmDelete(${pub.id})">Eliminar</button>
+                        <button class="btn" onclick="toggleAvailability(this, ${pub.id})">
+                            ${pub.disponible ? 'Cambiar a No Disponible' : 'Cambiar a Disponible'}
+                        </button>
+                    </div>
+                `;
+                publicationsContainer.appendChild(publicationCard);
+            });
+        }
+
+        function confirmDelete(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+                const publications = JSON.parse(localStorage.getItem('publications')) || [];
+                const index = publications.findIndex(pub => pub.id === id);
+                if (index !== -1) {
+                    publications.splice(index, 1);
+                    localStorage.setItem('publications', JSON.stringify(publications));
+                    alert("Publicación eliminada");
+                    displayPublications();
+                }
+            }
+        }
+
+        function editPublication(id) {
+            window.location.href = 'modificar-publicacion.html?id=' + id;
+        }
+
+        function toggleAvailability(button, id) {
+            const publications = JSON.parse(localStorage.getItem('publications')) || [];
+            const publication = publications.find(pub => pub.id === id);
+
+            if (publication) {
+                // Alternar la disponibilidad
+                publication.disponible = !publication.disponible;
+
+                // Actualizar el localStorage
+                localStorage.setItem('publications', JSON.stringify(publications));
+
+                // Actualizar el estado de la publicación
+                displayPublications(); // Actualizar la visualización
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('accessToken');
+            window.location.href = 'inicio-sesion.html';
+        }
+
+        window.onload = function() {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                alert("Debes iniciar sesión para acceder a esta página.");
+                window.location.href = 'inicio-sesion.html';
+            } else {
+                displayPublications();
+            }
+        }
+    </script>
+
+</body>
+</html>

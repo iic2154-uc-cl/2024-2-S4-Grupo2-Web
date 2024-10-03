@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white shadow-md rounded px-8 py-6">
+        <h2 class="text-2xl font-semibold mb-4">Iniciar Sesión</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700">Usuario</label>
+                <input type="text" id="username" class="mt-1 block w-full p-2 border rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Contraseña</label>
+                <input type="password" id="password" class="mt-1 block w-full p-2 border rounded" required>
+            </div>
+            <button type="submit" class="bg-purple-500 text-white py-2 px-4 rounded">Iniciar Sesión</button>
+        </form>
+
+        <h3 class="text-lg font-semibold mt-6">¿No tienes una cuenta?</h3>
+        <button onclick="toggleRegisterForm()" class="text-purple-500 mt-2">Regístrate aquí</button>
+
+        <div id="registerForm" class="hidden mt-4">
+            <h2 class="text-2xl font-semibold mb-4">Registrarse</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="mb-4">
+                    <label for="regUsername" class="block text-gray-700">Nombre de Usuario</label>
+                    <input type="text" id="regUsername" class="mt-1 block w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="regPassword" class="block text-gray-700">Contraseña</label>
+                    <input type="password" id="regPassword" class="mt-1 block w-full p-2 border rounded" required>
+                </div>
+                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            if (storedUser && storedUser.username === username && storedUser.password === password) {
+                // Simular el inicio de sesión
+                localStorage.setItem('accessToken', 'dummyAccessToken');
+                window.location.href = 'mis-publicaciones.html';
+            } else {
+                alert('Usuario o contraseña incorrectos.');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const regUsername = document.getElementById('regUsername').value;
+            const regPassword = document.getElementById('regPassword').value;
+
+            // Guardar el usuario en localStorage
+            const userData = {
+                username: regUsername,
+                password: regPassword
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+            document.getElementById('registerForm').classList.add('hidden'); // Ocultar el formulario de registro
+        }
+
+        function toggleRegisterForm() {
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm.classList.contains('hidden')) {
+                registerForm.classList.remove('hidden');
+            } else {
+                registerForm.classList.add('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>

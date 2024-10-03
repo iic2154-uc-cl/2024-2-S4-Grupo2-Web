@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Publicación</title>
+    <style>
+        body {font-family: 'Nunito', sans-serif;}
+        .popup {background-color: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
+        .popup-content {background-color: white; padding: 2em; text-align: center;}
+        .popup-content button {padding: 0.5em 1em; margin: 0.5em; cursor: pointer;}
+        .confirm-btn {background-color: #f44336; color: white;}
+        .cancel-btn {background-color: #e7e7e7;}
+    </style>
+</head>
+<body>
+
+    <div class="popup">
+        <div class="popup-content">
+            <h2>¿Estás seguro de que deseas eliminar esta publicación?</h2>
+            <button class="confirm-btn" onclick="deletePublication()">Eliminar</button>
+            <button class="cancel-btn" onclick="cancelDelete()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function deletePublication() {
+            // Aquí va la lógica para eliminar la publicación
+            alert("Publicación eliminada");
+            window.location.href = 'mis-publicaciones.html'; // Redirige a Mis Publicaciones
+        }
+
+        function cancelDelete() {
+            window.location.href = 'mis-publicaciones.html'; // Redirige a Mis Publicaciones
+        }
+    </script>
+
+</body>
+</html>
