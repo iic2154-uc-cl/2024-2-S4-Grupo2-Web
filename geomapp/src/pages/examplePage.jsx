@@ -15,7 +15,7 @@ const ExamplePage = () => {
     // Para rutas públicas no se necesita un token de autenticación
     const handleGet = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/example');
+            const res = await axios.get('http://localhost:8000/example/');
             setResponse(res.data);
             console.log('getting data:', res.data);
         } catch (error) {
@@ -31,7 +31,7 @@ const ExamplePage = () => {
         }
         try {
             const token = await getAccessTokenSilently();
-            const res = await axios.post('http://localhost:8000/example', data, {
+            const res = await axios.post('http://localhost:8000/example/', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
