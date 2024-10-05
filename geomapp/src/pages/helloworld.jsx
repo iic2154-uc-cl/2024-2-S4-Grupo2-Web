@@ -2,6 +2,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/helloworld.css';  // Asegúrate de que esta ruta esté correcta
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
+import '../styles/footer.css';
+import { Link } from 'react-router-dom';
+import publicar from '../assets/publicar.jpg'
+import buscar from '../assets/buscar.jpg'
+import servicios from '../assets/servicios.jpg'
 
 const HelloWorld = () => {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -9,15 +15,61 @@ const HelloWorld = () => {
     return (
         <div id="hello-world-container">
             <Navbar />
+            <div class="background-image-container">    
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <h1 className="titulo">GeoMapp</h1>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    
+                
+               
+            </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            
+
+
+            <div class="image-container">
+                <div class="image-card">
+                    <img src={buscar}></img>
+                    <button className="image-button">Buscar</button>
+                </div>
+                <div class="image-card">
+                    <img src={publicar}></img>
+                    <button className="image-button">Publicar</button>
+                   
+                </div>
+                <div class="image-card">
+                    <img src={servicios}></img>
+                    <button className="image-button">Servicios</button>
+                </div>
+            </div>
+            <br></br>
+            <br></br>
             <div className="content">  
-                <h1>GeoMapp by Technoffice</h1>
-                <p>PÁGINA DE INICIO PARA TOOS LOS USUARIOS yeiiii</p>
                 {!isAuthenticated ? (
-                    <button onClick={loginWithRedirect}>Log in</button>
+                    // <Link to={loginWithRedirect} className="button">Iniciar sesión</Link>
+                    <button className="button" onClick={loginWithRedirect}>Iniciar sesión</button>
                 ) : (
                     <button onClick={() => logout({ returnTo: '/' })}>Log out</button>
                 )}
             </div>
+            <br></br>
+            <br></br>
+            <br></br>
             <Footer />
         </div>
     );

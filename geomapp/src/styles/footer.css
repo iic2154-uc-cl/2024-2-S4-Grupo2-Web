@@ -15,12 +15,13 @@
     text-decoration: none;
     color: #000; /* Color del texto de los enlaces */
     font-weight: bold; /* Negrita para el texto */
-    padding: 8px 16px; /* Padding para hacer los enlaces más clickeables */
+    padding: 8px 15px; /* Padding para hacer los enlaces más clickeables */
     border-radius: 5px; /* Bordes redondeados para los enlaces */
     transition: background-color 0.3s, color 0.3s; /* Transición suave para hover */
+    cursor: pointer;
 }
 
 .footer-link:hover {
-    background-color: #8a34a6; /* Cambia el fondo al pasar el ratón */
+    background-color: #ff914d; /* Cambia el fondo al pasar el ratón */
     color: #fff; /* Cambia el color del texto al pasar el ratón */
 }

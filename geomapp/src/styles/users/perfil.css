@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;  /* Asegura que el html y el body ocupen toda la altura de la ventana */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#perfil-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;  /* Asegura que el contenedor mínimo tenga la altura de la ventana */
+    flex: 1;  /* Permite que el contenedor crezca si es necesario */
+}
+
+.perfil-info {
+    flex: 1;  /* Esto asegura que el contenido interno expanda para empujar el footer hacia abajo */
+    /* Asegúrate de no tener un overflow oculto aquí */
+}

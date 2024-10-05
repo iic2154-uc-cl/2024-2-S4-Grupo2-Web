@@ -12,17 +12,22 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
+    margin-bottom: 20px;
 }
 
 .navbar-logo {
     margin-right: 20px; /* Espacio entre el logo y los enlaces */
     cursor: pointer;
+    width: 50px;
+    height: auto;
+
 }
 
 .navbar-links a {
     margin-right: 20px; /* Espacio entre los enlaces */
     text-decoration: none;
     color: black; /* Cambia esto según tu esquema de colores */
+   
 }
 
 .navbar-login {
@@ -49,6 +54,7 @@
     border-radius: 5px; /* Bordes redondeados para los enlaces */
     transition: background-color 0.3s, color 0.3s; /* Transición suave para hover */
     margin-left: 950px; /* Ajusta el valor según lo que necesites */
+    height: auto;
     
 }
 

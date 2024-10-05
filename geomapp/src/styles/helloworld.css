@@ -16,3 +16,103 @@ html, body {
     flex: 1;
     padding: 20px;  /* Ajusta este valor según el padding que necesites */
 }
+
+.container {
+    width: 100%;  /* Asegura que el contenedor tome toda la anchura */
+    max-width: 100%; /* Evita que tenga un ancho máximo restringido */
+    margin: 0; /* Elimina los márgenes para que se extienda completamente */
+    padding: 0; /* Elimina el padding para que el contenido llegue a los bordes */
+}
+
+.background-image-container {
+    width: 100%;  /* Asegura que el contenedor tome toda la anchura */
+    height: auto; /* Ajusta la altura automáticamente según la imagen */
+    background-image: url('../assets/imagen_inicio.jpg'); /* Cambia esto por la ruta real de tu imagen */
+    background-size: cover; /* Asegura que la imagen cubra completamente el contenedor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    color: whitesmoke;
+}
+
+@media (min-width: 768px) {
+    .background-image-container {
+        background-image: url('../assets/imagen_inicio.jpg');
+    }
+}
+
+@media (min-width: 1200px) {
+    .background-image-container {
+        background-image: url('../assets/imagen_inicio.jpg'); /* Versión de alta resolución para pantallas grandes */
+    }
+}
+
+.button {
+    background-color: #ff914d;  /* Un tono específico de naranja */
+    color: white;
+    font-weight: bold;  /* Texto en negrita */
+    padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
+    border: none;  /* No border */
+    border-radius: 5px;  /* Bordes redondeados */
+    cursor: pointer;  /* Cursor en forma de mano al pasar el mouse */
+    text-transform: uppercase;  /* Texto en mayúsculas */
+    transition: background-color 0.3s, box-shadow 0.3s;  /* Transición suave para hover */
+    outline: none;  /* Elimina el contorno que aparece al hacer clic */
+    font-size: 15px;
+  
+}
+
+.button:hover {
+    background-color: #e67e22;  /* Un tono más oscuro de naranja para el hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
+}
+
+.button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #ff914d;  /* Sombra que indica foco */
+}
+
+.titulo {
+    font-family: "Kaushan Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 100px;
+  }
+
+.image-container {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+}
+
+.image-card {
+    position: relative;
+    margin: 0 10px; /* Ajusta el espacio entre las imágenes según necesites */
+}
+
+.image-card img {
+    width: 100%;
+    display: block; /* Elimina cualquier espacio adicional debajo de la imagen */
+    max-width: 300px; /* Ajusta según el tamaño deseado de las imágenes */
+    height: 190px; /* Mantiene la proporción de la imagen */
+}
+
+.image-button {
+    position: absolute;
+    top: 50%; /* Centra el botón en la mitad de la imagen */
+    left: 50%; /* Centra el botón en la mitad de la imagen */
+    transform: translate(-50%, -50%); /* Ajusta la posición exacta del centro */
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 10px 90px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.image-button:hover {
+    background-color: #ff7700; /* Un tono más oscuro para el hover */
+}
+
+
+  
