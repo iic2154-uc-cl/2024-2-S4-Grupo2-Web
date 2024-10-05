@@ -1,0 +1,26 @@
+.footer {
+    padding: 32px 0;
+    background-color: #f1f1f1; /* Color de fondo del footer */
+    text-align: center; /* Centra el contenido textual */
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1); /* Sombra para dar un efecto elevado */
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center; /* Alinea los enlaces horizontalmente al centro */
+    gap: 20px; /* Espacio entre los enlaces */
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000; /* Color del texto de los enlaces */
+    font-weight: bold; /* Negrita para el texto */
+    padding: 8px 16px; /* Padding para hacer los enlaces más clickeables */
+    border-radius: 5px; /* Bordes redondeados para los enlaces */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave para hover */
+}
+
+.footer-link:hover {
+    background-color: #8a34a6; /* Cambia el fondo al pasar el ratón */
+    color: #fff; /* Cambia el color del texto al pasar el ratón */
+}
