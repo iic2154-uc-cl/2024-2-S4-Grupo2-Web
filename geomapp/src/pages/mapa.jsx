@@ -39,6 +39,11 @@ const Mapa = () => {
                 <GoogleMapComponent></GoogleMapComponent>
                 <br></br>
                 <UpdateLocationButton className="update-location-btnn" onClick={updateLocation} />
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
                 
                 
                 
