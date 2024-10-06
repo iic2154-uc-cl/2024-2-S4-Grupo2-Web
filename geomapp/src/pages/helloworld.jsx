@@ -4,13 +4,14 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
 import '../styles/footer.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import publicar from '../assets/publicar.jpg'
 import buscar from '../assets/buscar.jpg'
 import servicios from '../assets/servicios.jpg'
 
 const HelloWorld = () => {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+    const navigate = useNavigate();
 
     return (
         <div id="hello-world-container">
@@ -45,16 +46,16 @@ const HelloWorld = () => {
             <div class="image-container">
                 <div class="image-card">
                     <img src={buscar}></img>
-                    <button className="image-button">Buscar</button>
+                    <button className="image-button" onClick={() => navigate('/mapa-navegacion')}>Buscar</button>
                 </div>
                 <div class="image-card">
                     <img src={publicar}></img>
-                    <button className="image-button">Publicar</button>
+                    <button className="image-button" onClick={() => navigate('/publicar')}>Publicar</button>
                    
                 </div>
                 <div class="image-card">
                     <img src={servicios}></img>
-                    <button className="image-button">Servicios</button>
+                    <button className="image-button" onClick={() => navigate('/servicios')}>Servicios</button>
                 </div>
             </div>
             <br></br>
@@ -64,7 +65,7 @@ const HelloWorld = () => {
                     // <Link to={loginWithRedirect} className="button">Iniciar sesión</Link>
                     <button className="button" onClick={loginWithRedirect}>Iniciar sesión</button>
                 ) : (
-                    <button onClick={() => logout({ returnTo: '/' })}>Log out</button>
+                    <button className="button" onClick={() => logout({ returnTo: '/' })}>Cerrar sesión</button>
                 )}
             </div>
             <br></br>

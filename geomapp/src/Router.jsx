@@ -6,6 +6,7 @@ import Servicios from './pages/servicios.jsx';
 import Mapa from './pages/mapa.jsx';
 import Publicaciones from './pages/users/publicaciones.jsx';
 import Perfil from './pages/users/perfil.jsx';
+import Publicar from './pages/users/publicar.jsx';
 
 function Router() {
   
@@ -20,6 +21,9 @@ function Router() {
         <Route path="/inicio" element={<HelloWorld />} />
         <Route path="/publicaciones" element={<Publicaciones />} />
         <Route path="/mi-perfil" element={<Perfil />} />
+        <Route path="/publicar" element={<Publicar />} />
+
+
         
       </Routes>
     </BrowserRouter>

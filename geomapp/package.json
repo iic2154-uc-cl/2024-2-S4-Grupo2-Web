@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@mui/lab": "^6.0.0-beta.10",
+    "@mui/material": "^6.1.2",
+    "@mui/x-date-pickers": "^7.19.0",
     "axios": "^1.7.7",
+    "date-fns": "2.29.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"

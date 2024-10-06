@@ -10,10 +10,6 @@ const Servicios = () => {
     <Navbar />
     <div className="content">
         <h1>Servicios</h1>
-        <p>USUARIO VISITANTE</p>
-        <p>Si deseas publicar el servicio que ofreces, debes iniciar sesión!</p>
-        
-
     </div>
     <Footer />
 </div>

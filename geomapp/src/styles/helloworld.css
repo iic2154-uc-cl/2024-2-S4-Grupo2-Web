@@ -47,7 +47,7 @@ html, body {
 }
 
 .button {
-    background-color: #ff914d;  /* Un tono específico de naranja */
+    background-color: #714dc9;  /* Un tono específico de naranja */
     color: white;
     font-weight: bold;  /* Texto en negrita */
     padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
@@ -101,7 +101,7 @@ width: 100%;
     top: 50%; /* Centra el botón en la mitad de la imagen */
     left: 50%; /* Centra el botón en la mitad de la imagen */
     transform: translate(-50%, -50%); /* Ajusta la posición exacta del centro */
-    background-color: #e67e22;
+    background-color: #714dc9;
     color: white;
     border: none;
     padding: 10px 90px;
