@@ -3,7 +3,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
+import whatsapp from '../assets/whatsapp.png';
 
 function NavBar() {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -14,7 +15,7 @@ function NavBar() {
             <div className="navbar-content">
                 <div className="navbar-links">
                   <Link to="/">
-                  <img src={logo} className="navbar-logo"></img>
+                    <img src={logo} className="navbar-logo"></img>
                   </Link>
 
                     <Link to="/mapa-navegacion" className="footer-link">Mapa de navegación</Link>
@@ -24,20 +25,21 @@ function NavBar() {
                         <Link to="/mi-perfil" className="footer-link">Mi Perfil</Link>
                     )}
                     {isAuthenticated && (
-                        <Link to="/publicaciones" className="footer-link-2">Mis publicaciones</Link>
+                        <Link to="/publicaciones" className="footer-link">Mis publicaciones</Link>
                     )}
          
                     {!isAuthenticated ? (
                         <a className="footer-link" onClick={loginWithRedirect} >Iniciar sesión</a>
                     ) : (
-                        <a onClick={() => logout({ returnTo: window.location.origin })}>Cerrar sesión</a>
+                        <a className="footer-link" onClick={() => logout({ returnTo: window.location.origin })}>Cerrar sesión</a>
                     )}
             
                 </div>
                 
             </div>
             <div onClick={() => alert('Connecting to WhatsApp')}>
-                <i className="whatsapp-icon">W</i>
+                <img src={whatsapp} className="navbar-logo"></img>
+              
             </div>
         </div>
     );

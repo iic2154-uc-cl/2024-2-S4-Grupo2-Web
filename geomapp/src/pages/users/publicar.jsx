@@ -3,6 +3,17 @@ import { Select, MenuItem, FormControl, InputLabel, Stepper, Step, StepLabel, Bu
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ImageUpload from '../../components/ImageUpload';
+
+import TurismoForm from './zturismo.jsx';
+import CentrosDeportivosForm from './zcentros.jsx';
+import EventosForm from './zeventos.jsx';
+import HospedajeForm from './zhospedaje.jsx';
+import GastronomiaForm from './zgastronomia.jsx';
+import ServiciosForm from './zservicios.jsx';
+
+
+
+
 import '../../styles/users/publicar.css';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -67,81 +78,37 @@ function Publicar() {
             case 1:
                 if (selectedType === 'turismo') {
                     return (
-                        <Box className="publicar-form-container">
-                            <Box className="publicar-form-row">
-                                <TextField
-                                    fullWidth
-                                    className="publicar-form-input"
-                                    label="Título"
-                                    variant="outlined"
-                                    onChange={(e) => handleDetailChange('titulo', e.target.value)}
-                                    value={details.titulo}
-                                />
-                            </Box>
-                            <Box className="publicar-form-row">
-                                <TextField
-                                    fullWidth
-                                    className="publicar-form-input"
-                                    label="Descripción"
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    onChange={(e) => handleDetailChange('descripcion', e.target.value)}
-                                    value={details.descripcion}
-                                />
-                            </Box>
-                            
-                            {/* <Box className="publicar-form-row">
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                    label="Fecha de inicio"
-                    value={startDate}
-                    onChange={handleStartDateChange}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-                <DatePicker
-                    label="Fecha de fin"
-                    value={endDate}
-                    onChange={handleEndDateChange}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-
-
-
-
-                            </Box> */}
-                            
-                
-                            <Box className="publicar-form-row">
-                                <TextField
-                                    type="time"
-                                    className="publicar-form-time"
-                                    
-                                   
-                                    onChange={(e) => handleDetailChange('horarioInicio', e.target.value)}
-                                    value={details.horarioInicio}
-                                />
-                                <TextField
-                                    type="time"
-                                    className="publicar-form-time"
-                                    
-                              
-                                    onChange={(e) => handleDetailChange('horarioFin', e.target.value)}
-                                    value={details.horarioFin}
-                                />
-                            </Box>
-                        </Box>
-
-                        
+                      <TurismoForm></TurismoForm>
                     );
-                } else {
+                  } else if (selectedType === 'centros-deportivos') {
+                    return (
+                      <CentrosDeportivosForm></CentrosDeportivosForm>
+                    );
+                  } else if (selectedType === 'hospedaje') {
+                    return (
+                        <HospedajeForm></HospedajeForm>
+                    );
+                  } else if (selectedType === 'eventos') {
+                    return (
+                        <EventosForm></EventosForm>
+                    );
+                  } else if (selectedType === 'gastronomia') {
+                    return (
+                        <GastronomiaForm></GastronomiaForm>
+                    );
+                  } else if (selectedType === 'servicios-comunitarios') {
+                    return (
+                        <ServiciosForm></ServiciosForm>
+                    );
+                  }
+                  
+                else {
                     return 'Completa la información de la publicación.';
                 }
             case 2:
                 return <ImageUpload files={files} setFiles={setFiles} setError={setError} />;
             case 3:
-                return 'Revisa y publica tu anuncio.';
+                return 'Revisa y publica tu anuncio';
             default:
                 return 'Paso desconocido';
         }

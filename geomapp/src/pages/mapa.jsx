@@ -10,9 +10,7 @@ const Mapa = () => {
     <div id="hello-world-container">
             <Navbar />
             <div className="content">
-                <h1>Mapaaaaaaaa</h1>
-                <p>USUARIO VISITANTE</p>
-
+                <h1>Mapa</h1>
             </div>
             <Footer />
     </div>
