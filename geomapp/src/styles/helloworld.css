@@ -4,17 +4,21 @@ html, body {
     padding: 0;
     display: flex;
     flex-direction: column;
+
 }
 
 #hello-world-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: 'Montserrat';
+
 }
 
 .content {
     flex: 1;
     padding: 20px;  /* Ajusta este valor según el padding que necesites */
+    font-family: 'Montserrat';
 }
 
 .container {
@@ -47,18 +51,18 @@ html, body {
 }
 
 .button {
-    background-color: #714dc9;  /* Un tono específico de naranja */
+    background-color: #714dc9;  /* Un tono específico */
     color: white;
     font-weight: bold;  /* Texto en negrita */
     padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
-    border: none;  /* No border */
+    border: none;  /* Sin bordes */
     border-radius: 5px;  /* Bordes redondeados */
     cursor: pointer;  /* Cursor en forma de mano al pasar el mouse */
     text-transform: uppercase;  /* Texto en mayúsculas */
     transition: background-color 0.3s, box-shadow 0.3s;  /* Transición suave para hover */
     outline: none;  /* Elimina el contorno que aparece al hacer clic */
     font-size: 15px;
-  
+    font-family: 'Montserrat', sans-serif;  /* Usa la fuente Montserrat */
 }
 
 .button:hover {
@@ -71,7 +75,7 @@ html, body {
 }
 
 .titulo {
-    font-family: "Kaushan Script", cursive;
+    font-family: "Montserrat";
     font-weight: 400;
     font-style: normal;
     font-size: 100px;
@@ -87,6 +91,7 @@ width: 100%;
 .image-card {
     position: relative;
     margin: 0 10px; /* Ajusta el espacio entre las imágenes según necesites */
+    font-family: "Montserrat";
 }
 
 .image-card img {
@@ -108,6 +113,7 @@ width: 100%;
     cursor: pointer;
     border-radius: 5px;
     font-size: 20px;
+    font-family: 'Montserrat';
 }
 
 .image-button:hover {

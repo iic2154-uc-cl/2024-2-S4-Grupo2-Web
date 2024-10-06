@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import UpdateLocationButton from './MapsButton'; // Asegúrate de importar el componente del botón
 
+/* Ajusta los estilos del contenedor principal para eliminar márgenes y padding */
+// Ajusta los estilos del contenedor principal para eliminar márgenes y padding
 const containerStyle = {
-  width: '100%',
-  height: '400px',
+  display: 'flex',       // Continúa usando flex para alinear lado a lado
+  alignItems: 'stretch', // Asegura que los elementos hijos llenen el contenedor verticalmente
+  height: '700px',
+  margin: 0,             // Elimina márgenes externos
+  padding: 0,            // Elimina padding interno
 };
+
+// Estilos específicos para el mapa
+const mapStyle = {
+  flex: 1,               // Permite que el mapa tome el espacio disponible
+  minHeight: '100%',     // Asegura que el mapa tenga el alto completo del contenedor
+  margin: 0,             // Elimina cualquier margen
+};
+
+// Estilos para el panel de información
+const infoPanelStyle = {
+  width: '30%',          // Mantiene el 30% del ancho
+  padding: '20px',       // Ajusta el padding si es necesario
+  backgroundColor: '#f9f9f9',
+  borderLeft: '1px solid #ccc', // Asegura una línea divisoria sutil
+  overflowY: 'auto',     // Permite desplazamiento vertical si es necesario
+  boxSizing: 'border-box' // Asegura que el padding no afecte las dimensiones declaradas
+};
+
+
 
 const center = {
   lat: -33.45694,  // Coordenadas iniciales para Santiago, Chile
@@ -14,15 +39,15 @@ const center = {
 const GoogleMapComponent = () => {
   const [map, setMap] = useState(null);
   const [userLocation, setUserLocation] = useState(center);
-  const [userMarker, setUserMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const lugares = [
     { nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.' },
     { nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.' },
-    // Otros lugares...
+    // Añade más lugares aquí...
   ];
 
+  // Obtener ubicación actual del usuario
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -31,65 +56,51 @@ const GoogleMapComponent = () => {
           lng: position.coords.longitude,
         };
         setUserLocation(newLocation);
-      });
-    }
-  }, []);
-
-  const updateLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const newLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        setUserLocation(newLocation);
-        map.panTo(newLocation); // Centrar el mapa en la nueva ubicación
-        if (userMarker) {
-          userMarker.setPosition(newLocation); // Actualizar la posición del marcador del usuario
+        if (map) {
+          map.panTo(newLocation);  // Centrar el mapa en la nueva ubicación
         }
       });
     }
-  };
+  }, [map]);
 
   return (
-    <div>
-      <LoadScript googleMapsApiKey="AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={userLocation}
-          zoom={12}
-          onLoad={(mapInstance) => setMap(mapInstance)}
-        >
-          <Marker
-            position={userLocation}
-            onLoad={(marker) => setUserMarker(marker)}
-            title="Tu ubicación"
-          />
+    <div style={containerStyle}>
+      {/* Mapa de Google */}
+      <div style={mapStyle}>
+        <LoadScript googleMapsApiKey="AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E">
+          <GoogleMap
+            mapContainerStyle={mapStyle}
+            center={userLocation}
+            zoom={12}
+            onLoad={(mapInstance) => setMap(mapInstance)}
+          >
+            {/* Marcadores de los lugares */}
+            {lugares.map((lugar, index) => (
+              <Marker
+                key={index}
+                position={{ lat: lugar.lat, lng: lugar.lng }}
+                onClick={() => setSelectedPlace(lugar)}  // Al hacer clic, selecciona el lugar
+                title={lugar.nombre}
+              />
+            ))}
 
-          {lugares.map((lugar, index) => (
+            {/* Marcador para la ubicación actual del usuario */}
             <Marker
-              key={index}
-              position={{ lat: lugar.lat, lng: lugar.lng }}
-              onClick={() => setSelectedPlace(lugar)}
-              title={lugar.nombre}
+              position={userLocation}
+              title="Tu ubicación actual"
+              icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Usar un ícono azul para el usuario
             />
-          ))}
-        </GoogleMap>
-      </LoadScript>
+          </GoogleMap>
+        </LoadScript>
+      </div>
 
+      {/* Panel de información del lugar seleccionado */}
       {selectedPlace && (
-        <div id="info-lugar" className="info-lugar show">
+        <div style={infoPanelStyle}>
           <h2>{selectedPlace.nombre}</h2>
           <p>{selectedPlace.descripcion}</p>
         </div>
       )}
-
-      <button
-        onClick={updateLocation}
-        className="update-location-btn"
-      >
-        Actualizar ubicación
-      </button>
     </div>
   );
 };

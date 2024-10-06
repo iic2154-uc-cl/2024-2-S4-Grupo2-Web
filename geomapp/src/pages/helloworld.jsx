@@ -62,10 +62,9 @@ const HelloWorld = () => {
             <br></br>
             <div className="content">  
                 {!isAuthenticated ? (
-                    // <Link to={loginWithRedirect} className="button">Iniciar sesión</Link>
                     <button className="button" onClick={loginWithRedirect}>Iniciar sesión</button>
                 ) : (
-                    <button className="button" onClick={() => logout({ returnTo: '/' })}>Cerrar sesión</button>
+                    <button className="button" onClick={() => logout({ returnTo: window.location.origin + '/' })}>Cerrar sesión</button>
                 )}
             </div>
             <br></br>

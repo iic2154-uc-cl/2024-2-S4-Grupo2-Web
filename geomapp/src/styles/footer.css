@@ -3,6 +3,9 @@
     background-color: #f1f1f1; /* Color de fondo del footer */
     text-align: center; /* Centra el contenido textual */
     box-shadow: 0 -2px 4px rgba(0,0,0,0.1); /* Sombra para dar un efecto elevado */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .footer-links {
