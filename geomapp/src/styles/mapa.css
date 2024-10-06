@@ -67,7 +67,7 @@
   /* Contenedor principal que alinea mapa e información */
 .map-info-container {
     display: flex;
-    align-items: start; /* Alinea los elementos en la parte superior */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
     justify-content: space-between; /* Separa los elementos */
     width: 100%; /* Utiliza todo el ancho disponible */
     margin: 20px 0;
