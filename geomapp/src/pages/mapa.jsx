@@ -3,6 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/mapa.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import GoogleMapComponent from '../components/GoogleMap';
 
 const Mapa = () => {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -11,6 +12,7 @@ const Mapa = () => {
             <Navbar />
             <div className="content">
                 <h1>Mapa</h1>
+                <GoogleMapComponent></GoogleMapComponent>
             </div>
             <Footer />
     </div>

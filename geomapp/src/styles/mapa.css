@@ -1,18 +1,46 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-#hello-world-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.content {
-    flex: 1;
-    padding: 20px;  /* Ajusta este valor según el padding que necesites */
-}
+/* Contenedor del mapa */
+#map {
+    height: 400px; /* Altura del mapa */
+    width: 100%;   /* Ancho del mapa */
+  }
+  
+  /* Botón de actualización de ubicación */
+  .update-location-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-location-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Contenedor de la información del lugar seleccionado */
+  .info-lugar {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-lugar.show {
+    display: block; /* Mostrar la información del lugar */
+  }
+  
+  .info-lugar h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .info-lugar p {
+    margin-top: 10px;
+    color: #555;
+  }  

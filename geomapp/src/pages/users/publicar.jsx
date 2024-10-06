@@ -3,7 +3,6 @@ import { Select, MenuItem, FormControl, InputLabel, Stepper, Step, StepLabel, Bu
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ImageUpload from '../../components/ImageUpload';
-
 import TurismoForm from './zturismo.jsx';
 import CentrosDeportivosForm from './zcentros.jsx';
 import EventosForm from './zeventos.jsx';

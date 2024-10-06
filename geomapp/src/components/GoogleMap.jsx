@@ -1,164 +1,97 @@
-// components/GoogleMap.js
-import  { useEffect } from 'react';
-// importamos useGooglePlaceAutoComplete
-import useGooglePlaceAutoComplete from "../pages/api/service/google_place_autocomplete.js"
+import React, { useState, useEffect } from 'react';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-let currentMarker = null; // Referencia al marcador actual
+const containerStyle = {
+  width: '100%',
+  height: '400px',
+};
 
-export default function GoogleMap(props) {
-  const latInitValue = props.userLocation.lat ? Number(props.userLocation.lat) : Number(process.env.NEXT_PUBLIC_LAT);
-  const lngInitValue = props.userLocation.lng ? Number(props.userLocation.lng) : Number(process.env.NEXT_PUBLIC_LNG);
-  let zoomInt = Number(process.env.NEXT_PUBLIC_ZOOM);
+const center = {
+  lat: -33.45694,  // Coordenadas iniciales para Santiago, Chile
+  lng: -70.64827,
+};
 
-  if (props.userLocation.lng && props.userLocation.lat) {
-    zoomInt = 18;
-  };
+const GoogleMapComponent = () => {
+  const [map, setMap] = useState(null);
+  const [userLocation, setUserLocation] = useState(center);
+  const [userMarker, setUserMarker] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
-  let mapInstance = null;
+  const lugares = [
+    { nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.' },
+    { nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.' },
+    // Otros lugares...
+  ];
 
   useEffect(() => {
-    async function initMap() {
-    if (!window.google) return;
-      //@ts-ignore
-      const { Map } = await google.maps.importLibrary("maps");
-
-      const map = new Map(document.getElementById("map"), {
-        center: { lat: latInitValue, lng: lngInitValue },
-        zoom: zoomInt,
-        streetViewControl: false,
-        fullscreenControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        styles: [
-            {
-              featureType: "poi",
-              stylers: [{ visibility: "off" }]
-            },
-            {
-                featureType: "transit",
-                stylers: [{ visibility: "off" }]
-              }
-          ]
-      });
-
-      mapInstance = map;
-
-      //Default marker
-      const latLng = new google.maps.LatLng(latInitValue, lngInitValue);
-      addMarker(latLng, mapInstance);
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: latLng }, (results, status) => {
-          if (status === "OK" && (results[1] || results[0])) {
-          setAddress(results);
-          }
-      });
-
-    //@ts-ignore
-    const clickListener = google.maps.event.addListener(mapInstance, "click", async (event) => {
-        addMarker(event.latLng, mapInstance);
-        // Actualizar el input del autocompletado con la dirección del punto seleccionado
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ location: event.latLng }, (results, status) => {
-            if (status === "OK" && (results[1] || results[0])) {
-            setAddress(results);
-            }
-        });
-        });
-
-        return () => {
-        google.maps.event.removeListener(clickListener);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const newLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         };
+        setUserLocation(newLocation);
+      });
     }
-    initMap();
-  }, [props.userLocation]);
-
-  function setAddress(geocoderResults) {
-    if(geocoderResults.length > 2) {
-        props.addressRef.current.value = geocoderResults[1].formatted_address;
-    } else {
-        const latitude = geocoderResults[0].geometry.location.lat();
-        const longitude = geocoderResults[0].geometry.location.lng();
-        props.addressRef.current.value = `Punto Geolocalizado: ${latitude}, ${longitude}`;
-    }
-    props.setValue('address', props.addressRef.current.value);
-  };
-
-  function addMarker(location, map) {
-    // Si hay un marcador actual, lo elimina
-    if (currentMarker) {
-      currentMarker.setMap(null);
-    }
-    
-    currentMarker = new google.maps.Marker({
-        position: location,
-        map: map,
-    });
-    props.setLat(location.lat());
-    props.setLng(location.lng());
-  };
-  
-  const googleAutoCompleteSvc = useGooglePlaceAutoComplete();
-  let autoComplete = '';
-  const getFormattedAddress = (addressObj) => {
-    // address format: route + streetNumber, locality, adminArea1Long, countryLong
-    let formattedAddress = '';
-    if (addressObj.route) {
-      formattedAddress += addressObj.route;
-    }
-    if (addressObj.streetNumber) {
-      formattedAddress += ` ${addressObj.streetNumber}`;
-    }
-    if (addressObj.locality) {
-      formattedAddress += `, ${addressObj.locality}`;
-    }
-    if (addressObj.adminArea1Long) {
-      formattedAddress += `, ${addressObj.adminArea1Long}`;
-    }
-    if (addressObj.countryLong) {
-      formattedAddress += `, ${addressObj.countryLong}`;
-    }
-    return formattedAddress;
-  };
-
-  const handleAddressSelect = async () => {
-    const addressObj = await googleAutoCompleteSvc.getFullAddress(autoComplete);
-    if (!addressObj) {
-      return;
-    }
-    const formattedAddress = getFormattedAddress(addressObj);
-    props.addressRef.current.value = formattedAddress;
-    props.setValue('address', formattedAddress);
-    props.setLat(addressObj.latitude);
-    props.setLng(addressObj.longitude);
-    // Mover el marcador y el mapa al lugar seleccionado
-    const location = new google.maps.LatLng(addressObj.latitude, addressObj.longitude);
-    addMarker(location, mapInstance);
-
-    mapInstance.setZoom(15);
-    mapInstance.setCenter(location);
-  };
-
-  useEffect(() => {
-    async function loadGoogleMaps() {
-      // initialize the Google Place Autocomplete widget and bind it to an input element.
-      // eslint-disable-next-line
-      autoComplete = await googleAutoCompleteSvc.initAutoComplete(
-        props.addressRef.current,
-        handleAddressSelect
-      );
-      
-      if (props.defaultValue) {
-        props.addressRef.current.value = props.defaultValue;
-      }
-    }
-    loadGoogleMaps();
   }, []);
+
+  const updateLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const newLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setUserLocation(newLocation);
+        map.panTo(newLocation); // Centrar el mapa en la nueva ubicación
+        if (userMarker) {
+          userMarker.setPosition(newLocation); // Actualizar la posición del marcador del usuario
+        }
+      });
+    }
+  };
 
   return (
     <div>
-        <div id="map" className="w-full h-96"/>
-    </div>
-  
-    )
-}
+      <LoadScript googleMapsApiKey="AIzaSyAJuzF9SX5VP6CU38hq-lgRopJ66jYgb5E">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={userLocation}
+          zoom={12}
+          onLoad={(mapInstance) => setMap(mapInstance)}
+        >
+          <Marker
+            position={userLocation}
+            onLoad={(marker) => setUserMarker(marker)}
+            title="Tu ubicación"
+          />
 
+          {lugares.map((lugar, index) => (
+            <Marker
+              key={index}
+              position={{ lat: lugar.lat, lng: lugar.lng }}
+              onClick={() => setSelectedPlace(lugar)}
+              title={lugar.nombre}
+            />
+          ))}
+        </GoogleMap>
+      </LoadScript>
+
+      {selectedPlace && (
+        <div id="info-lugar" className="info-lugar show">
+          <h2>{selectedPlace.nombre}</h2>
+          <p>{selectedPlace.descripcion}</p>
+        </div>
+      )}
+
+      <button
+        onClick={updateLocation}
+        className="update-location-btn"
+      >
+        Actualizar ubicación
+      </button>
+    </div>
+  );
+};
+
+export default GoogleMapComponent;
