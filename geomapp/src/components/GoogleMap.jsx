@@ -36,7 +36,7 @@ const center = {
   lng: -70.64827,
 };
 
-const GoogleMapComponent = () => {
+const GoogleMapComponent = ({ onMapLoad }) => {
   const [map, setMap] = useState(null);
   const [userLocation, setUserLocation] = useState(center);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -72,7 +72,12 @@ const GoogleMapComponent = () => {
             mapContainerStyle={mapStyle}
             center={userLocation}
             zoom={12}
-            onLoad={(mapInstance) => setMap(mapInstance)}
+            onLoad={(mapInstance) => {
+              setMap(mapInstance);
+              if (onMapLoad) {
+                onMapLoad(mapInstance); // Llamamos a la función onMapLoad cuando el mapa esté listo
+              }
+            }}
           >
             {/* Marcadores de los lugares */}
             {lugares.map((lugar, index) => (

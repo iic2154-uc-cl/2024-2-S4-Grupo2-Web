@@ -22,9 +22,7 @@
     position: absolute; 
     margin-left: 19px;
   }
-
-
-  
+    
   .update-location-btnn:hover {
     background-color: #e67e22;  /* Un tono más oscuro de naranja para el hover */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
@@ -67,7 +65,7 @@
   /* Contenedor principal que alinea mapa e información */
 .map-info-container {
     display: flex;
-    align-items: start; /* Alinea los elementos en la parte superior */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
     justify-content: space-between; /* Separa los elementos */
     width: 100%; /* Utiliza todo el ancho disponible */
     margin: 20px 0;
@@ -105,5 +103,31 @@
     margin-top: 10px;
     color: #555;
   }
+  
+/* Botón "Centrar Mapa" (actualizado) */
+.center-map-btn {
+    background-color: #714dc9;  /* Color de fondo igual al botón "Actualizar Ubicación" */
+    color: white;
+    font-weight: bold;  /* Texto en negrita */
+    padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
+    border: none;  /* Sin bordes */
+    border-radius: 5px;  /* Bordes redondeados */
+    cursor: pointer;  /* Cursor en forma de mano al pasar el mouse */
+    text-transform: uppercase;  /* Texto en mayúsculas */
+    transition: background-color 0.3s, box-shadow 0.3s;  /* Transición suave para hover */
+    outline: none;  /* Elimina el contorno que aparece al hacer clic */
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;  /* Usa la fuente Montserrat */
+    position: absolute;  /* Posición absoluta para controlar la ubicación */
+    right: 19px;  /* Alineado a la derecha */
+    margin-top: 10px; /* Espaciado superior para separarlo del resto */
+}
+
+/* Hover para el botón "Centrar Mapa" */
+.center-map-btn:hover {
+    background-color: #e67e22;  /* Color de fondo en hover igual al botón "Actualizar Ubicación" */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
+}
+
   
   
