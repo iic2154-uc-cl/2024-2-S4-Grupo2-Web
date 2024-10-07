@@ -15,10 +15,13 @@ function EventosForm() {
   );
 }
 export default EventosForm;*/
-// zeventos.jsx
 import '../../styles/users/zeventos.css';
 import React, { useState } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { format } from 'date-fns';
 
 function EventosForm() {
     const [eventDetails, setEventDetails] = useState({
@@ -26,9 +29,7 @@ function EventosForm() {
         titulo: '',
         descripcion: '',
         ubicacion: '',
-        horarioInicio: '',
-        horarioFin: '',
-        fechasDisponibles: '',
+        fechasDisponibles: [],
         nombreContacto: '',
         numeroCelular: '',
         mailContacto: '',
@@ -45,10 +46,28 @@ function EventosForm() {
         });
     };
 
+    const handleDateChange = (date) => {
+        const formattedDate = format(date, 'yyyy-MM-dd');
+        setEventDetails((prevDetails) => ({
+            ...prevDetails,
+            fechasDisponibles: [
+                ...prevDetails.fechasDisponibles,
+                { fecha: formattedDate, horarioInicio: '', horarioFin: '' }
+            ]
+        }));
+    };
+
+    const handleTimeChange = (index, field) => (event) => {
+        const updatedFechas = [...eventDetails.fechasDisponibles];
+        updatedFechas[index][field] = event.target.value;
+        setEventDetails({
+            ...eventDetails,
+            fechasDisponibles: updatedFechas
+        });
+    };
+
     const handleSave = () => {
-        // Aquí puedes agregar la lógica para guardar los datos
         console.log("Evento guardado:", eventDetails);
-        // Puedes hacer una petición API o guardar en localStorage, etc.
     };
 
     return (
@@ -91,29 +110,7 @@ function EventosForm() {
                 onChange={handleChange('ubicacion')}
                 sx={{ mb: 2 }}
             />
-            <TextField
-                fullWidth
-                label="Horario de Inicio"
-                type="time"
-                value={eventDetails.horarioInicio}
-                onChange={handleChange('horarioInicio')}
-                sx={{ mb: 2 }}
-            />
-            <TextField
-                fullWidth
-                label="Horario de Fin"
-                type="time"
-                value={eventDetails.horarioFin}
-                onChange={handleChange('horarioFin')}
-                sx={{ mb: 2 }}
-            />
-            <TextField
-                fullWidth
-                label="Fechas Disponibles"
-                value={eventDetails.fechasDisponibles}
-                onChange={handleChange('fechasDisponibles')}
-                sx={{ mb: 2 }}
-            />
+
             <TextField
                 fullWidth
                 label="Nombre de Contacto"
@@ -156,6 +153,7 @@ function EventosForm() {
                 onChange={handleChange('paginaWeb')}
                 sx={{ mb: 2 }}
             />
+
             <TextField
                 fullWidth
                 label="Precio Entrada"
@@ -165,12 +163,57 @@ function EventosForm() {
                 sx={{ mb: 2 }}
             />
 
+            <div>
+            {/* Selector de Fechas */}
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                    label="Seleccionar Fechas Disponibles"
+                    onChange={handleDateChange}
+                    renderInput={(params) => <TextField {...params} fullWidth sx={{ mb: 2 }} />}
+                />
+            </LocalizationProvider>
+            </div>
+
+            
+
+            {/* Muestra las fechas seleccionadas con horarios en un contenedor flex */}
+            <div>
+                <h3>Fechas seleccionadas:</h3>
+                <p>A continuación se mostrarán las fechas selecciondas por usted. Por favor, ingresa hora de inicio y fin para cada fecha seleccionada.</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {eventDetails.fechasDisponibles.map((fecha, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', width: '30%', marginRight: '5%', marginBottom: '16px' }}>
+                            <p style={{ fontWeight: 'bold', marginRight: '8px' }}>{fecha.fecha}</p> {/* Fecha en negrita */}
+                            <TextField
+                                label="Hora Inicio"
+                                type="time"
+                                value={fecha.horarioInicio}
+                                onChange={handleTimeChange(index, 'horarioInicio')}
+                                sx={{ marginRight: '8px' }}
+                            />
+                            <TextField
+                                label="Hora Fin"
+                                type="time"
+                                value={fecha.horarioFin}
+                                onChange={handleTimeChange(index, 'horarioFin')}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            
+            
+
+            
+            <div>
             {/* Botón para guardar */}
             <Button variant="contained" color="primary" onClick={handleSave}>
                 Guardar
             </Button>
+            </div>
         </div>
     );
 }
 
 export default EventosForm;
+

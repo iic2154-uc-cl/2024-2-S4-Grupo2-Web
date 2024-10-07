@@ -195,7 +195,7 @@ function ServiciosForm() {
                                     <>
                                         <TextField
                                             fullWidth
-                                            label={`Hora Inicio (${day.charAt(0).toUpperCase() + day.slice(1)})`}
+                                            label={`Hora Inicio`}
                                             type="time"
                                             value={details.horarios[day].inicio}
                                             onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
@@ -203,7 +203,7 @@ function ServiciosForm() {
                                         />
                                         <TextField
                                             fullWidth
-                                            label={`Hora Fin (${day.charAt(0).toUpperCase() + day.slice(1)})`}
+                                            label={`Hora Fin`}
                                             type="time"
                                             value={details.horarios[day].fin}
                                             onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}

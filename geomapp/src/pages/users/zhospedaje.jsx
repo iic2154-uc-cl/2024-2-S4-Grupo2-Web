@@ -17,7 +17,7 @@ function HospedajeForm() {
 export default HospedajeForm;*/
 import '../../styles/users/zhospedaje.css';
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, TextField, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
 
 function HospedajeForm() {
   const [details, setDetails] = useState({
@@ -51,6 +51,12 @@ function HospedajeForm() {
     { label: 'Cabaña', value: 'cabana' },
     { label: 'Camping', value: 'camping' }
   ];
+
+  const handleSave = () => {
+    // Aquí puedes agregar la lógica para guardar los datos
+    console.log('Datos guardados:', details);
+    alert('Datos guardados correctamente!');
+  };
 
   return (
     <div>
@@ -94,16 +100,6 @@ function HospedajeForm() {
         sx={{ mb: 2 }}
       />
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={details.disponible}
-            onChange={(e) => handleChange('disponible', e.target.checked)}
-          />
-        }
-        label="Actualmente Disponible"
-      />
-
       <TextField
         fullWidth
         label="Dormitorios"
@@ -129,26 +125,6 @@ function HospedajeForm() {
         value={details.camasDobles}
         onChange={(e) => handleChange('camasDobles', e.target.value)}
         sx={{ mb: 2 }}
-      />
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={details.incluyeDesayuno}
-            onChange={(e) => handleChange('incluyeDesayuno', e.target.checked)}
-          />
-        }
-        label="Incluye Desayuno"
-      />
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={details.incluyeToallasSabanas}
-            onChange={(e) => handleChange('incluyeToallasSabanas', e.target.checked)}
-          />
-        }
-        label="Incluye Toallas y Sábanas"
       />
 
       <TextField
@@ -225,6 +201,46 @@ function HospedajeForm() {
         onChange={(e) => handleChange('precioPorNoche', e.target.value)}
         sx={{ mb: 2 }}
       />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={details.disponible}
+            onChange={(e) => handleChange('disponible', e.target.checked)}
+          />
+        }
+        label="Actualmente Disponible"
+      />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={details.incluyeDesayuno}
+            onChange={(e) => handleChange('incluyeDesayuno', e.target.checked)}
+          />
+        }
+        label="Incluye Desayuno"
+      />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={details.incluyeToallasSabanas}
+            onChange={(e) => handleChange('incluyeToallasSabanas', e.target.checked)}
+          />
+        }
+        label="Incluye Toallas y Sábanas"
+      />
+      <div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSave}
+        sx={{ mt: 2 }}
+      >
+        Guardar
+      </Button>
+      </div>
     </div>
   );
 }

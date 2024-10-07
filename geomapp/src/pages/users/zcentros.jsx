@@ -15,13 +15,11 @@ function CentrosDeportivosForm() {
 }
 export default CentrosDeportivosForm;*/
 import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select, Button } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { TextField, MenuItem, FormControl, InputLabel, Select, Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
 const subcategories = [
     { label: 'Estadios', value: 'estadios' },
-    { label: 'Centros de Sky', value: 'centros-sky' },
+    { label: 'Centros de Ski', value: 'centros-ski' },
     { label: 'Canchas de Tenis', value: 'canchas-tenis' },
     { label: 'Canchas de Padel', value: 'canchas-padel' },
     { label: 'Canchas de Fútbol', value: 'canchas-futbol' },
@@ -38,23 +36,55 @@ function CentrosDeportivosForm() {
         ubicacion: '',
         horarioInicio: '',
         horarioFin: '',
-        fechaInicio: null,
-        fechaFin: null,
         nombreContacto: '',
         celularContacto: '',
         mailContacto: '',
         instagram: '',
         facebook: '',
         paginaWeb: '',
-        precio: ''
+        precio: '', // Cambia el nombre de la variable si lo prefieres
+        disponible: false,
+        horarios: {
+            lunes: { inicio: '', fin: '', abierto: false },
+            martes: { inicio: '', fin: '', abierto: false },
+            miercoles: { inicio: '', fin: '', abierto: false },
+            jueves: { inicio: '', fin: '', abierto: false },
+            viernes: { inicio: '', fin: '', abierto: false },
+            sabado: { inicio: '', fin: '', abierto: false },
+            domingo: { inicio: '', fin: '', abierto: false },
+        },
     });
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleHorarioChange = (day, field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            horarios: {
+                ...prev.horarios,
+                [day]: { ...prev.horarios[day], [field]: value }
+            }
+        }));
+    };
+
+    const handleCheckboxChange = (day) => {
+        setFormData(prev => ({
+            ...prev,
+            horarios: {
+                ...prev.horarios,
+                [day]: {
+                    ...prev.horarios[day],
+                    abierto: !prev.horarios[day].abierto
+                }
+            }
+        }));
+    };
+
     return (
         <div className="form-container">
+            <h1>Centros Deportivos</h1>
             <FormControl fullWidth>
                 <InputLabel id="subcategoria-label">Subcategoría</InputLabel>
                 <Select
@@ -105,98 +135,72 @@ function CentrosDeportivosForm() {
                 margin="normal"
             />
 
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                    label="Fecha de inicio"
-                    value={formData.fechaInicio}
-                    onChange={(value) => handleInputChange('fechaInicio', value)}
-                    renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-                />
-                <DatePicker
-                    label="Fecha de fin"
-                    value={formData.fechaFin}
-                    onChange={(value) => handleInputChange('fechaFin', value)}
-                    renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-                />
-            </LocalizationProvider>
-
             <TextField
                 fullWidth
-                label="Horario de inicio"
-                type="time"
-                value={formData.horarioInicio}
-                onChange={(e) => handleInputChange('horarioInicio', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Horario de fin"
-                type="time"
-                value={formData.horarioFin}
-                onChange={(e) => handleInputChange('horarioFin', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Nombre Contacto"
-                value={formData.nombreContacto}
-                onChange={(e) => handleInputChange('nombreContacto', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Número de Celular Contacto"
-                value={formData.celularContacto}
-                onChange={(e) => handleInputChange('celularContacto', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Mail Contacto"
-                value={formData.mailContacto}
-                onChange={(e) => handleInputChange('mailContacto', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Instagram"
-                value={formData.instagram}
-                onChange={(e) => handleInputChange('instagram', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Facebook"
-                value={formData.facebook}
-                onChange={(e) => handleInputChange('facebook', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Página Web"
-                value={formData.paginaWeb}
-                onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
-                margin="normal"
-            />
-
-            <TextField
-                fullWidth
-                label="Precio"
+                label="Precio por Hora" // Aquí cambias el texto
                 value={formData.precio}
                 onChange={(e) => handleInputChange('precio', e.target.value)}
                 margin="normal"
+                type="number"
             />
 
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={formData.disponible}
+                        onChange={(e) => handleInputChange('disponible', e.target.checked)}
+                    />
+                }
+                label="Actualmente Disponible"
+            />
+
+            {formData.disponible && (
+                <>
+                    <h3>Horarios de Apertura por Día</h3>
+                    <Grid container spacing={2}>
+                        {Object.keys(formData.horarios).map(day => (
+                            <Grid item xs={12} sm={6} md={4} key={day}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={formData.horarios[day].abierto}
+                                            onChange={() => handleCheckboxChange(day)}
+                                        />
+                                    }
+                                    label={`Abierto ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                                />
+                                {formData.horarios[day].abierto && (
+                                    <>
+                                        <TextField
+                                            fullWidth
+                                            label="Hora Inicio"
+                                            type="time"
+                                            value={formData.horarios[day].inicio}
+                                            onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
+                                            margin="normal"
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Hora Fin"
+                                            type="time"
+                                            value={formData.horarios[day].fin}
+                                            onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
+                                            margin="normal"
+                                        />
+                                    </>
+                                )}
+                            </Grid>
+                        ))}
+                    </Grid>
+                </>
+            )}
+
+            
+            <div>
             <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
-                Enviar
+                Guardar
             </Button>
+            </div>
         </div>
     );
 }

@@ -174,7 +174,15 @@ function GastronomiaForm() {
                 sx={{ mb: 2 }}
             />
 
-
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={details.abiertoEnFeriados}
+                        onChange={(e) => handleChange('abiertoEnFeriados', e.target.checked)}
+                    />
+                }
+                label="Abierto en Feriados"
+            />
             <FormControlLabel
                 control={
                     <Checkbox
@@ -226,17 +234,9 @@ function GastronomiaForm() {
                 </>
             )}
 
-             <div>
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={details.abiertoEnFeriados}
-                        onChange={(e) => handleChange('abiertoEnFeriados', e.target.checked)}
-                    />
-                }
-                label="Abierto en Feriados"
-            />
-            </div>
+             
+            
+            
 
             <div>
             <FormControlLabel

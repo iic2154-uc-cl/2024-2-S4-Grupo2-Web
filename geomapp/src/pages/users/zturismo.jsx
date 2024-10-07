@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { TextField, MenuItem, FormControl, InputLabel, Select, Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
 const subcategories = [
   { label: 'Cultural', value: 'cultural' },
@@ -17,25 +15,60 @@ function TurismoForm() {
     titulo: '',
     descripcion: '',
     ubicacion: '',
-    horarioInicio: null,
-    horarioFin: null,
-    fechaInicio: null,
-    fechaFin: null,
     nombreContacto: '',
     celularContacto: '',
     mailContacto: '',
     instagram: '',
     facebook: '',
     paginaWeb: '',
-    precio: ''
+    precioEntrada: '', // Cambiado el nombre a precioEntrada
+    disponible: false,
+    horarios: {
+      lunes: { inicio: '', fin: '', abierto: false },
+      martes: { inicio: '', fin: '', abierto: false },
+      miercoles: { inicio: '', fin: '', abierto: false },
+      jueves: { inicio: '', fin: '', abierto: false },
+      viernes: { inicio: '', fin: '', abierto: false },
+      sabado: { inicio: '', fin: '', abierto: false },
+      domingo: { inicio: '', fin: '', abierto: false },
+    },
   });
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleHorarioChange = (day, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      horarios: {
+        ...prev.horarios,
+        [day]: { ...prev.horarios[day], [field]: value }
+      }
+    }));
+  };
+
+  const handleCheckboxChange = (day) => {
+    setFormData(prev => ({
+      ...prev,
+      horarios: {
+        ...prev.horarios,
+        [day]: {
+          ...prev.horarios[day],
+          abierto: !prev.horarios[day].abierto
+        }
+      }
+    }));
+  };
+
+  const handleSubmit = () => {
+    // Lógica para guardar los datos
+    console.log(formData);
+  };
+
   return (
     <div className="form-container">
+      <h1>Turismo</h1>
       <FormControl fullWidth>
         <InputLabel id="subcategoria-label">Subcategoría</InputLabel>
         <Select
@@ -75,35 +108,6 @@ function TurismoForm() {
         onChange={(e) => handleInputChange('ubicacion', e.target.value)}
         margin="normal"
       />
-
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label="Fecha de inicio"
-          value={formData.fechaInicio}
-          onChange={(value) => handleInputChange('fechaInicio', value)}
-          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-        />
-        <DatePicker
-          label="Fecha de fin"
-          value={formData.fechaFin}
-          onChange={(value) => handleInputChange('fechaFin', value)}
-          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-        />
-
-        <TimePicker
-          label="Horario de inicio"
-          value={formData.horarioInicio}
-          onChange={(value) => handleInputChange('horarioInicio', value)}
-          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-        />
-
-        <TimePicker
-          label="Horario de fin"
-          value={formData.horarioFin}
-          onChange={(value) => handleInputChange('horarioFin', value)}
-          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
-        />
-      </LocalizationProvider>
 
       <TextField
         fullWidth
@@ -155,11 +159,69 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Precio"
-        value={formData.precio}
-        onChange={(e) => handleInputChange('precio', e.target.value)}
+        label="Precio Entrada" // Cambiado a "Precio Entrada"
+        type="number"
+        value={formData.precioEntrada} // Cambiado a precioEntrada
+        onChange={(e) => handleInputChange('precioEntrada', e.target.value)} // Cambiado a precioEntrada
         margin="normal"
       />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={formData.disponible}
+            onChange={(e) => handleInputChange('disponible', e.target.checked)}
+          />
+        }
+        label="Actualmente Disponible"
+      />
+
+      {formData.disponible && (
+        <>
+          <h3>Horarios de Apertura por Día</h3>
+          <Grid container spacing={2}>
+            {Object.keys(formData.horarios).map(day => (
+              <Grid item xs={12} sm={6} md={4} key={day}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData.horarios[day].abierto}
+                      onChange={() => handleCheckboxChange(day)}
+                    />
+                  }
+                  label={`Abierto ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                />
+                {formData.horarios[day].abierto && (
+                  <>
+                    <TextField
+                      fullWidth
+                      label="Hora Inicio"
+                      type="time"
+                      value={formData.horarios[day].inicio}
+                      onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
+                      margin="normal"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Hora Fin"
+                      type="time"
+                      value={formData.horarios[day].fin}
+                      onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
+                      margin="normal"
+                    />
+                  </>
+                )}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      )}
+
+      <div>
+        <Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleSubmit}>
+          Guardar
+        </Button>
+      </div>
     </div>
   );
 }
