@@ -7,11 +7,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Auth0Provider
-    domain='dev-cry4u1cfzw5tvn48.us.auth0.com'
-    clientId='emBP1HbVJ1ltKKluxpiVA0wye8USrA4Z'
+    domain='dev-7w1no2zl1opt24if.us.auth0.com'
+    clientId='QrElcRF9AI2H6dRBwCChbc04JvtKygJo'
     authorizationParams={{
       redirectUri: window.location.origin,
-      audience: 'https://geomapp-auth0.com',
+      audience: 'https://geomap/',
     }}
     cacheLocation="localstorage" 
   >
