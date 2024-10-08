@@ -12,6 +12,7 @@ const Mapa = () => {
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
     const [mapInstance, setMapInstance] = useState(null); // Estado para almacenar el objeto map
+    const [filterType, setFilterType] = useState('');
 
 
   const rightPanelStyle = {
@@ -51,8 +52,21 @@ return (
             <div className="content">
             
                 <h1>Mapa</h1>
-                <GoogleMapComponent onMapLoad={setMapInstance} /> {/* Pasamos la función para establecer el map */}
-                <br></br>
+                <div className="filter-container">
+                    <label htmlFor="filterSelect">Filtrar por tipo:</label>
+                    <select
+                        id="filterSelect"
+                        onChange={(e) => setFilterType(e.target.value)}
+                        value={filterType}
+                    >
+                        <option value="">Todos</option>
+                        <option value="alojamientos">Alojamientos</option>
+                        <option value="restaurantes">Restaurantes</option>
+                        <option value="tiendas">Tiendas</option>
+                    </select>
+                </div>
+                <GoogleMapComponent onMapLoad={setMapInstance} filterType={filterType} /> {/* Pasamos la función para establecer el map */}
+                <br />
                 <UpdateLocationButton className="update-location-btnn" onClick={updateLocation} />
                 <CenterMapButton onClick={centerMap} /> {/* Añadimos el nuevo botón para centrar el mapa */}
                 
