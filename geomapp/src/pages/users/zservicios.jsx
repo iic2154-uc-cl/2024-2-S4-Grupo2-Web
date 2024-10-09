@@ -80,7 +80,7 @@ function ServiciosForm() {
     };
 
     return (
-        <div>
+        <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
             <h1>Servicios Comunitarios</h1>
             <FormControl fullWidth margin="normal">
                 <InputLabel id="tipo-servicio-label">Tipo de Servicio</InputLabel>

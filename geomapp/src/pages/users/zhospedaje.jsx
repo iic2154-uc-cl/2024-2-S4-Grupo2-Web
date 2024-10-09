@@ -59,7 +59,7 @@ function HospedajeForm() {
   };
 
   return (
-    <div>
+    <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
       <h1>Hospedaje</h1>
       <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel id="tipo-acomodacion-label">Tipo de Acomodación</InputLabel>

@@ -6,7 +6,7 @@ import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
 import '../styles/footer.css';
 import { Link, useNavigate } from 'react-router-dom';
 import publicar from '../assets/publicar.jpg'
-import buscar from '../assets/buscar.jpg'
+import buscar from '../assets/buscar2.jpg'
 import servicios from '../assets/servicios.jpg'
 
 const HelloWorld = () => {
@@ -17,13 +17,14 @@ const HelloWorld = () => {
         <div id="hello-world-container">
             <Navbar />
             <div className="background-image-container">    
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
                     <h1 className="titulo">GeoMapp</h1>
+                    <br></br>
+                    
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    
                     <br></br>
                     <br></br>
                     <br></br>
@@ -60,9 +61,12 @@ const HelloWorld = () => {
             </div>
             <br></br>
             <br></br>
-            <div className="content">  
+            <br></br>
+            <br></br>
+            <br></br>
+            <div className="image-card">  
                 {!isAuthenticated ? (
-                    <button className="button" onClick={loginWithRedirect}>Iniciar sesión</button>
+                    <button className="image-button" onClick={loginWithRedirect}>Iniciar sesión</button>
                 ) : (
                     <button className="button" onClick={() => logout({ returnTo: window.location.origin + '/' })}>Cerrar sesión</button>
                 )}

@@ -1,6 +1,6 @@
 /* Ajustes generales del contenedor del formulario */
 .form-container {
-  @apply mx-auto mt-10 max-w-3xl bg-white rounded-lg shadow-lg p-8;
+  @apply mx-auto mt-10 max-w-md bg-white rounded-lg shadow-lg p-8;
 }
 
 /* Títulos y etiquetas */

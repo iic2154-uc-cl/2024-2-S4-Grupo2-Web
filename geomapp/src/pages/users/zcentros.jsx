@@ -83,7 +83,7 @@ function CentrosDeportivosForm() {
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
             <h1>Centros Deportivos</h1>
             <FormControl fullWidth>
                 <InputLabel id="subcategoria-label">Subcategoría</InputLabel>

@@ -67,7 +67,7 @@ function TurismoForm() {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
       <h1>Turismo</h1>
       <FormControl fullWidth>
         <InputLabel id="subcategoria-label">Subcategoría</InputLabel>

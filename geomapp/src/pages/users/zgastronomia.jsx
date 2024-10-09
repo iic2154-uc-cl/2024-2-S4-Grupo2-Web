@@ -85,7 +85,7 @@ function GastronomiaForm() {
     };
 
     return (
-        <div>
+        <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
             <h1>Gastronomía</h1>
             <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel id="establishment-type-label">Tipo de Establecimiento</InputLabel>

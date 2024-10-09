@@ -25,7 +25,7 @@
     flex-direction: column;
     gap: 20px;
     width: 50%; /* Ajusta el ancho al 50% del contenedor padre */
-    max-width: 1000px; /* Asegura que no exceda los 1000px */
+    max-width: 500px; /* Asegura que no exceda los 1000px */
     align-items: center; /* Centra todos los items del formulario */
     margin: auto; /* Centra el contenedor en el espacio disponible */
 }
@@ -35,7 +35,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    width: 100%; /* Asegura que la fila ocupe todo el ancho del contenedor de formularios */
+    width: 50%; /* Asegura que la fila ocupe todo el ancho del contenedor de formularios */
 }
 
 .publicar-form-input {

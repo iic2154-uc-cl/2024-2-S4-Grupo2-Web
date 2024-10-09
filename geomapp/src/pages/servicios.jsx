@@ -37,9 +37,11 @@ const Servicios = () => {
         <br></br>
         <br></br>
         <br></br>
-        <button className="button" onClick={handleClick}>
+        <div className="image-card">
+        <button className="image-button" onClick={handleClick}>
           Publica tu servicio aquí
         </button>
+        </div>
         <br></br>
     </div>
     <Footer />

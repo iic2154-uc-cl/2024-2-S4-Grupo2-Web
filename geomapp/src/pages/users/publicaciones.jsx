@@ -25,7 +25,7 @@ function Publicaciones() {
           <br></br>
           <br></br>
         </div>
-        <button className="button" onClick={handleClick}>
+        <button className="image-button" onClick={handleClick}>
           Crear nueva publicación
         </button>
       </main>

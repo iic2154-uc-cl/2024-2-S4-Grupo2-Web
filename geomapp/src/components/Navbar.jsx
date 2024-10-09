@@ -18,7 +18,7 @@ function NavBar() {
                     <img src={logo} className="navbar-logo"></img>
                   </Link>
 
-                    <Link to="/mapa-navegacion" className="footer-link">Mapa de navegación</Link>
+                    <Link to="/mapa-navegacion" className="footer-link">Mapa</Link>
                     {/* <a href="/publicar">Publicar</a> */}
                     <Link to="/servicios" className="footer-link">Servicios</Link>
                     {isAuthenticated && (

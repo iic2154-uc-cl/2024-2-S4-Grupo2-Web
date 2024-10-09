@@ -71,7 +71,7 @@ function EventosForm() {
     };
 
     return (
-        <div>
+        <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
             <h1>Eventos</h1>
             <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel id="event-type-label">Tipo de Evento</InputLabel>
