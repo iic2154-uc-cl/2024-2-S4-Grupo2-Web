@@ -68,7 +68,16 @@ return (
                 <GoogleMapComponent onMapLoad={setMapInstance} filterType={filterType} /> {/* Pasamos la función para establecer el map */}
                 <br />
                 <UpdateLocationButton className="update-location-btnn" onClick={updateLocation} />
+
                 <CenterMapButton onClick={centerMap} /> {/* Añadimos el nuevo botón para centrar el mapa */}
+
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                
+
                 
                 
             </div>

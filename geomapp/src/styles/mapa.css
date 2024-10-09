@@ -1,6 +1,6 @@
 /* Contenedor del mapa */
 #map {
-    height: 400px; /* Altura del mapa */
+    height: 300px; /* Altura del mapa */
     width: 50%;   /* Ancho del mapa */
   }
   
@@ -59,7 +59,7 @@
   .map-container {
     position: relative;
     width: 60%;
-    height: 700px;
+    height: 600px;
   }
   
   /* Contenedor principal que alinea mapa e información */
