@@ -3,7 +3,7 @@ import React from 'react';
 
 const UpdateLocationButton = ({ onClick }) => {
   return (
-    <button onClick={onClick} className="update-location-btnn">
+    <button className="update-location-btnn" onClick={onClick}>
       Actualizar ubicación
     </button>
   );

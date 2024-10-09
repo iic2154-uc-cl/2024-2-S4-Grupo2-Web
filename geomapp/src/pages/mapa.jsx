@@ -50,27 +50,37 @@ return (
             <Navbar />
             
             <div className="content">
-            
-                <h1>Mapa</h1>
+              <br></br>
+              <br></br>
+              <br></br>
+                <div className="buttons-container">
+                <UpdateLocationButton onClick={updateLocation} />
+                <CenterMapButton onClick={centerMap} /> {/* Añadimos el nuevo botón para centrar el mapa */}
                 <div className="filter-container">
-                    <label htmlFor="filterSelect">Filtrar por tipo:</label>
+                    
                     <select
                         id="filterSelect"
                         onChange={(e) => setFilterType(e.target.value)}
                         value={filterType}
-                    >
+                        className="update-location-btnn">
+                        <option value="">Filtrar por tipo</option>
                         <option value="">Todos</option>
                         <option value="alojamientos">Alojamientos</option>
                         <option value="restaurantes">Restaurantes</option>
                         <option value="tiendas">Tiendas</option>
                     </select>
+                    
                 </div>
+                
+
+                
+                </div>
+                <br></br>
+                
+                
                 <GoogleMapComponent onMapLoad={setMapInstance} filterType={filterType} /> {/* Pasamos la función para establecer el map */}
-                <br />
-                <UpdateLocationButton className="update-location-btnn" onClick={updateLocation} />
-
-                <CenterMapButton onClick={centerMap} /> {/* Añadimos el nuevo botón para centrar el mapa */}
-
+                <br/>
+                
                 <br></br>
                 <br></br>
                 <br></br>
