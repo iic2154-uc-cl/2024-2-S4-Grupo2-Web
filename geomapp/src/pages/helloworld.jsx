@@ -16,7 +16,7 @@ const HelloWorld = () => {
     return (
         <div id="hello-world-container">
             <Navbar />
-            <div class="background-image-container">    
+            <div className="background-image-container">    
                     <br></br>
                     <br></br>
                     <br></br>
@@ -43,17 +43,17 @@ const HelloWorld = () => {
             
 
 
-            <div class="image-container">
-                <div class="image-card">
+            <div className="image-container">
+                <div className="image-card">
                     <img src={buscar}></img>
                     <button className="image-button" onClick={() => navigate('/mapa-navegacion')}>Buscar</button>
                 </div>
-                <div class="image-card">
+                <div className="image-card">
                     <img src={publicar}></img>
                     <button className="image-button" onClick={() => navigate('/publicar')}>Publicar</button>
                    
                 </div>
-                <div class="image-card">
+                <div className="image-card">
                     <img src={servicios}></img>
                     <button className="image-button" onClick={() => navigate('/servicios')}>Servicios</button>
                 </div>
