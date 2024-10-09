@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const ExamplePage = () => {
     const { isAuthenticated, getAccessTokenSilently, loginWithRedirect } = useAuth0();
-    const [data, setData] = useState( '' );
+    const [data, setData] = useState({ id: '', name: '' });
     const [response, setResponse] = useState('');
 
     const handleInputChange = (e) => {
@@ -16,8 +16,8 @@ const ExamplePage = () => {
     const handleGet = async () => {
         try {
             const res = await axios.get('http://localhost:8000/example/');
-            setResponse(res.data);
             console.log('getting data:', res.data);
+            setResponse(res.data);
         } catch (error) {
             setResponse(error.message);
         }
@@ -31,6 +31,8 @@ const ExamplePage = () => {
         }
         try {
             const token = await getAccessTokenSilently();
+            const a = token;
+            console.log(a);
             const res = await axios.post('http://localhost:8000/example/', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,

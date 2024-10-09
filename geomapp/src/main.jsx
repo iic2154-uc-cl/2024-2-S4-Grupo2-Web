@@ -3,19 +3,20 @@ import App from './App.jsx';
 import './index.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Auth0Provider
-    domain='dev-7w1no2zl1opt24if.us.auth0.com'
-    clientId='QrElcRF9AI2H6dRBwCChbc04JvtKygJo'
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
     authorizationParams={{
-      redirectUri: window.location.origin,
-      audience: 'https://geomap/',
+      redirect_uri: window.location.origin,
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+      scope: 'openid read:users read:roles read:role_members'
     }}
-    cacheLocation="localstorage" 
+    cacheLocation="localstorage"
   >
     <App />
   </Auth0Provider>
 );
-
