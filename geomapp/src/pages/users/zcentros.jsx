@@ -42,7 +42,7 @@ function CentrosDeportivosForm() {
         instagram: '',
         facebook: '',
         paginaWeb: '',
-        precio: '', // Cambia el nombre de la variable si lo prefieres
+        precio: '', 
         disponible: false,
         horarios: {
             lunes: { inicio: '', fin: '', abierto: false },
@@ -195,12 +195,7 @@ function CentrosDeportivosForm() {
                 </>
             )}
 
-            
-            <div>
-            <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
-                Guardar
-            </Button>
-            </div>
+
         </div>
     );
 }

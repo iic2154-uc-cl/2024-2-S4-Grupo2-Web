@@ -26,7 +26,7 @@ function ServiciosForm() {
         titulo: '',
         descripcion: '',
         ubicacion: '',
-        disponible: true,
+        disponible: false,
         nombreContacto: '',
         numeroCelular: '',
         emailContacto: '',
@@ -74,10 +74,7 @@ function ServiciosForm() {
         }));
     };
 
-    const handleSubmit = () => {
-        console.log(details);
-        // Aquí puedes agregar la lógica para guardar los detalles
-    };
+
 
     return (
         <div>
@@ -217,11 +214,7 @@ function ServiciosForm() {
                 </>
             )}
 
-            <Box sx={{ mt: 2 }}>
-                <Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Guardar
-                </Button>
-            </Box>
+
         </div>
     );
 }

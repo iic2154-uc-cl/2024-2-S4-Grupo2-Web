@@ -52,11 +52,7 @@ function HospedajeForm() {
     { label: 'Camping', value: 'camping' }
   ];
 
-  const handleSave = () => {
-    // Aquí puedes agregar la lógica para guardar los datos
-    console.log('Datos guardados:', details);
-    alert('Datos guardados correctamente!');
-  };
+
 
   return (
     <div>
@@ -231,16 +227,7 @@ function HospedajeForm() {
         }
         label="Incluye Toallas y Sábanas"
       />
-      <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSave}
-        sx={{ mt: 2 }}
-      >
-        Guardar
-      </Button>
-      </div>
+      
     </div>
   );
 }
