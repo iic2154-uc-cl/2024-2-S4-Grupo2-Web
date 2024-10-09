@@ -36,16 +36,22 @@ const center = {
   lng: -70.64827,
 };
 
-const GoogleMapComponent = () => {
+const GoogleMapComponent = ({ onMapLoad, filterType }) => {
   const [map, setMap] = useState(null);
   const [userLocation, setUserLocation] = useState(center);
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const lugares = [
-    { nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.' },
-    { nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.' },
+    { nombre: 'Costanera Center', lat: -33.4175, lng: -70.6067, tipo: 'tiendas', descripcion: 'Centro comercial más grande de Santiago y torre más alta de Latinoamérica.'},
+    { nombre: 'Parque Bicentenario', lat: -33.3989, lng: -70.6001, tipo: 'alojamientos', descripcion: 'Un hermoso parque en Vitacura, ideal para actividades al aire libre.'},
+    { nombre: 'Restaurante El Buen Sabor', lat: -33.4372, lng: -70.6506, tipo: 'restaurantes', descripcion: 'Un restaurante con deliciosa comida local.'},
     // Añade más lugares aquí...
   ];
+
+  // Filtrar los lugares según el filtro seleccionado
+  const lugaresFiltrados = lugares.filter((lugar) => {
+    return filterType === '' || lugar.tipo === filterType;
+  });
 
   // Obtener ubicación actual del usuario
   useEffect(() => {
@@ -72,10 +78,15 @@ const GoogleMapComponent = () => {
             mapContainerStyle={mapStyle}
             center={userLocation}
             zoom={12}
-            onLoad={(mapInstance) => setMap(mapInstance)}
+            onLoad={(mapInstance) => {
+              setMap(mapInstance);
+              if (onMapLoad) {
+                onMapLoad(mapInstance); // Llamamos a la función onMapLoad cuando el mapa esté listo
+              }
+            }}
           >
-            {/* Marcadores de los lugares */}
-            {lugares.map((lugar, index) => (
+            {/* Marcadores de los lugares filtrados*/}
+            {lugaresFiltrados.map((lugar, index) => (
               <Marker
                 key={index}
                 position={{ lat: lugar.lat, lng: lugar.lng }}
