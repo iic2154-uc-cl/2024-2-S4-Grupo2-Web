@@ -19,9 +19,14 @@ const Perfil = () => {
           <h1>Mi Perfil</h1>
           <img src={user.picture} alt={user.name} className="perfil-avatar" />
           <h2>{user.name}</h2>
-          <p>Email: {user.email}</p>
-          {/* Puedes agregar más información de perfil aquí si es necesario */}
+          <p>Correo: {user.email}</p>
+          <p>Dirección: Calle Sin Salida 987, Santiago, Chile</p>
+          <p>Publicaciones activas: 3</p>
+          <p>Publicaciones por vencer: 1</p>
+          <p>Publicaciones vencidas: 1</p>
+   
         </div>
+
         <Footer />
       </div>
     ) : (

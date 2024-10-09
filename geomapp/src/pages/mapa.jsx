@@ -12,7 +12,12 @@ const Mapa = () => {
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
     const [mapInstance, setMapInstance] = useState(null); // Estado para almacenar el objeto map
+    const [showInfoPanel, setShowInfoPanel] = useState(false)
     const [filterType, setFilterType] = useState('');
+
+    const handleCloseClick = () => {
+      setShowInfoPanel(false); // Cierra el panel
+    };
 
 
   const rightPanelStyle = {
