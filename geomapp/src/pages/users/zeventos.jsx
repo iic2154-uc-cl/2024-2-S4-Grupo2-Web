@@ -66,9 +66,7 @@ function EventosForm() {
         });
     };
 
-    const handleSave = () => {
-        console.log("Evento guardado:", eventDetails);
-    };
+
 
     return (
         <div>
@@ -202,15 +200,6 @@ function EventosForm() {
                 </div>
             </div>
             
-            
-
-            
-            <div>
-            {/* Botón para guardar */}
-            <Button variant="contained" color="primary" onClick={handleSave}>
-                Guardar
-            </Button>
-            </div>
         </div>
     );
 }
