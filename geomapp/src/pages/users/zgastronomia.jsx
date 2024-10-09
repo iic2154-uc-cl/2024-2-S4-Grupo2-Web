@@ -79,10 +79,6 @@ function GastronomiaForm() {
         }));
     };
 
-    const handleSubmit = () => {
-        console.log(details);
-        // Aquí puedes agregar la lógica para guardar los detalles
-    };
 
     return (
         <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
@@ -270,11 +266,6 @@ function GastronomiaForm() {
             />
             </div>
 
-            <div>
-            <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
-                Guardar
-            </Button>
-            </div>
         </div>
     );
 }

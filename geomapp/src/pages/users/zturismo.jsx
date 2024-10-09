@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select, Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 const subcategories = [
   { label: 'Cultural', value: 'cultural' },
   { label: 'Aventura', value: 'aventura' },
   { label: 'Balnearios', value: 'balnearios' },
   { label: 'Parques', value: 'parques' },
-  { label: 'Entretención', value: 'entretencion' }
+  { label: 'Entretención', value: 'entretencion' },
 ];
 
 function TurismoForm() {
@@ -21,7 +32,7 @@ function TurismoForm() {
     instagram: '',
     facebook: '',
     paginaWeb: '',
-    precioEntrada: '', // Cambiado el nombre a precioEntrada
+    precioEntrada: '',
     disponible: false,
     horarios: {
       lunes: { inicio: '', fin: '', abierto: false },
@@ -34,8 +45,11 @@ function TurismoForm() {
     },
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' })); // Reset error when value changes
   };
 
   const handleHorarioChange = (day, field, value) => {
@@ -43,8 +57,8 @@ function TurismoForm() {
       ...prev,
       horarios: {
         ...prev.horarios,
-        [day]: { ...prev.horarios[day], [field]: value }
-      }
+        [day]: { ...prev.horarios[day], [field]: value },
+      },
     }));
   };
 
@@ -55,19 +69,65 @@ function TurismoForm() {
         ...prev.horarios,
         [day]: {
           ...prev.horarios[day],
-          abierto: !prev.horarios[day].abierto
-        }
-      }
+          abierto: !prev.horarios[day].abierto,
+        },
+      },
     }));
   };
 
-  const handleSubmit = () => {
-    // Lógica para guardar los datos
-    console.log(formData);
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.subcategoria) newErrors.subcategoria = 'Por favor, selecciona una subcategoría.';
+    if (!formData.titulo) newErrors.titulo = 'Escribe un título.';
+    if (!formData.descripcion) newErrors.descripcion = 'Escribe una descripción.';
+    if (!formData.ubicacion) {
+      newErrors.ubicacion = 'Escribe una ubicación.';
+    } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
+      newErrors.ubicacion = 'Debes seguir el formato de dirección.';
+    }
+    if (!formData.celularContacto && !formData.mailContacto) {
+      newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
+    } else {
+      if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
+        newErrors.celularContacto = 'El número de celular debe contener solo números.';
+      }
+      if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
+        newErrors.mailContacto = 'Escribir el email en su debido formato.';
+      }
+    }
+    if (!formData.precioEntrada) newErrors.precioEntrada = 'Se debe escribir un precio de entrada.';
+    if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
+      newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web.';
+    }
+    if (formData.disponible) {
+      Object.keys(formData.horarios).forEach(day => {
+        if (formData.horarios[day].abierto && (!formData.horarios[day].inicio || !formData.horarios[day].fin)) {
+          newErrors[`horario_${day}`] = `A los días seleccionados abiertos debes ponerle hora de inicio y fin.`;
+        }
+      });
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // Aquí va el código para proceder al siguiente paso
+      console.log('Formulario válido, proceder...');
+    } else {
+      console.log('Errores en el formulario:', errors);
+    }
   };
 
   return (
+<<<<<<< HEAD
     <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
+=======
+    <form className="form-container" onSubmit={handleSubmit}>
+>>>>>>> 59af966b9814a526ded5307df11065d699c5c60b
       <h1>Turismo</h1>
       <FormControl fullWidth>
         <InputLabel id="subcategoria-label">Subcategoría</InputLabel>
@@ -81,6 +141,7 @@ function TurismoForm() {
             <MenuItem key={sub.value} value={sub.value}>{sub.label}</MenuItem>
           ))}
         </Select>
+        {errors.subcategoria && <Typography color="error">{errors.subcategoria}</Typography>}
       </FormControl>
 
       <TextField
@@ -89,6 +150,8 @@ function TurismoForm() {
         value={formData.titulo}
         onChange={(e) => handleInputChange('titulo', e.target.value)}
         margin="normal"
+        error={Boolean(errors.titulo)}
+        helperText={errors.titulo}
       />
 
       <TextField
@@ -99,6 +162,8 @@ function TurismoForm() {
         margin="normal"
         multiline
         rows={4}
+        error={Boolean(errors.descripcion)}
+        helperText={errors.descripcion}
       />
 
       <TextField
@@ -107,6 +172,8 @@ function TurismoForm() {
         value={formData.ubicacion}
         onChange={(e) => handleInputChange('ubicacion', e.target.value)}
         margin="normal"
+        error={Boolean(errors.ubicacion)}
+        helperText={errors.ubicacion}
       />
 
       <TextField
@@ -123,6 +190,8 @@ function TurismoForm() {
         value={formData.celularContacto}
         onChange={(e) => handleInputChange('celularContacto', e.target.value)}
         margin="normal"
+        error={Boolean(errors.celularContacto)}
+        helperText={errors.celularContacto}
       />
 
       <TextField
@@ -131,7 +200,11 @@ function TurismoForm() {
         value={formData.mailContacto}
         onChange={(e) => handleInputChange('mailContacto', e.target.value)}
         margin="normal"
+        error={Boolean(errors.mailContacto)}
+        helperText={errors.mailContacto}
       />
+
+      {errors.contacto && <Typography color="error">{errors.contacto}</Typography>} {/* Mensaje de error de contacto */}
 
       <TextField
         fullWidth
@@ -155,15 +228,19 @@ function TurismoForm() {
         value={formData.paginaWeb}
         onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
         margin="normal"
+        error={Boolean(errors.paginaWeb)}
+        helperText={errors.paginaWeb}
       />
 
       <TextField
         fullWidth
-        label="Precio Entrada" // Cambiado a "Precio Entrada"
+        label="Precio Entrada"
         type="number"
-        value={formData.precioEntrada} // Cambiado a precioEntrada
-        onChange={(e) => handleInputChange('precioEntrada', e.target.value)} // Cambiado a precioEntrada
+        value={formData.precioEntrada}
+        onChange={(e) => handleInputChange('precioEntrada', e.target.value)}
         margin="normal"
+        error={Boolean(errors.precioEntrada)}
+        helperText={errors.precioEntrada}
       />
 
       <FormControlLabel
@@ -189,26 +266,25 @@ function TurismoForm() {
                       onChange={() => handleCheckboxChange(day)}
                     />
                   }
-                  label={`Abierto ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                  label={day.charAt(0).toUpperCase() + day.slice(1)}
                 />
                 {formData.horarios[day].abierto && (
                   <>
                     <TextField
-                      fullWidth
-                      label="Hora Inicio"
+                      label="Hora de Inicio"
                       type="time"
                       value={formData.horarios[day].inicio}
                       onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
                       margin="normal"
                     />
                     <TextField
-                      fullWidth
-                      label="Hora Fin"
+                      label="Hora de Fin"
                       type="time"
                       value={formData.horarios[day].fin}
                       onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
                       margin="normal"
                     />
+                    {errors[`horario_${day}`] && <Typography color="error">{errors[`horario_${day}`]}</Typography>}
                   </>
                 )}
               </Grid>
@@ -217,12 +293,10 @@ function TurismoForm() {
         </>
       )}
 
-      <div>
-        <Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleSubmit}>
-          Guardar
-        </Button>
-      </div>
-    </div>
+      <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+        Enviar
+      </Button>
+    </form>
   );
 }
 
