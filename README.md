@@ -1,17 +1,8 @@
-## Pruebas locales
+# React + Vite
 
-Para realizar pruebas locales se deben correr los siguientes comandos:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-```bash
-yarn install
+Currently, two official plugins are available:
 
-yarn dev
-```
-
-Luego dirigirse a [http://localhost:3000](http://localhost:3000) con el browser.
-
-## Deploy
-
-El deploy del sitio web es en Vercel, y se accede mediante la siguiente URL: [https://georent.cl](https://georent.cl).
-
-Desde Vercel se puede controlar que versión del código se desea hacer deploy, al igual que la configuración de variables de entorno.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
