@@ -1,0 +1,132 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#hello-world-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'San Francisco';
+
+}
+
+.content {
+    flex: 1;
+    padding: 20px;  /* Ajusta este valor según el padding que necesites */
+    font-family: 'San Francisco';
+}
+
+.container {
+    width: 100%;  /* Asegura que el contenedor tome toda la anchura */
+    max-width: 100%; /* Evita que tenga un ancho máximo restringido */
+    margin: 0; /* Elimina los márgenes para que se extienda completamente */
+    padding: 0; /* Elimina el padding para que el contenido llegue a los bordes */
+}
+
+.background-image-container {
+    width: 100%;  /* Asegura que el contenedor tome toda la anchura */
+    height: auto; /* Ajusta la altura automáticamente según la imagen */
+    background-image: url('../assets/buscar3.jpg'); /* Cambia esto por la ruta real de tu imagen */
+    background-size: cover; /* Asegura que la imagen cubra completamente el contenedor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    color: whitesmoke;
+}
+
+@media (min-width: 768px) {
+    .background-image-container {
+        background-image: url('../assets/buscar3.jpg');
+    }
+}
+
+@media (min-width: 1200px) {
+    .background-image-container {
+        background-image: url('../assets/buscar3.jpg'); /* Versión de alta resolución para pantallas grandes */
+    }
+}
+
+.button {
+    background-color: #714dc9;  /* Un tono específico */
+    color: white;
+    font-weight: bold;  /* Texto en negrita */
+    padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
+    border: none;  /* Sin bordes */
+    border-radius: 5px;  /* Bordes redondeados */
+    cursor: pointer;  /* Cursor en forma de mano al pasar el mouse */
+    text-transform: uppercase;  /* Texto en mayúsculas */
+    transition: background-color 0.3s, box-shadow 0.3s;  /* Transición suave para hover */
+    outline: none;  /* Elimina el contorno que aparece al hacer clic */
+    font-size: 15px;
+    font-family: 'Montserrat' !important; /* Usa la fuente Montserrat */
+}
+
+.button:hover {
+    background-color: #e67e22;  /* Un tono más oscuro de naranja para el hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
+}
+
+.button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #ff914d;  /* Sombra que indica foco */
+}
+
+.titulo {
+    font-family: "Montserrat";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 100px;
+
+    
+  }
+
+  .h1-borde-negro {
+    border: 2px solid black; /* Borde negro de 2px */
+    padding: 10px; /* Agrega un poco de padding para que el texto no quede pegado al borde */
+}
+
+
+.image-container {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+}
+
+.image-card {
+    position: relative;
+    margin: 0 10px; /* Ajusta el espacio entre las imágenes según necesites */
+    font-family: "Montserrat";
+}
+
+.image-card img {
+    width: 100%;
+    display: block; /* Elimina cualquier espacio adicional debajo de la imagen */
+    max-width: 300px; /* Ajusta según el tamaño deseado de las imágenes */
+    height: 190px; /* Mantiene la proporción de la imagen */
+}
+
+.image-button {
+    position: absolute;
+    top: 50%; /* Centra el botón en la mitad de la imagen */
+    left: 50%; /* Centra el botón en la mitad de la imagen */
+    transform: translate(-50%, -50%); /* Ajusta la posición exacta del centro */
+    background-color: #714dc9;
+    color: white;
+    border: none;
+    padding: 10px 90px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: 'Montserrat';
+}
+
+.image-button:hover {
+    background-color: #ff7700; /* Un tono más oscuro para el hover */
+}
+
+
+  
