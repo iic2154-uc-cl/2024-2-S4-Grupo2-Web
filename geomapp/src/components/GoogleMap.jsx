@@ -48,6 +48,13 @@ const GoogleMapComponent = ({ onMapLoad, filterType }) => {
     // Añade más lugares aquí...
   ];
 
+    // Definir íconos para cada tipo de lugar
+    const iconos = {
+      tiendas: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+      alojamientos: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      restaurantes: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+    };
+
   // Filtrar los lugares según el filtro seleccionado
   const lugaresFiltrados = lugares.filter((lugar) => {
     return filterType === '' || lugar.tipo === filterType;
@@ -92,6 +99,7 @@ const GoogleMapComponent = ({ onMapLoad, filterType }) => {
                 position={{ lat: lugar.lat, lng: lugar.lng }}
                 onClick={() => setSelectedPlace(lugar)}  // Al hacer clic, selecciona el lugar
                 title={lugar.nombre}
+                icon={iconos[lugar.tipo] || 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'} // Ícono predeterminado si no coincide el tipo
               />
             ))}
 
@@ -99,7 +107,7 @@ const GoogleMapComponent = ({ onMapLoad, filterType }) => {
             <Marker
               position={userLocation}
               title="Tu ubicación actual"
-              icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Usar un ícono azul para el usuario
+              icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png" // Usar un ícono azul para el usuario
             />
           </GoogleMap>
         </LoadScript>

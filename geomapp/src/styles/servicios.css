@@ -1,0 +1,18 @@
+/* Estilo para alinear los íconos de servicios horizontalmente */
+.icon-container {
+    display: flex; /* Utiliza flex para alinear horizontalmente */
+    justify-content: center; /* Centra los íconos en la página */
+    gap: 20px; /* Espaciado entre cada ícono */
+    margin-top: 20px;
+  }
+  
+  .icon-container img {
+    width: 80px; /* Ajusta el tamaño de los íconos según sea necesario */
+    cursor: pointer; /* Cambia el cursor cuando se pasa sobre los íconos */
+    transition: transform 0.2s; /* Efecto de transición al pasar el mouse sobre los íconos */
+  }
+  
+  .icon-container img:hover {
+    transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+  }
+  
