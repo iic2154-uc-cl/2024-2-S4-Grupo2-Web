@@ -123,11 +123,8 @@ function TurismoForm() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
-=======
-    <form className="form-container" onSubmit={handleSubmit}>
->>>>>>> 59af966b9814a526ded5307df11065d699c5c60b
+    <form className="form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }} onSubmit={handleSubmit}>
+
       <h1>Turismo</h1>
       <FormControl fullWidth>
         <InputLabel id="subcategoria-label">Subcategoría</InputLabel>

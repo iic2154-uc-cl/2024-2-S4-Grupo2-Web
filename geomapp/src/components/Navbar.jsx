@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logoo.png';
 import whatsapp from '../assets/whatsapp.png';
 
 function NavBar() {

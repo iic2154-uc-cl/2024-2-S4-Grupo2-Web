@@ -16,29 +16,42 @@ const HelloWorld = () => {
     return (
         <div id="hello-world-container">
             <Navbar />
-            <div className="background-image-container">    
-                    <h1 className="titulo">GeoMapp</h1>
+            <div className="background-image-container">
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <h1 className="titulo">GeoMapp</h1>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+      
+            <br></br>
+                <br></br>
+                <br>
+                </br>
+                <br></br>
+               
+                
+           
                     <br></br>
-                    
                     <br></br>
+              
                     <br></br>
+                    <h1 style={{ textAlign: 'right', marginRight: '20px', fontSize: '50px' }}>Conéctate con tu entorno donde sea que vayas.</h1>
                     <br></br>
-                    <br></br>
-                    
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
+                  
                     
                 
                
             </div>
             <br></br>
             <br></br>
+            <br></br>
+            
             <br></br>
             <br></br>
             

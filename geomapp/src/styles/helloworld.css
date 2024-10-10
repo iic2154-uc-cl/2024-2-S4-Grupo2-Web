@@ -11,14 +11,14 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: 'Montserrat';
+    font-family: 'San Francisco';
 
 }
 
 .content {
     flex: 1;
     padding: 20px;  /* Ajusta este valor según el padding que necesites */
-    font-family: 'Montserrat';
+    font-family: 'San Francisco';
 }
 
 .container {
@@ -31,7 +31,7 @@ html, body {
 .background-image-container {
     width: 100%;  /* Asegura que el contenedor tome toda la anchura */
     height: auto; /* Ajusta la altura automáticamente según la imagen */
-    background-image: url('../assets/buscar.jpg'); /* Cambia esto por la ruta real de tu imagen */
+    background-image: url('../assets/buscar3.jpg'); /* Cambia esto por la ruta real de tu imagen */
     background-size: cover; /* Asegura que la imagen cubra completamente el contenedor */
     background-position: center; /* Centra la imagen en el contenedor */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -40,13 +40,13 @@ html, body {
 
 @media (min-width: 768px) {
     .background-image-container {
-        background-image: url('../assets/buscar.jpg');
+        background-image: url('../assets/buscar3.jpg');
     }
 }
 
 @media (min-width: 1200px) {
     .background-image-container {
-        background-image: url('../assets/buscar.jpg'); /* Versión de alta resolución para pantallas grandes */
+        background-image: url('../assets/buscar3.jpg'); /* Versión de alta resolución para pantallas grandes */
     }
 }
 
@@ -79,7 +79,15 @@ html, body {
     font-weight: 400;
     font-style: normal;
     font-size: 100px;
+
+    
   }
+
+  .h1-borde-negro {
+    border: 2px solid black; /* Borde negro de 2px */
+    padding: 10px; /* Agrega un poco de padding para que el texto no quede pegado al borde */
+}
+
 
 .image-container {
 display: flex;
