@@ -88,6 +88,7 @@ function TurismoForm({ handleNext }) {
     } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
       newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
     }
+
     if (!formData.celularContacto && !formData.mailContacto) {
       newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
     } else {
@@ -98,6 +99,7 @@ function TurismoForm({ handleNext }) {
         newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
       }
     }
+    
     if (!formData.precioEntrada) {
       newErrors.precioEntrada = 'Se debe escribir un precio de entrada.';
     }
