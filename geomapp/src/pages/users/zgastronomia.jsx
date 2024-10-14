@@ -1,28 +1,39 @@
-/*import '../../styles/users/zgastronomia.css';
-import React, { useState, useRef, useEffect } from 'react';
-function GastronomiaForm() {
-  return (
-    <div>
-    <h1>Titulo</h1>
-    <h1>Descripcion</h1>
-    <h1>Fecha de inicio</h1>
-    <h1>Fecha de fin</h1>
-    <h1>Hora de inicio</h1>
-    <h1>Hora de fin</h1>
-    <h1>Subcategorias del evento</h1>
-    </div>
-  );
-}
-export default GastronomiaForm;*/
 import '../../styles/users/zgastronomia.css';
-import React, { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, TextField, Checkbox, FormControlLabel, Grid, Button } from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material';
 
-function GastronomiaForm() {
-    const [details, setDetails] = useState({
+const subcategories = [
+    { label: 'Restaurant', value: 'restaurant' },
+    { label: 'Cafetería', value: 'cafeteria' },
+    { label: 'Bar', value: 'bar' },
+    { label: 'Heladería', value: 'heladeria' }
+];
+function GastronomiaForm({ handleNext }) {
+    const [formData, setFormData] = useState({
+        subcategoria: '',
         titulo: '',
         descripcion: '',
         ubicacion: '',
+        nombreContacto: '',
+        celularContacto: '',
+        mailContacto: '',
+        instagram: '',
+        facebook: '',
+        paginaWeb: '',
+        abiertoEnFeriados: false,
+        disponible: false,
         horarios: {
             lunes: { inicio: '', fin: '', abierto: false },
             martes: { inicio: '', fin: '', abierto: false },
@@ -32,32 +43,20 @@ function GastronomiaForm() {
             sabado: { inicio: '', fin: '', abierto: false },
             domingo: { inicio: '', fin: '', abierto: false },
         },
-        nombreContacto: '',
-        numeroCelular: '',
-        mailContacto: '',
-        instagram: '',
-        facebook: '',
-        paginaWeb: '',
         aptoVeganos: false,
         aptoVegetarianos: false,
         aptoCeliacos: false,
-        disponible: false,
-        abiertoEnFeriados: false,
     });
 
-    const establishmentTypes = [
-        { label: 'Restaurant', value: 'restaurant' },
-        { label: 'Cafetería', value: 'cafeteria' },
-        { label: 'Bar', value: 'bar' },
-        { label: 'Heladería', value: 'heladeria' }
-    ];
+    const [errors, setErrors] = useState({});
 
-    const handleChange = (field, value) => {
-        setDetails(prev => ({ ...prev, [field]: value }));
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        setErrors(prev => ({ ...prev, [field]: '' })); // Reset error when value changes
     };
 
     const handleHorarioChange = (day, field, value) => {
-        setDetails(prev => ({
+        setFormData(prev => ({
             ...prev,
             horarios: {
                 ...prev.horarios,
@@ -67,7 +66,7 @@ function GastronomiaForm() {
     };
 
     const handleCheckboxChange = (day) => {
-        setDetails(prev => ({
+        setFormData(prev => ({
             ...prev,
             horarios: {
                 ...prev.horarios,
@@ -79,102 +78,168 @@ function GastronomiaForm() {
         }));
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.subcategoria) {newErrors.subcategoria = 'Selecciona un tipo de establecimiento.';}
+        if (!formData.titulo) {newErrors.titulo = 'Escribe un título.';}
+        if (!formData.descripcion) {newErrors.descripcion = 'Escribe una descripción.';}
+        if (!formData.ubicacion) {
+          newErrors.ubicacion = 'Escribe una ubicación (Ej: Calle 123, Comuna, Ciudad).';
+        } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
+          newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
+        }
+        if (!formData.celularContacto && !formData.mailContacto) {
+          newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
+        } else {
+          if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
+            newErrors.celularContacto = 'El número de celular debe contener solo números. Ej: 9 8765 4321.';
+          }
+          if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
+            newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
+          }
+        }
+
+        if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
+          newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web. Ej: https://www.ejemplo.com';
+        }
+        if (formData.disponible) {
+          Object.keys(formData.horarios).forEach(day => {
+            if (formData.horarios[day].abierto && (!formData.horarios[day].inicio || !formData.horarios[day].fin)) {
+              newErrors[`horario_${day}`] = `A los días seleccionados abiertos debes ponerle hora de inicio y fin.`;
+            }
+          });
+        }
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+      };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+          console.log('Formulario válido, proceder...');
+          handleNext(); 
+        } else {
+          console.log('Errores en el formulario:', errors);
+        }
+      };
+
 
     return (
-        <div>
+        <form className="form-container" onSubmit={handleSubmit}>
             <h1>Gastronomía</h1>
-            <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormControl fullWidth>
                 <InputLabel id="establishment-type-label">Tipo de Establecimiento</InputLabel>
                 <Select
                     labelId="establishment-type-label"
                     id="establishment-type"
-                    value={details.establishmentType || ''}
+                    value={formData.subcategoria}
                     label="Tipo de Establecimiento"
-                    onChange={(e) => handleChange('establishmentType', e.target.value)}
+                    onChange={(e) => handleInputChange('subcategoria', e.target.value)}
                 >
-                    {establishmentTypes.map((type) => (
+                    {subcategories.map((type) => (
                         <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
                     ))}
                 </Select>
+                {errors.subcategoria && <Typography color="error">{errors.subcategoria}</Typography>}
             </FormControl>
 
             <TextField
                 fullWidth
                 label="Título"
-                value={details.titulo}
-                onChange={(e) => handleChange('titulo', e.target.value)}
-                sx={{ mb: 2 }}
+                value={formData.titulo}
+                onChange={(e) => handleInputChange('titulo', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.titulo)}
+                helperText={errors.titulo}
             />
 
             <TextField
                 fullWidth
                 label="Descripción"
-                value={details.descripcion}
-                onChange={(e) => handleChange('descripcion', e.target.value)}
-                sx={{ mb: 2 }}
+                value={formData.descripcion}
+                onChange={(e) => handleInputChange('descripcion', e.target.value)}
+                margin="normal"
+                multiline
+                rows={4}
+                error={Boolean(errors.descripcion)}
+                helperText={errors.descripcion}
             />
 
             <TextField
                 fullWidth
-                label="Ubicación"
-                value={details.ubicacion}
-                onChange={(e) => handleChange('ubicacion', e.target.value)}
-                sx={{ mb: 2 }}
+                label="Ubicación: Calle 123, Comuna, Ciudad"
+                value={formData.ubicacion}
+                onChange={(e) => handleInputChange('ubicacion', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.ubicacion)}
+                helperText={errors.ubicacion}
             />
 
             <TextField
                 fullWidth
                 label="Nombre de Contacto"
-                value={details.nombreContacto}
-                onChange={(e) => handleChange('nombreContacto', e.target.value)}
-                sx={{ mb: 2 }}
+                value={formData.nombreContacto}
+                onChange={(e) => handleInputChange('nombreContacto', e.target.value)}
+                margin="normal"
             />
 
             <TextField
                 fullWidth
-                label="Número de Celular de Contacto"
-                value={details.numeroCelular}
-                onChange={(e) => handleChange('numeroCelular', e.target.value)}
-                sx={{ mb: 2 }}
+                label="Número de Celular de Contacto: 9 1122 3344"
+                value={formData.celularContacto}
+                onChange={(e) => handleInputChange('celularContacto', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.celularContacto)}
+                helperText={errors.celularContacto}
+                type= "number"
             />
 
             <TextField
                 fullWidth
-                label="Mail de Contacto"
-                value={details.mailContacto}
-                onChange={(e) => handleChange('mailContacto', e.target.value)}
-                sx={{ mb: 2 }}
+                label="Mail de Contacto: usuario@dominio.com"
+                value={formData.mailContacto}
+                onChange={(e) => handleInputChange('mailContacto', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.mailContacto)}
+                helperText={errors.mailContacto}
+            />
+            
+            {errors.contacto && <Typography color="error">{errors.contacto}</Typography>} {/* Mensaje de error de contacto */}
+
+
+            <TextField
+                fullWidth
+                label="Instagram: usuario"
+                value={formData.instagram}
+                onChange={(e) => handleInputChange('instagram', e.target.value)}
+                margin="normal"
             />
 
             <TextField
                 fullWidth
-                label="Instagram"
-                value={details.instagram}
-                onChange={(e) => handleChange('instagram', e.target.value)}
-                sx={{ mb: 2 }}
+                label="Facebook: usuario"
+                value={formData.facebook}
+                onChange={(e) => handleInputChange('facebook', e.target.value)}
+                 margin="normal"
             />
 
             <TextField
                 fullWidth
-                label="Facebook"
-                value={details.facebook}
-                onChange={(e) => handleChange('facebook', e.target.value)}
-                sx={{ mb: 2 }}
-            />
-
-            <TextField
-                fullWidth
-                label="Página Web"
-                value={details.paginaWeb}
-                onChange={(e) => handleChange('paginaWeb', e.target.value)}
-                sx={{ mb: 2 }}
+                label="Página Web: https://www.ejemplo.com"
+                value={formData.paginaWeb}
+                onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.paginaWeb)}
+                helperText={errors.paginaWeb}
             />
 
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.abiertoEnFeriados}
-                        onChange={(e) => handleChange('abiertoEnFeriados', e.target.checked)}
+                        checked={formData.abiertoEnFeriados}
+                        onChange={(e) => handleInputChange('abiertoEnFeriados', e.target.checked)}
                     />
                 }
                 label="Abierto en Feriados"
@@ -182,46 +247,47 @@ function GastronomiaForm() {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.disponible}
-                        onChange={(e) => handleChange('disponible', e.target.checked)}
+                        checked={formData.disponible}
+                        onChange={(e) => handleInputChange('disponible', e.target.checked)}
                     />
                 }
                 label="Actualmente Disponible"
             />
 
-            {details.disponible && (
+            {formData.disponible && (
                 <>
                     <h3>Horarios de Apertura por Día</h3>
                     <Grid container spacing={2}>
-                        {Object.keys(details.horarios).map(day => (
+                        {Object.keys(formData.horarios).map(day => (
                             <Grid item xs={12} sm={6} md={4} key={day}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={details.horarios[day].abierto}
+                                            checked={formData.horarios[day].abierto}
                                             onChange={() => handleCheckboxChange(day)}
                                         />
                                     }
                                     label={`Abierto ${day.charAt(0).toUpperCase() + day.slice(1)}`}
                                 />
-                                {details.horarios[day].abierto && (
+                                {formData.horarios[day].abierto && (
                                     <>
                                         <TextField
                                             fullWidth
                                             label="Hora Inicio"
                                             type="time"
-                                            value={details.horarios[day].inicio}
+                                            value={formData.horarios[day].inicio}
                                             onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
-                                            sx={{ mb: 1 }}
+                                            margin="normal"
                                         />
                                         <TextField
                                             fullWidth
                                             label="Hora Fin"
                                             type="time"
-                                            value={details.horarios[day].fin}
+                                            value={formData.horarios[day].fin}
                                             onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
-                                            sx={{ mb: 2 }}
+                                            margin="normal"
                                         />
+                                        {errors[`horario_${day}`] && <Typography color="error">{errors[`horario_${day}`]}</Typography>}
                                     </>
                                 )}
                             </Grid>
@@ -238,8 +304,8 @@ function GastronomiaForm() {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.aptoVeganos}
-                        onChange={(e) => handleChange('aptoVeganos', e.target.checked)}
+                        checked={formData.aptoVeganos}
+                        onChange={(e) => handleInputChange('aptoVeganos', e.target.checked)}
                     />
                 }
                 label="Apto para Veganos"
@@ -248,8 +314,8 @@ function GastronomiaForm() {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.aptoVegetarianos}
-                        onChange={(e) => handleChange('aptoVegetarianos', e.target.checked)}
+                        checked={formData.aptoVegetarianos}
+                        onChange={(e) => handleInputChange('aptoVegetarianos', e.target.checked)}
                     />
                 }
                 label="Apto para Vegetarianos"
@@ -258,16 +324,26 @@ function GastronomiaForm() {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.aptoCeliacos}
-                        onChange={(e) => handleChange('aptoCeliacos', e.target.checked)}
+                        checked={formData.aptoCeliacos}
+                        onChange={(e) => handleInputChange('aptoCeliacos', e.target.checked)}
                     />
                 }
                 label="Apto para Celíacos"
             />
             </div>
 
-        </div>
+            <div>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                Enviar
+            </Button>
+            </div>
+
+        </form>
     );
 }
 
+GastronomiaForm.propTypes = {
+    handleNext: PropTypes.func.isRequired,
+  };
 export default GastronomiaForm;
+

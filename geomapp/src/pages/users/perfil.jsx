@@ -5,29 +5,36 @@ import Footer from '../../components/Footer';
 import '../../styles/users/perfil.css'; // Verifica que la ruta al CSS sea correcta
 
 const Perfil = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user, isAuthenticated, isLoading, logout } = useAuth0(); // Agregamos logout
 
-  if (isLoading) {
-    return <div>Cargando...</div>;
-  }
+    if (isLoading) {
+        return <div>Cargando...</div>;
+    }
 
-  return (
-    isAuthenticated ? (
-      <div id="perfil-container">
-        <Navbar />
-        <div className="perfil-info">
-          <h1>Mi Perfil</h1>
-          <img src={user.picture} alt={user.name} className="perfil-avatar" />
-          <h2>{user.name}</h2>
-          <p>Email: {user.email}</p>
-          {/* Puedes agregar más información de perfil aquí si es necesario */}
-        </div>
-        <Footer />
-      </div>
-    ) : (
-      <div>No está autenticado</div>
-    )
-  );
-}
+    return (
+        isAuthenticated ? (
+            <div id="perfil-container">
+                <Navbar />
+                <div className="perfil-info">
+                    <h1>Mi Perfil</h1>
+                    <img src={user.picture} alt={user.name} className="perfil-avatar" />
+                    <h2>{user.name}</h2>
+                    <p>Email: {user.email}</p>
+
+                    {/* Botón de cerrar sesión */}
+                    <button 
+                        className="cerrar-sesion-button" 
+                        onClick={() => logout({ returnTo: window.location.origin })}
+                    >
+                        Cerrar sesión
+                    </button>
+                </div>
+                <Footer />
+            </div>
+        ) : (
+            <div>No está autenticado</div>
+        )
+    );
+};
 
 export default Perfil;

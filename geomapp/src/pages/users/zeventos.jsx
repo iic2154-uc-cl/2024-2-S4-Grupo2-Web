@@ -1,20 +1,4 @@
-/*import '../../styles/users/zeventos.css';
-import React, { useState, useRef, useEffect } from 'react';
 
-function EventosForm() {
-  return (
-    <div>
-    <h1>Titulo</h1>
-    <h1>Descripcion</h1>
-    <h1>Fecha de inicio</h1>
-    <h1>Fecha de fin</h1>
-    <h1>Hora de inicio</h1>
-    <h1>Hora de fin</h1>
-    <h1>Subcategorias del evento</h1>
-    </div>
-  );
-}
-export default EventosForm;*/
 import '../../styles/users/zeventos.css';
 import React, { useState } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
@@ -162,7 +146,6 @@ function EventosForm() {
             />
 
             <div>
-            {/* Selector de Fechas */}
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label="Seleccionar Fechas Disponibles"
@@ -174,14 +157,13 @@ function EventosForm() {
 
             
 
-            {/* Muestra las fechas seleccionadas con horarios en un contenedor flex */}
             <div>
                 <h3>Fechas seleccionadas:</h3>
                 <p>A continuación se mostrarán las fechas selecciondas por usted. Por favor, ingresa hora de inicio y fin para cada fecha seleccionada.</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {eventDetails.fechasDisponibles.map((fecha, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center', width: '30%', marginRight: '5%', marginBottom: '16px' }}>
-                            <p style={{ fontWeight: 'bold', marginRight: '8px' }}>{fecha.fecha}</p> {/* Fecha en negrita */}
+                            <p style={{ fontWeight: 'bold', marginRight: '8px' }}>{fecha.fecha}</p> 
                             <TextField
                                 label="Hora Inicio"
                                 type="time"
@@ -205,4 +187,3 @@ function EventosForm() {
 }
 
 export default EventosForm;
-

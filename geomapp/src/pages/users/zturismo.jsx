@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';*/
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   TextField,
   MenuItem,
@@ -20,7 +22,7 @@ const subcategories = [
   { label: 'Entretención', value: 'entretencion' },
 ];
 
-function TurismoForm() {
+function TurismoForm({ handleNext }) {
   const [formData, setFormData] = useState({
     subcategoria: '',
     titulo: '',
@@ -78,27 +80,29 @@ function TurismoForm() {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.subcategoria) newErrors.subcategoria = 'Por favor, selecciona una subcategoría.';
-    if (!formData.titulo) newErrors.titulo = 'Escribe un título.';
-    if (!formData.descripcion) newErrors.descripcion = 'Escribe una descripción.';
+    if (!formData.subcategoria) {newErrors.subcategoria = 'Selecciona una subcategoría.';}
+    if (!formData.titulo) {newErrors.titulo = 'Escribe un título.';}
+    if (!formData.descripcion) {newErrors.descripcion = 'Escribe una descripción.';}
     if (!formData.ubicacion) {
-      newErrors.ubicacion = 'Escribe una ubicación.';
+      newErrors.ubicacion = 'Escribe una ubicación (Ej: Calle 123, Comuna, Ciudad).';
     } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
-      newErrors.ubicacion = 'Debes seguir el formato de dirección.';
+      newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
     }
     if (!formData.celularContacto && !formData.mailContacto) {
       newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
     } else {
       if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
-        newErrors.celularContacto = 'El número de celular debe contener solo números.';
+        newErrors.celularContacto = 'El número de celular debe contener solo números. Ej: 9 8765 4321.';
       }
       if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
-        newErrors.mailContacto = 'Escribir el email en su debido formato.';
+        newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
       }
     }
-    if (!formData.precioEntrada) newErrors.precioEntrada = 'Se debe escribir un precio de entrada.';
+    if (!formData.precioEntrada) {
+      newErrors.precioEntrada = 'Se debe escribir un precio de entrada.';
+    }
     if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
-      newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web.';
+      newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web. Ej: https://www.ejemplo.com';
     }
     if (formData.disponible) {
       Object.keys(formData.horarios).forEach(day => {
@@ -115,8 +119,8 @@ function TurismoForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Aquí va el código para proceder al siguiente paso
       console.log('Formulario válido, proceder...');
+      handleNext(); 
     } else {
       console.log('Errores en el formulario:', errors);
     }
@@ -164,7 +168,7 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Ubicación"
+        label="Ubicación: Calle 123, Comuna, Ciudad"
         value={formData.ubicacion}
         onChange={(e) => handleInputChange('ubicacion', e.target.value)}
         margin="normal"
@@ -182,17 +186,18 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Número de Celular Contacto"
+        label="Número de Celular Contacto: 9 1122 3344"
         value={formData.celularContacto}
         onChange={(e) => handleInputChange('celularContacto', e.target.value)}
         margin="normal"
         error={Boolean(errors.celularContacto)}
         helperText={errors.celularContacto}
+        type= "number"
       />
 
       <TextField
         fullWidth
-        label="Mail Contacto"
+        label="Mail Contacto: usuario@dominio.com"
         value={formData.mailContacto}
         onChange={(e) => handleInputChange('mailContacto', e.target.value)}
         margin="normal"
@@ -204,7 +209,7 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Instagram"
+        label="Instagram: usuario"
         value={formData.instagram}
         onChange={(e) => handleInputChange('instagram', e.target.value)}
         margin="normal"
@@ -212,7 +217,7 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Facebook"
+        label="Facebook: usuario"
         value={formData.facebook}
         onChange={(e) => handleInputChange('facebook', e.target.value)}
         margin="normal"
@@ -220,7 +225,7 @@ function TurismoForm() {
 
       <TextField
         fullWidth
-        label="Página Web"
+        label="Página Web: https://www.ejemplo.com"
         value={formData.paginaWeb}
         onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
         margin="normal"
@@ -289,11 +294,16 @@ function TurismoForm() {
         </>
       )}
 
+      <div>
       <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
         Enviar
       </Button>
+      </div>
     </form>
   );
 }
 
+TurismoForm.propTypes = {
+  handleNext: PropTypes.func.isRequired,
+};
 export default TurismoForm;

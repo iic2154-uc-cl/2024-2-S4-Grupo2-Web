@@ -1,21 +1,17 @@
-/*import '../../styles/users/zcentros.css';
-import React, { useState, useRef, useEffect } from 'react';
-function CentrosDeportivosForm() {
-  return (
-    <div>
-    <h1>Titulo</h1>
-    <h1>Descripcion</h1>
-    <h1>Fecha de inicio</h1>
-    <h1>Fecha de fin</h1>
-    <h1>Hora de inicio</h1>
-    <h1>Hora de fin</h1>
-    <h1>Subcategorias del evento</h1>
-    </div>    
-  );
-}
-export default CentrosDeportivosForm;*/
-import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select, Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 const subcategories = [
     { label: 'Estadios', value: 'estadios' },
@@ -27,15 +23,13 @@ const subcategories = [
     { label: 'Piscina', value: 'piscina' },
 ];
 
-function CentrosDeportivosForm() {
+function CentrosDeportivosForm({ handleNext }) {
     const [formData, setFormData] = useState({
         subcategoria: '',
         titulo: '',
         descripcion: '',
         reglas: '',
         ubicacion: '',
-        horarioInicio: '',
-        horarioFin: '',
         nombreContacto: '',
         celularContacto: '',
         mailContacto: '',
@@ -55,8 +49,13 @@ function CentrosDeportivosForm() {
         },
     });
 
+    const [errors, setErrors] = useState({});
+
+
     const handleInputChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+        setErrors(prev => ({ ...prev, [field]: '' })); // Reset error when value changes
+
     };
 
     const handleHorarioChange = (day, field, value) => {
@@ -82,8 +81,57 @@ function CentrosDeportivosForm() {
         }));
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.subcategoria) {newErrors.subcategoria = 'Selecciona una subcategoría.';}
+        if (!formData.titulo) {newErrors.titulo = 'Escribe un título.';}
+        if (!formData.descripcion) {newErrors.descripcion = 'Escribe una descripción.';}
+        if (!formData.ubicacion) {
+          newErrors.ubicacion = 'Escribe una ubicación (Ej: Calle 123, Comuna, Ciudad).';
+        } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
+          newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
+        }
+        if (!formData.celularContacto && !formData.mailContacto) {
+          newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
+        } else {
+          if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
+            newErrors.celularContacto = 'El número de celular debe contener solo números. Ej: 9 8765 4321.';
+          }
+          if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
+            newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
+          }
+        }
+        if (!formData.precio) {
+          newErrors.precio = 'Se debe escribir un precio.';
+        }
+        if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
+          newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web. Ej: https://www.ejemplo.com';
+        }
+        if (formData.disponible) {
+          Object.keys(formData.horarios).forEach(day => {
+            if (formData.horarios[day].abierto && (!formData.horarios[day].inicio || !formData.horarios[day].fin)) {
+              newErrors[`horario_${day}`] = `A los días seleccionados abiertos debes ponerle hora de inicio y fin.`;
+            }
+          });
+        }
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+          console.log('Formulario válido, proceder...');
+          handleNext(); 
+        } else {
+          console.log('Errores en el formulario:', errors);
+        }
+      };
+
     return (
-        <div className="form-container">
+        <form className="form-container" onSubmit={handleSubmit}>
             <h1>Centros Deportivos</h1>
             <FormControl fullWidth>
                 <InputLabel id="subcategoria-label">Subcategoría</InputLabel>
@@ -97,6 +145,7 @@ function CentrosDeportivosForm() {
                         <MenuItem key={sub.value} value={sub.value}>{sub.label}</MenuItem>
                     ))}
                 </Select>
+                {errors.subcategoria && <Typography color="error">{errors.subcategoria}</Typography>}
             </FormControl>
 
             <TextField
@@ -105,6 +154,8 @@ function CentrosDeportivosForm() {
                 value={formData.titulo}
                 onChange={(e) => handleInputChange('titulo', e.target.value)}
                 margin="normal"
+                error={Boolean(errors.titulo)}
+                helperText={errors.titulo}
             />
 
             <TextField
@@ -115,6 +166,8 @@ function CentrosDeportivosForm() {
                 margin="normal"
                 multiline
                 rows={4}
+                error={Boolean(errors.descripcion)}
+                helperText={errors.descripcion}
             />
 
             <TextField
@@ -129,11 +182,70 @@ function CentrosDeportivosForm() {
 
             <TextField
                 fullWidth
-                label="Ubicación"
+                label="Ubicación: Calle 123, Comuna, Ciudad"
                 value={formData.ubicacion}
                 onChange={(e) => handleInputChange('ubicacion', e.target.value)}
                 margin="normal"
+                error={Boolean(errors.ubicacion)}
+                helperText={errors.ubicacion}
             />
+
+            <TextField
+                fullWidth
+                label="Nombre Contacto"
+                value={formData.nombreContacto}
+                onChange={(e) => handleInputChange('nombreContacto', e.target.value)}
+                margin="normal"
+            />
+
+            <TextField
+                fullWidth
+                label="Número de Celular Contacto: 9 1122 3344"
+                value={formData.celularContacto}
+                onChange={(e) => handleInputChange('celularContacto', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.celularContacto)}
+                helperText={errors.celularContacto}
+                type = "number"
+            />
+
+            <TextField
+                fullWidth
+                label="Mail Contacto: usuario@dominio.com"
+                value={formData.mailContacto}
+                onChange={(e) => handleInputChange('mailContacto', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.mailContacto)}
+                helperText={errors.mailContacto}
+            />
+            {errors.contacto && <Typography color="error">{errors.contacto}</Typography>} {/* Mensaje de error de contacto */}
+            
+            <TextField
+                fullWidth
+                label="Instagram: usuario"
+                value={formData.instagram}
+                onChange={(e) => handleInputChange('instagram', e.target.value)}
+                margin="normal"
+            />
+
+            <TextField
+                fullWidth
+                label="Facebook: usuario"
+                value={formData.facebook}
+                onChange={(e) => handleInputChange('facebook', e.target.value)}
+                margin="normal"
+            />
+
+            <TextField
+                fullWidth
+                label="Página Web: https://www.ejemplo.com"
+                value={formData.paginaWeb}
+                onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
+                margin="normal"
+                error={Boolean(errors.paginaWeb)}
+                helperText={errors.paginaWeb}
+            />
+
 
             <TextField
                 fullWidth
@@ -142,6 +254,8 @@ function CentrosDeportivosForm() {
                 onChange={(e) => handleInputChange('precio', e.target.value)}
                 margin="normal"
                 type="number"
+                error={Boolean(errors.precio)}
+                helperText={errors.precio}
             />
 
             <FormControlLabel
@@ -187,6 +301,7 @@ function CentrosDeportivosForm() {
                                             onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
                                             margin="normal"
                                         />
+                                        {errors[`horario_${day}`] && <Typography color="error">{errors[`horario_${day}`]}</Typography>}
                                     </>
                                 )}
                             </Grid>
@@ -195,9 +310,16 @@ function CentrosDeportivosForm() {
                 </>
             )}
 
+            <div>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                Enviar
+            </Button>
+            </div>
 
-        </div>
+        </form>
     );
 }
-
+CentrosDeportivosForm.propTypes = {
+    handleNext: PropTypes.func.isRequired,
+  };
 export default CentrosDeportivosForm;

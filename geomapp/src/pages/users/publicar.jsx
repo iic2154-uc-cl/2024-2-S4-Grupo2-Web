@@ -77,17 +77,17 @@ function Publicar() {
                 );
             case 1:
                 if (selectedType === 'turismo') {
-                    return <TurismoForm />;
+                    return <TurismoForm handleNext={handleNext} />;
                 } else if (selectedType === 'centros-deportivos') {
-                    return <CentrosDeportivosForm />;
+                    return <CentrosDeportivosForm handleNext={handleNext}/>;
                 } else if (selectedType === 'hospedaje') {
-                    return <HospedajeForm />;
+                    return <HospedajeForm handleNext={handleNext}/>;
                 } else if (selectedType === 'eventos') {
-                    return <EventosForm />;
+                    return <EventosForm handleNext={handleNext}/>;
                 } else if (selectedType === 'gastronomia') {
-                    return <GastronomiaForm />;
+                    return <GastronomiaForm handleNext={handleNext}/>;
                 } else if (selectedType === 'servicios-comunitarios') {
-                    return <ServiciosForm />;
+                    return <ServiciosForm handleNext={handleNext}/>;
                 } else {
                     return 'Vuelve atrás y selecciona tu tipo de publicación.';
                 }

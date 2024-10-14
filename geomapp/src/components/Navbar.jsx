@@ -7,43 +7,37 @@ import logo from '../assets/logo.png';
 import whatsapp from '../assets/whatsapp.png';
 
 function NavBar() {
-    const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+    const { loginWithRedirect, isAuthenticated } = useAuth0(); // Eliminamos 'logout'
 
     return (
         <div className="navbar">
-    
             <div className="navbar-content">
                 <div className="navbar-links">
-                  <Link to="/">
-                    <img src={logo} className="navbar-logo"></img>
-                  </Link>
+                    <Link to="/">
+                        <img src={logo} className="navbar-logo" alt="Logo" />
+                    </Link>
 
                     <Link to="/mapa-navegacion" className="footer-link">Mapa de navegación</Link>
-                    {/* <a href="/publicar">Publicar</a> */}
                     <Link to="/servicios" className="footer-link">Servicios</Link>
+
                     {isAuthenticated && (
-                        <Link to="/mi-perfil" className="footer-link">Mi Perfil</Link>
+                        <>
+                            <Link to="/mi-perfil" className="footer-link">Mi Perfil</Link>
+                            <Link to="/publicaciones" className="footer-link">Mis Publicaciones</Link>
+                        </>
                     )}
-                    {isAuthenticated && (
-                        <Link to="/publicaciones" className="footer-link">Mis publicaciones</Link>
+
+                    {!isAuthenticated && (
+                        <a className="footer-link" onClick={loginWithRedirect}>Iniciar sesión</a>
                     )}
-         
-                    {!isAuthenticated ? (
-                        <a className="footer-link" onClick={loginWithRedirect} >Iniciar sesión</a>
-                    ) : (
-                        <a className="footer-link" onClick={() => logout({ returnTo: window.location.origin })}>Cerrar sesión</a>
-                    )}
-            
                 </div>
-                
             </div>
+
             <div onClick={() => alert('Connecting to WhatsApp')}>
-                <img src={whatsapp} className="navbar-logo"></img>
-              
+                <img src={whatsapp} className="navbar-logo" alt="WhatsApp" />
             </div>
         </div>
     );
 }
 
 export default NavBar;
-

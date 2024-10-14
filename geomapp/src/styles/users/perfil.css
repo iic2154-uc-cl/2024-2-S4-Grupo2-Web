@@ -17,3 +17,20 @@ html, body {
     flex: 1;  /* Esto asegura que el contenido interno expanda para empujar el footer hacia abajo */
     /* Asegúrate de no tener un overflow oculto aquí */
 }
+
+.cerrar-sesion-button {
+    background-color: #3a06aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cerrar-sesion-button:hover {
+    background-color: #06066b;
+  }
+  

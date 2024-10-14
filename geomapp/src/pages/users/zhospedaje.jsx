@@ -1,208 +1,287 @@
-/*import '../../styles/users/zhospedaje.css';
-import React, { useState, useRef, useEffect } from 'react';
-
-function HospedajeForm() {
-  return (
-    <div>
-    <h1>Titulo</h1>
-    <h1>Descripcion</h1>
-    <h1>Fecha de inicio</h1>
-    <h1>Fecha de fin</h1>
-    <h1>Hora de inicio</h1>
-    <h1>Hora de fin</h1>
-    <h1>Subcategorias del evento</h1>
-    </div>
-  );
-}
-export default HospedajeForm;*/
 import '../../styles/users/zhospedaje.css';
-import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material';
 
-function HospedajeForm() {
-  const [details, setDetails] = useState({
-    tipo: '',
+const subcategories = [
+  { label: 'Hotel', value: 'hotel' },
+  { label: 'Cabaña', value: 'cabana' },
+  { label: 'Camping', value: 'camping' }
+];
+
+function HospedajeForm({ handleNext }) {
+  const [formData, setFormData] = useState({
+    subcategoria: '',
     titulo: '',
     descripcion: '',
     ubicacion: '',
-    disponible: false,
     dormitorios: '',
     camasSimples: '',
     camasDobles: '',
-    incluyeDesayuno: false,
-    incluyeToallasSabanas: false,
     cantidadMinima: '',
     cantidadMaxima: '',
     nombreContacto: '',
-    numeroCelular: '',
+    celularContacto: '',
     mailContacto: '',
     instagram: '',
     facebook: '',
     paginaWeb: '',
-    precioPorNoche: ''
+    precioPorNoche: '',
+    disponible: false,
+    incluyeDesayuno: false,
+    incluyeToallasSabanas: false
   });
 
-  const handleChange = (field, value) => {
-    setDetails(prev => ({ ...prev, [field]: value }));
+  const [errors, setErrors] = useState({});
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' })); // Reset error when value changes
   };
 
-  const typesOfAccommodation = [
-    { label: 'Hotel', value: 'hotel' },
-    { label: 'Cabaña', value: 'cabana' },
-    { label: 'Camping', value: 'camping' }
-  ];
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.subcategoria) {newErrors.subcategoria = 'Selecciona un tipo de acomodación.';}
+    if (!formData.titulo) {newErrors.titulo = 'Escribe un título.';}
+    if (!formData.descripcion) {newErrors.descripcion = 'Escribe una descripción.';}
+    if (!formData.ubicacion) {
+      newErrors.ubicacion = 'Escribe una ubicación (Ej: Calle 123, Comuna, Ciudad).';
+    } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
+      newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
+    }
 
+    if (!formData.dormitorios) {newErrors.dormitorios = 'Ingresa cantidad de dormitorios.';}
+    if (!formData.camasSimples) {newErrors.camasSimples = 'Ingresa cantidad de camas simples.';}
+    if (!formData.camasDobles) {newErrors.camasDobles = 'Ingresa cantidad de camas dobles.';}
+    if (!formData.cantidadMaxima) {newErrors.cantidadMaxima = 'Ingresa cantidad máxima de personas para la acomodación.';}
+    if (!formData.cantidadMinima) {newErrors.cantidadMinima = 'Ingresa cantidad mínima de personas para la acomodación.';}
 
+    if (!formData.celularContacto && !formData.mailContacto) {
+      newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
+    } else {
+      if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
+        newErrors.celularContacto = 'El número de celular debe contener solo números. Ej: 9 8765 4321.';
+      }
+      if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
+        newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
+      }
+    }
+    if (!formData.precioPorNoche) {
+      newErrors.precioPorNoche = 'Se debe escribir un precio por noche.';
+    }
+    if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
+      newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web. Ej: https://www.ejemplo.com';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Formulario válido, proceder...');
+      handleNext(); 
+    } else {
+      console.log('Errores en el formulario:', errors);
+    }
+  };
+
+  
 
   return (
-    <div>
+    <form className="form-container" onSubmit={handleSubmit}>
       <h1>Hospedaje</h1>
-      <FormControl fullWidth sx={{ mb: 2 }}>
+      
+      <FormControl fullWidth>
         <InputLabel id="tipo-acomodacion-label">Tipo de Acomodación</InputLabel>
         <Select
           labelId="tipo-acomodacion-label"
           id="tipo-acomodacion"
-          value={details.tipo}
+          value={formData.subcategoria}
           label="Tipo de Acomodación"
-          onChange={(e) => handleChange('tipo', e.target.value)}
+          onChange={(e) => handleInputChange('subcategoria', e.target.value)}
         >
-          {typesOfAccommodation.map((type) => (
+          {subcategories.map((type) => (
             <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
           ))}
         </Select>
+        {errors.subcategoria && <Typography color="error">{errors.subcategoria}</Typography>}
+
       </FormControl>
 
       <TextField
         fullWidth
         label="Título"
-        value={details.titulo}
-        onChange={(e) => handleChange('titulo', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.titulo}
+        onChange={(e) => handleInputChange('titulo', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.titulo)}
+        helperText={errors.titulo}
       />
 
       <TextField
         fullWidth
         label="Descripción"
-        value={details.descripcion}
-        onChange={(e) => handleChange('descripcion', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.descripcion}
+        onChange={(e) => handleInputChange('descripcion', e.target.value)}
+        margin="normal"
+        multiline
+        rows={4}
+        error={Boolean(errors.descripcion)}
+        helperText={errors.descripcion}
       />
 
       <TextField
         fullWidth
-        label="Ubicación"
-        value={details.ubicacion}
-        onChange={(e) => handleChange('ubicacion', e.target.value)}
-        sx={{ mb: 2 }}
+        label="Ubicación: Calle 123, Comuna, Ciudad"
+        value={formData.ubicacion}
+        onChange={(e) => handleInputChange('ubicacion', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.ubicacion)}
+        helperText={errors.ubicacion}
       />
 
       <TextField
         fullWidth
         label="Dormitorios"
         type="number"
-        value={details.dormitorios}
-        onChange={(e) => handleChange('dormitorios', e.target.value)}
-        sx={{ mb: 2 }}
+        margin="normal"
+        value={formData.dormitorios}
+        onChange={(e) => handleInputChange('dormitorios', e.target.value)}
+        error={Boolean(errors.dormitorios)}
+        helperText={errors.dormitorios}
       />
 
       <TextField
         fullWidth
         label="Camas Simples"
         type="number"
-        value={details.camasSimples}
-        onChange={(e) => handleChange('camasSimples', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.camasSimples}
+        onChange={(e) => handleInputChange('camasSimples', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.camasSimples)}
+        helperText={errors.camasSimples}
       />
 
       <TextField
         fullWidth
         label="Camas Dobles"
         type="number"
-        value={details.camasDobles}
-        onChange={(e) => handleChange('camasDobles', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.camasDobles}
+        onChange={(e) => handleInputChange('camasDobles', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.camasDobles)}
+        helperText={errors.camasDobles}
       />
 
       <TextField
         fullWidth
         label="Cantidad Mínima de Personas"
         type="number"
-        value={details.cantidadMinima}
-        onChange={(e) => handleChange('cantidadMinima', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.cantidadMinima}
+        onChange={(e) => handleInputChange('cantidadMinima', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.cantidadMinima)}
+        helperText={errors.cantidadMinima}
       />
 
       <TextField
         fullWidth
         label="Cantidad Máxima de Personas"
         type="number"
-        value={details.cantidadMaxima}
-        onChange={(e) => handleChange('cantidadMaxima', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.cantidadMaxima}
+        onChange={(e) => handleInputChange('cantidadMaxima', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.cantidadMaxima)}
+        helperText={errors.cantidadMaxima}
       />
 
       <TextField
         fullWidth
         label="Nombre de Contacto"
-        value={details.nombreContacto}
-        onChange={(e) => handleChange('nombreContacto', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.nombreContacto}
+        onChange={(e) => handleInputChange('nombreContacto', e.target.value)}
+        margin="normal"
       />
 
       <TextField
         fullWidth
-        label="Número de Celular de Contacto"
-        value={details.numeroCelular}
-        onChange={(e) => handleChange('numeroCelular', e.target.value)}
-        sx={{ mb: 2 }}
+        label="Número de Celular de Contacto: 9 1122 3344"
+        value={formData.celularContacto}
+        onChange={(e) => handleInputChange('celularContacto', e.target.value)}
+        margin="normal"
+        type = "number"
+        error={Boolean(errors.celularContacto)}
+        helperText={errors.celularContacto}
       />
 
       <TextField
         fullWidth
-        label="Mail de Contacto"
-        value={details.mailContacto}
-        onChange={(e) => handleChange('mailContacto', e.target.value)}
-        sx={{ mb: 2 }}
+        label="Mail de Contacto: usuario@dominio.com"
+        value={formData.mailContacto}
+        onChange={(e) => handleInputChange('mailContacto', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.mailContacto)}
+        helperText={errors.mailContacto}
+      />
+      
+      {errors.contacto && <Typography color="error">{errors.contacto}</Typography>} {/* Mensaje de error de contacto */}
+
+      <TextField
+        fullWidth
+        label="Instagram: usuario"
+        value={formData.instagram}
+        onChange={(e) => handleInputChange('instagram', e.target.value)}
+        margin="normal"
       />
 
       <TextField
         fullWidth
-        label="Instagram"
-        value={details.instagram}
-        onChange={(e) => handleChange('instagram', e.target.value)}
-        sx={{ mb: 2 }}
+        label="Facebook: usuario"
+        value={formData.facebook}
+        onChange={(e) => handleInputChange('facebook', e.target.value)}
+        margin="normal"
       />
 
       <TextField
         fullWidth
-        label="Facebook"
-        value={details.facebook}
-        onChange={(e) => handleChange('facebook', e.target.value)}
-        sx={{ mb: 2 }}
-      />
-
-      <TextField
-        fullWidth
-        label="Página Web"
-        value={details.paginaWeb}
-        onChange={(e) => handleChange('paginaWeb', e.target.value)}
-        sx={{ mb: 2 }}
+        label="Página Web: https://www.ejemplo.com"
+        value={formData.paginaWeb}
+        onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.paginaWeb)}
+        helperText={errors.paginaWeb}
       />
 
       <TextField
         fullWidth
         label="Precio por Noche"
         type="number"
-        value={details.precioPorNoche}
-        onChange={(e) => handleChange('precioPorNoche', e.target.value)}
-        sx={{ mb: 2 }}
+        value={formData.precioPorNoche}
+        onChange={(e) => handleInputChange('precioPorNoche', e.target.value)}
+        margin="normal"
+        error={Boolean(errors.precioPorNoche)}
+        helperText={errors.precioPorNoche}
       />
 
       <FormControlLabel
         control={
           <Checkbox
-            checked={details.disponible}
-            onChange={(e) => handleChange('disponible', e.target.checked)}
+            checked={formData.disponible}
+            onChange={(e) => handleInputChange('disponible', e.target.checked)}
           />
         }
         label="Actualmente Disponible"
@@ -211,8 +290,8 @@ function HospedajeForm() {
       <FormControlLabel
         control={
           <Checkbox
-            checked={details.incluyeDesayuno}
-            onChange={(e) => handleChange('incluyeDesayuno', e.target.checked)}
+            checked={formData.incluyeDesayuno}
+            onChange={(e) => handleInputChange('incluyeDesayuno', e.target.checked)}
           />
         }
         label="Incluye Desayuno"
@@ -221,15 +300,22 @@ function HospedajeForm() {
       <FormControlLabel
         control={
           <Checkbox
-            checked={details.incluyeToallasSabanas}
-            onChange={(e) => handleChange('incluyeToallasSabanas', e.target.checked)}
+            checked={formData.incluyeToallasSabanas}
+            onChange={(e) => handleInputChange('incluyeToallasSabanas', e.target.checked)}
           />
         }
         label="Incluye Toallas y Sábanas"
       />
-      
-    </div>
+      <div>
+      <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+        Enviar
+      </Button>
+      </div>
+    </form>
   );
 }
 
+HospedajeForm.propTypes = {
+  handleNext: PropTypes.func.isRequired,
+};
 export default HospedajeForm;

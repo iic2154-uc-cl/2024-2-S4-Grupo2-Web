@@ -1,55 +1,61 @@
-/*import '../../styles/users/zservicios.css';
-import React, { useState, useRef, useEffect } from 'react';
-
-function ServiciosForm() {
-  return (
-    <div>
-    <h1>Titulo</h1>
-    <h1>Descripcion</h1>
-    <h1>Fecha de inicio</h1>
-    <h1>Fecha de fin</h1>
-    <h1>Hora de inicio</h1>
-    <h1>Hora de fin</h1>
-    <h1>Subcategorias del evento</h1>
-    </div>
-  );
-}
-
-export default ServiciosForm;*/
 import '../../styles/users/zservicios.css';
-import React, { useState } from 'react';
-import { TextField, FormControl, InputLabel, Select, MenuItem, Button, Box, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material';
 
-function ServiciosForm() {
-    const [details, setDetails] = useState({
-        tipoServicio: '',
+const subcategories = [
+    { label: 'Gasfiter', value: 'gasfiter' },
+    { label: 'Talleres Mecánicos', value: 'talleres-mecanicos' },
+    { label: 'Gasolineras', value: 'gasolineras' },
+    { label: 'Supermercados', value: 'supermercados' },
+    { label: 'Restaurantes', value: 'restaurantes' },
+    { label: 'Centros Médicos', value: 'centros-medicos' },
+  ];
+
+function ServiciosForm({ handleNext }) {
+    const [formData, setFormData] = useState({
+        subcategoria: '',
         titulo: '',
         descripcion: '',
         ubicacion: '',
-        disponible: false,
         nombreContacto: '',
-        numeroCelular: '',
-        emailContacto: '',
+        celularContacto: '',
+        mailContacto: '',
         instagram: '',
         facebook: '',
         paginaWeb: '',
+        disponible: false,
         horarios: {
-            lunes: { abierto: false, inicio: '', fin: '' },
-            martes: { abierto: false, inicio: '', fin: '' },
-            miércoles: { abierto: false, inicio: '', fin: '' },
-            jueves: { abierto: false, inicio: '', fin: '' },
-            viernes: { abierto: false, inicio: '', fin: '' },
-            sábado: { abierto: false, inicio: '', fin: '' },
-            domingo: { abierto: false, inicio: '', fin: '' },
+            lunes: { inicio: '', fin: '', abierto: false },
+            martes: { inicio: '', fin: '', abierto: false },
+            miercoles: { inicio: '', fin: '', abierto: false },
+            jueves: { inicio: '', fin: '', abierto: false },
+            viernes: { inicio: '', fin: '', abierto: false },
+            sabado: { inicio: '', fin: '', abierto: false },
+            domingo: { inicio: '', fin: '', abierto: false },
         },
     });
 
-    const handleDetailChange = (field, value) => {
-        setDetails(prev => ({ ...prev, [field]: value }));
-    };
+    const [errors, setErrors] = useState({});
+    
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        setErrors(prev => ({ ...prev, [field]: '' })); // Reset error when value changes
+      };
 
     const handleHorarioChange = (day, field, value) => {
-        setDetails(prev => ({
+        setFormData(prev => ({
             ...prev,
             horarios: {
                 ...prev.horarios,
@@ -62,7 +68,7 @@ function ServiciosForm() {
     };
 
     const handleCheckboxChange = (day) => {
-        setDetails(prev => ({
+        setFormData(prev => ({
             ...prev,
             horarios: {
                 ...prev.horarios,
@@ -74,34 +80,79 @@ function ServiciosForm() {
         }));
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.subcategoria) {newErrors.subcategoria = 'Selecciona una tipo de servicio.';}
+        if (!formData.titulo) {newErrors.titulo = 'Escribe un título.';}
+        if (!formData.descripcion) {newErrors.descripcion = 'Escribe una descripción.';}
+        if (!formData.ubicacion) {
+          newErrors.ubicacion = 'Escribe una ubicación (Ej: Calle 123, Comuna, Ciudad).';
+        } else if (!/^[\w\s,.-]+$/.test(formData.ubicacion)) { // Simple regex for address format
+          newErrors.ubicacion = 'Debes seguir el formato de dirección: Calle 123, Comuna, Ciudad.';
+        }
+        if (!formData.celularContacto && !formData.mailContacto) {
+          newErrors.contacto = 'Debes incluir al menos el número de celular de contacto o el mail de contacto.';
+        } else {
+          if (formData.celularContacto && !/^\d+$/.test(formData.celularContacto)) { // Validar que solo incluya números
+            newErrors.celularContacto = 'El número de celular debe contener solo números. Ej: 9 8765 4321.';
+          }
+          if (formData.mailContacto && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.mailContacto)) { // Simple regex for email
+            newErrors.mailContacto = 'Escribir el email en su debido formato. Ej: usuario@dominio.com';
+          }
+        }
+        if (formData.paginaWeb && !/^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,4}(\/[\w\-\.]*)*$/.test(formData.paginaWeb)) {
+          newErrors.paginaWeb = 'Debes escribir en el formato indicado de página web. Ej: https://www.ejemplo.com';
+        }
+        if (formData.disponible) {
+          Object.keys(formData.horarios).forEach(day => {
+            if (formData.horarios[day].abierto && (!formData.horarios[day].inicio || !formData.horarios[day].fin)) {
+              newErrors[`horario_${day}`] = `A los días seleccionados abiertos debes ponerle hora de inicio y fin.`;
+            }
+          });
+        }
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+          console.log('Formulario válido, proceder...');
+          handleNext(); 
+        } else {
+          console.log('Errores en el formulario:', errors);
+        }
+      };
 
 
     return (
-        <div>
+        <form className="form-container" onSubmit={handleSubmit}>
             <h1>Servicios Comunitarios</h1>
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth>
                 <InputLabel id="tipo-servicio-label">Tipo de Servicio</InputLabel>
                 <Select
                     labelId="tipo-servicio-label"
                     id="tipo-servicio-select"
-                    value={details.tipoServicio}
-                    onChange={(e) => handleDetailChange('tipoServicio', e.target.value)}
+                    value={formData.subcategoria}
+                    onChange={(e) => handleInputChange('subcategoria', e.target.value)}
                 >
-                    <MenuItem value="gasfiter">Gasfiter</MenuItem>
-                    <MenuItem value="talleres-mecanicos">Talleres Mecánicos</MenuItem>
-                    <MenuItem value="gasolineras">Gasolineras</MenuItem>
-                    <MenuItem value="supermercados">Supermercados</MenuItem>
-                    <MenuItem value="restaurantes">Restaurantes</MenuItem>
-                    <MenuItem value="centros-medicos">Centros Médicos</MenuItem>
+                    {subcategories.map(sub => (
+                        <MenuItem key={sub.value} value={sub.value}>{sub.label}</MenuItem>
+                    ))}
                 </Select>
+                {errors.subcategoria && <Typography color="error">{errors.subcategoria}</Typography>}
             </FormControl>
 
             <TextField
                 fullWidth
                 label="Título"
                 margin="normal"
-                value={details.titulo}
-                onChange={(e) => handleDetailChange('titulo', e.target.value)}
+                value={formData.titulo}
+                onChange={(e) => handleInputChange('titulo', e.target.value)}
+                error={Boolean(errors.titulo)}
+                helperText={errors.titulo}
             />
             <TextField
                 fullWidth
@@ -109,103 +160,120 @@ function ServiciosForm() {
                 margin="normal"
                 multiline
                 rows={4}
-                value={details.descripcion}
-                onChange={(e) => handleDetailChange('descripcion', e.target.value)}
+                value={formData.descripcion}
+                onChange={(e) => handleInputChange('descripcion', e.target.value)}
+                error={Boolean(errors.descripcion)}
+                helperText={errors.descripcion}
             />
             <TextField
                 fullWidth
-                label="Ubicación"
+                label="Ubicación: Calle 123, Comuna, Ciudad"
                 margin="normal"
-                value={details.ubicacion}
-                onChange={(e) => handleDetailChange('ubicacion', e.target.value)}
+                value={formData.ubicacion}
+                onChange={(e) => handleInputChange('ubicacion', e.target.value)}
+                error={Boolean(errors.ubicacion)}
+                helperText={errors.ubicacion}
             />
 
             <TextField
                 fullWidth
                 label="Nombre de Contacto"
                 margin="normal"
-                value={details.nombreContacto}
-                onChange={(e) => handleDetailChange('nombreContacto', e.target.value)}
+                value={formData.nombreContacto}
+                onChange={(e) => handleInputChange('nombreContacto', e.target.value)}
             />
             <TextField
                 fullWidth
-                label="Número de Celular de Contacto"
+                label="Número de Celular de Contacto: 9 1122 3344"
                 margin="normal"
-                value={details.numeroCelular}
-                onChange={(e) => handleDetailChange('numeroCelular', e.target.value)}
+                value={formData.celularContacto}
+                onChange={(e) => handleInputChange('celularContacto', e.target.value)}
+                type = "number"
+                error={Boolean(errors.celularContacto)}
+                helperText={errors.celularContacto}
+            />
+
+            <TextField
+                fullWidth
+                label="Mail de Contacto: usuario@dominio.com"
+                margin="normal"
+                value={formData.mailContacto}
+                onChange={(e) => handleInputChange('mailContacto', e.target.value)}
+                error={Boolean(errors.mailContacto)}
+                helperText={errors.mailContacto}
+            />
+
+            {errors.contacto && <Typography color="error">{errors.contacto}</Typography>} {/* Mensaje de error de contacto */}
+
+            <TextField
+                fullWidth
+                label="Instagram: usuario"
+                margin="normal"
+                value={formData.instagram}
+                onChange={(e) => handleInputChange('instagram', e.target.value)}
             />
             <TextField
                 fullWidth
-                label="Email de Contacto"
+                label="Facebook: usuario"
                 margin="normal"
-                value={details.emailContacto}
-                onChange={(e) => handleDetailChange('emailContacto', e.target.value)}
+                value={formData.facebook}
+                onChange={(e) => handleInputChange('facebook', e.target.value)}
             />
             <TextField
                 fullWidth
-                label="Instagram"
+                label="Página Web: https://www.ejemplo.com"
                 margin="normal"
-                value={details.instagram}
-                onChange={(e) => handleDetailChange('instagram', e.target.value)}
-            />
-            <TextField
-                fullWidth
-                label="Facebook"
-                margin="normal"
-                value={details.facebook}
-                onChange={(e) => handleDetailChange('facebook', e.target.value)}
-            />
-            <TextField
-                fullWidth
-                label="Página Web"
-                margin="normal"
-                value={details.paginaWeb}
-                onChange={(e) => handleDetailChange('paginaWeb', e.target.value)}
+                value={formData.paginaWeb}
+                onChange={(e) => handleInputChange('paginaWeb', e.target.value)}
+                error={Boolean(errors.paginaWeb)}
+                helperText={errors.paginaWeb}
             />
 
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={details.disponible}
-                        onChange={(e) => handleDetailChange('disponible', e.target.checked)}
+                        checked={formData.disponible}
+                        onChange={(e) => handleInputChange('disponible', e.target.checked)}
                     />
                 }
                 label="Actualmente Disponible"
             />
 
-            {details.disponible && (
+            {formData.disponible && (
                 <>
                     <h2>Horarios de Apertura por Día</h2>
                     <Grid container spacing={2}>
-                        {Object.keys(details.horarios).map(day => (
+                        {Object.keys(formData.horarios).map(day => (
                             <Grid item xs={12} sm={6} md={4} key={day}>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={details.horarios[day].abierto}
+                                            checked={formData.horarios[day].abierto}
                                             onChange={() => handleCheckboxChange(day)}
                                         />
                                     }
                                     label={`Abierto ${day.charAt(0).toUpperCase() + day.slice(1)}`}
                                 />
-                                {details.horarios[day].abierto && (
+                                {formData.horarios[day].abierto && (
                                     <>
                                         <TextField
                                             fullWidth
                                             label={`Hora Inicio`}
                                             type="time"
-                                            value={details.horarios[day].inicio}
+                                            value={formData.horarios[day].inicio}
                                             onChange={(e) => handleHorarioChange(day, 'inicio', e.target.value)}
-                                            sx={{ mb: 1 }}
+                                            margin="normal"
                                         />
                                         <TextField
                                             fullWidth
                                             label={`Hora Fin`}
                                             type="time"
-                                            value={details.horarios[day].fin}
+                                            value={formData.horarios[day].fin}
                                             onChange={(e) => handleHorarioChange(day, 'fin', e.target.value)}
-                                            sx={{ mb: 2 }}
+                                            margin="normal"
                                         />
+                                        {errors[`horario_${day}`] && <Typography color="error">{errors[`horario_${day}`]}</Typography>}
+
                                     </>
                                 )}
                             </Grid>
@@ -214,9 +282,19 @@ function ServiciosForm() {
                 </>
             )}
 
+            <div>
+            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                Enviar
+            </Button>
+            </div>
 
-        </div>
+
+        </form>
     );
 }
 
+ServiciosForm.propTypes = {
+    handleNext: PropTypes.func.isRequired,
+  };
 export default ServiciosForm;
+
