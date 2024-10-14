@@ -20,7 +20,6 @@ const Perfil = () => {
                     <img src={user.picture} alt={user.name} className="perfil-avatar" />
                     <h2>{user.name}</h2>
                     <p>Email: {user.email}</p>
-
                     {/* Botón de cerrar sesión */}
                     <button 
                         className="cerrar-sesion-button" 

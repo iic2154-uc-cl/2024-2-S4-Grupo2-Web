@@ -10,12 +10,53 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;  /* Asegura que el contenedor mínimo tenga la altura de la ventana */
-    flex: 1;  /* Permite que el contenedor crezca si es necesario */
+    flex: 2;  /* Permite que el contenedor crezca si es necesario */
 }
 
 .perfil-info {
-    flex: 1;  /* Esto asegura que el contenido interno expanda para empujar el footer hacia abajo */
-    /* Asegúrate de no tener un overflow oculto aquí */
+    max-width: 900px; /* Aumenta el ancho máximo para hacer la tarjeta más ancha */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    margin: 30px auto;
+    padding: 30px; /* Aumenta el padding para que haya más espacio interior */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Otras clases permanecen igual */
+
+.perfil-title {
+    color: #714dc9;
+    margin-bottom: 20px;
+}
+
+.avatar-container {
+    margin: 20px 0;
+}
+
+.perfil-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.perfil-name {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.perfil-item {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.perfil-label {
+    font-weight: bold;
+    color: #333;
 }
 
 .cerrar-sesion-button {

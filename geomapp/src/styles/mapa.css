@@ -6,25 +6,26 @@
   
   /* Botón de actualización de ubicación */
   .update-location-btnn {
-    background-color: #714dc9;  /* Un tono específico */
+    background-color: #714dc9;
     color: white;
-    font-weight: bold;  /* Texto en negrita */
-    padding: 15px 20px;  /* Espaciado interno para hacer el botón más grande */
-    border: none;  /* Sin bordes */
-    border-radius: 5px;  /* Bordes redondeados */
-    cursor: pointer;  /* Cursor en forma de mano al pasar el mouse */
-    text-transform: uppercase;  /* Texto en mayúsculas */
-    transition: background-color 0.3s, box-shadow 0.3s;  /* Transición suave para hover */
-    outline: none;  /* Elimina el contorno que aparece al hacer clic */
+    font-weight: bold;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    outline: none;
     font-size: 15px;
-    font-family: 'Montserrat', sans-serif;  /* Usa la fuente Montserrat */
-    left: 0;
-    position: absolute; 
-    margin-left: 19px;
-  }
+    font-family: 'Montserrat', sans-serif;
+    margin-right: 10px; /* Añade espacio entre los botones */
+    /* Elimina las siguientes propiedades que causan problemas */
+    /* left: 0; */
+    /* position: absolute; */
+    /* margin-left: 19px; */
+}
 
-
-  
+    
   .update-location-btnn:hover {
     background-color: #e67e22;  /* Un tono más oscuro de naranja para el hover */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
@@ -58,20 +59,10 @@
     align-items: left;
   }
 
-  .map-container {
-    position: relative;
-    width: 60%;
-    height: 600px;
-  }
+
   
   /* Contenedor principal que alinea mapa e información */
-.map-info-container {
-    display: flex;
-    align-items: start; /* Alinea los elementos en la parte superior */
-    justify-content: space-between; /* Separa los elementos */
-    width: 100%; /* Utiliza todo el ancho disponible */
-    margin: 20px 0;
-  }
+
   
   /* Estilo del mapa */
 
@@ -80,7 +71,7 @@
  
   /* Estilo del contenedor de información */
   .info-lugar {
-    flex: 1;  /* Ocupa 1 parte del espacio disponible */
+    flex: 0;  /* Ocupa 1 parte del espacio disponible */
     height: 700px; /* Altura para alinear con el mapa */
     overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
     padding: 15px;
@@ -105,5 +96,84 @@
     margin-top: 10px;
     color: #555;
   }
+  
+
+
+
+.buttons-container {
+  display: flex;
+  gap: 20px; /* Añade espacio entre los botones */
+  justify-content: center; /* Alinea los botones horizontalmente en el centro */
+  align-items: center; /* Alinea los botones verticalmente */
+
+}
+
+
+
+.info-panel h2 {
+  color: #714dc9; /* Título en morado */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.description {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 10px;
+
+}
+
+.details {
+  font-size: 15px;
+  text-align: left;
+}
+
+.details p {
+  color: #555;
+  margin: 5px 0;
+}
+
+.details p strong {
+  color: #ff914d; /* Texto destacado en color naranja */
+}
+
+.info-panel p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.info-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.map-info-container {
+  display: flex;
+  align-items: stretch; /* Esto asegura que ambos hijos tengan la misma altura */
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.map-container {
+  flex: 1;  /* Ocupa el espacio disponible */
+  height: 700px; /* Altura específica para el mapa */
+}
+
+.info-panel {
+  width: 400px;  /* Fija el ancho del panel a 400px */
+  height: 660px; /* Misma altura que el mapa */
+  overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white; /* Fondo blanco para la legibilidad */
+}
+
+
+
+
+
+
   
   

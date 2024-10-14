@@ -16,6 +16,7 @@
     "@material-tailwind/react": "^2.1.10",
     "@mui/lab": "^6.0.0-beta.10",
     "@mui/material": "^6.1.2",
+    "@mui/system": "^6.1.2",
     "@mui/x-date-pickers": "^7.19.0",
     "@react-google-maps/api": "^2.19.3",
     "aws-sdk": "^2.1691.0",
