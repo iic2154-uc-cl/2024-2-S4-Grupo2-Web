@@ -7,11 +7,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Auth0Provider
-    domain='dev-7w1no2zl1opt24if.us.auth0.com'
-    clientId='QrElcRF9AI2H6dRBwCChbc04JvtKygJo'
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
     authorizationParams={{
       redirectUri: window.location.origin, 
-      audience: 'https://geomap/',
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
     }}
     cacheLocation="localstorage" 
   >

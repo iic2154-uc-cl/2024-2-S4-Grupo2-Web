@@ -1,13 +1,24 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logoo.png';
 import whatsapp from '../assets/whatsapp.png';
+import Auth0Login from './Auth0Login.jsx';
 
 function NavBar() {
-    const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+    const { loginWithRedirect, logout, isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            if (isAuthenticated && user) {
+                const token = await getAccessTokenSilently();
+                Auth0Login(user, token);  // Llama a la función para crear el usuario
+            }
+        };
+        fetchToken();
+      }, [isAuthenticated, user, getAccessTokenSilently]);
 
     return (
         <div className="navbar">
