@@ -1,11 +1,11 @@
-name: Sonarqube IIC2154
+name: Sonarqube Code Quality
 
 on: [pull_request]
 
 jobs:
   build:
     name: Build and analyze
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     
     steps:
       - uses: actions/checkout@v4
@@ -19,5 +19,3 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          REPOSITORY: ${{ github.repository }}
-          BRANCH: ${{ github.ref }}
