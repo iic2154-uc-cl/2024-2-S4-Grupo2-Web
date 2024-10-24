@@ -47,9 +47,12 @@ function Favoritos() {
   };
 
   return (
+    
     <div id="favoritos-container">
       <Navbar />
-      <h1>Mis Favoritos</h1>
+      <header className="favoritos-header">
+        <h1> Mis Favoritos</h1>
+      </header>
       <div className="favoritos-list">
         {favoritos.map((favorito) => (
           <div className="favoritos-card" key={favorito.id}>

@@ -307,8 +307,8 @@ function HospedajeForm({ handleNext }) {
         label="Incluye Toallas y Sábanas"
       />
       <div>
-      <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
-        Enviar
+      <Button type="submit" variant="contained" className="submit-button">
+          Enviar
       </Button>
       </div>
     </form>

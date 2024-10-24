@@ -268,7 +268,7 @@ function EventosForm({ handleNext }) {
                 ))}
             </div>
 
-            <Button variant="contained" color="primary" type="submit">
+            <Button type="submit" variant="contained" className="submit-button">
                 Enviar
             </Button>
         </form>

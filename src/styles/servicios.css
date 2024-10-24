@@ -1,17 +1,49 @@
+/* servicios.css */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+}
+
 /* Estilo para alinear los íconos de servicios horizontalmente */
 .icon-container {
-    display: flex; /* Utiliza flex para alinear horizontalmente */
-    justify-content: center; /* Centra los íconos en la página */
-    gap: 20px; /* Espaciado entre cada ícono */
-    margin-top: 20px;
-  }
-  
-  .icon-container img {
-    width: 80px; /* Ajusta el tamaño de los íconos según sea necesario */
-    cursor: pointer; /* Cambia el cursor cuando se pasa sobre los íconos */
-    transition: transform 0.2s; /* Efecto de transición al pasar el mouse sobre los íconos */
-  }
-  
-  .icon-container img:hover {
-    transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
-  }
+  display: flex; /* Utiliza flex para alinear horizontalmente */
+  justify-content: center; /* Centra los íconos en la página */
+  gap: 20px; /* Espaciado entre cada ícono */
+  margin-top: 20px;
+}
+
+.icon-container img {
+  width: 80px; /* Ajusta el tamaño de los íconos según sea necesario */
+  cursor: pointer; /* Cambia el cursor cuando se pasa sobre los íconos */
+  transition: transform 0.2s; /* Efecto de transición al pasar el mouse sobre los íconos */
+}
+
+.icon-container img:hover {
+  transform: scale(1.1); /* Efecto de aumento al pasar el mouse */
+}
+
+/* Centrar la información del servicio y el botón */
+.service-info {
+  text-align: center; /* Centra el texto de la información del servicio */
+  margin-top: 20px; /* Espacio superior para separación */
+}
+
+.button {
+  display: block; /* Hace que el botón sea un bloque */
+  margin: 20px auto; /* Centra el botón horizontalmente */
+  padding: 10px 20px; /* Espaciado interno del botón */
+  background-color: #000000; /* Color de fondo del botón */
+  color: #ffffff; /* Color del texto del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cursor de puntero al pasar sobre el botón */
+  transition: background-color 0.3s ease; /* Efecto de transición */
+  text-transform: none; /*asegura que texto no este en mayuscula*/
+  /*saca lo bold de la letras del boton*/
+  font-weight: normal;
+}
+
+
+.button:hover {
+  background-color: #fc7b03; /* Color de fondo al pasar el mouse */
+}

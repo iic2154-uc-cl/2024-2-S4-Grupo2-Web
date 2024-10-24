@@ -283,7 +283,7 @@ function ServiciosForm({ handleNext }) {
             )}
 
             <div>
-            <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+            <Button type="submit" variant="contained" className="submit-button">
                 Enviar
             </Button>
             </div>

@@ -1,4 +1,7 @@
 /* Contenedor del mapa */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+}
 #map {
   height: 300px; /* Altura del mapa */
   width: 50%;   /* Ancho del mapa */

@@ -1,3 +1,6 @@
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+}
 #publicaciones-container {
     display: flex;
     flex-direction: column;
@@ -5,7 +8,9 @@
   }
   
 .publicaciones-header {
+  margin: 20px;
 /* Estilos para el encabezado */
+
 }
 
 .publicaciones-content {
@@ -13,7 +18,19 @@ flex: 1; /* Permite que este contenedor expanda para empujar el footer hacia aba
 padding: 20px; /* Añade padding para diseño */
 }
 
-.publicaciones-button {
-/* Estilos adicionales para el botón si es necesario */
+.image-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-button:hover {
+  background-color: #fc7b03; /* Color de fondo al pasar el mouse */
+  /* Estilos adicionales para el botón si es necesario */
 }
   

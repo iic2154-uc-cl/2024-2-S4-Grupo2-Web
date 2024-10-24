@@ -61,6 +61,7 @@ function Publicar() {
         switch (stepIndex) {
             case 0:
                 return (
+                <Box className="form-control-container">
                     <FormControl fullWidth sx={{ maxWidth: 300 }} error={!!error}>
                         <InputLabel id="type-select-label">Tipo de Publicación</InputLabel>
                         <Select
@@ -76,6 +77,7 @@ function Publicar() {
                         </Select>
                         {error && <FormHelperText>{error}</FormHelperText>}
                     </FormControl>
+                </Box>
                 );
             case 1:
                 if (selectedType === 'turismo') {

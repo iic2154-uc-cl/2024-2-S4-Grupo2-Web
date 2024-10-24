@@ -1,32 +1,37 @@
 html, body {
-    height: 100%;  /* Asegura que el html y el body ocupen toda la altura de la ventana */
+    height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usando San Francisco como fuente del sistema */
+    /*apple system: referencia a sistema de apple - san francisco*/
+    /*BlinMacSystemFont: para chrome en mac*/
+    /*segoe ui: fuente de sistema par awindows*/
+    /*Roboto, "Helvetica Neue", Arial, sans-serif: Otras fuentes de respaldo*/
 }
 
 #perfil-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;  /* Asegura que el contenedor mínimo tenga la altura de la ventana */
-    flex: 2;  /* Permite que el contenedor crezca si es necesario */
+    min-height: 100vh;
+    justify-content: space-between; /* Distribuye el contenido y el footer al fondo */
+    width: 100%; /* Abarca todo el ancho */
 }
 
-.perfil-info {
-    flex: 1; /* Esto hará que el contenedor de la información se expanda para ocupar todo el espacio disponible */
+.perfil-content {
+    flex-grow: 1; /* Asegura que el contenido crezca y empuje el footer hacia abajo */
+    margin: 40px 20px; /* Márgenes: Arriba y abajo 40px, izquierda y derecha 20px */
+    padding: 20px; /* Relleno interno */
+    background-color: #fff; /* Opcional: color de fondo para destacar el contenido */
 }
 
-
-/* Otras clases permanecen igual */
-
-.perfil-title {
-    color: #714dc9;
+.perfil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
-}
-
-.avatar-container {
-    margin: 20px 0;
 }
 
 .perfil-avatar {
@@ -34,21 +39,83 @@ html, body {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
+    margin-bottom: 20px;
 }
 
 .perfil-name {
-    font-size: 22px;
-    color: #333;
+    font-size: 24px;
+    color: #333333;
     margin-bottom: 10px;
 }
 
-.perfil-item {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 5px;
+.perfil-email {
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 20px;
 }
 
-.perfil-label {
+.perfil-info {
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.perfil-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background-color: #f0f0f0;
+    width: 30%;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.stat p {
+    font-size: 14px;
+    color: #636260;
+    margin-bottom: 10px;
+}
+
+.stat span {
+    font-size: 20px;
     font-weight: bold;
-    color: #333;
+    color: #333333;
+}
+
+.cerrar-sesion-button {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cerrar-sesion-button:hover {
+    background-color: #fc7b03;
+}
+
+/* Para asegurarse de que el footer esté siempre pegado al fondo */
+footer {
+    width: 100%;
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia el final */
+}
+
+/* Loading screen */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+    color: #000000;
 }

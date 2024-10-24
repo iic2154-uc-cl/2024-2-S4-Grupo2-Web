@@ -1,60 +1,84 @@
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+  }
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff;
     padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 60px; /* Mantener una altura constante */
+    position: relative; /* Para posicionar el dropdown */
 }
 
 .navbar-content {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    margin-bottom: 20px;
 }
 
 .navbar-logo {
-    margin-right: 20px; /* Espacio entre el logo y los enlaces */
+    margin-right: 20px; /* Espacio entre el logo y el icono */
     cursor: pointer;
     width: 50px;
     height: auto;
+}
+
+.navbar-links {
+    display: flex; /* Mostrar enlaces en línea */
+    flex-grow: 1; /* Tomar el espacio restante */
+}
+
+.navbar-hamburger {
+    display: none; /* Ocultar por defecto */
+    font-size: 24px; /* Tamaño del icono de hamburguesa */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    margin-right: auto;
 
 }
 
-.navbar-links a {
-    margin-right: 20px; /* Espacio entre los enlaces */
-    text-decoration: none;
-    color: black; /* Cambia esto según tu esquema de colores */
-   
+/* Mostrar el icono de hamburguesa en pantallas pequeñas */
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none; /* Ocultar los enlaces en pantallas pequeñas */
+    }
+
+    .navbar-hamburger {
+        display: block; /* Mostrar el icono de hamburguesa en pantallas pequeñas */
+    }
 }
 
-.navbar-login {
-    margin-right: auto; /* Empuja todo lo demás a la derecha */
-    cursor: pointer; 
+.whatsapp-container {
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    margin-left: auto;
 }
 
 .whatsapp-icon {
-    font-size: 24px; /* Tamaño del icono de WhatsApp */
-    cursor: pointer;
+    width: 44px; /* Tamaño ajustado del icono de WhatsApp */
+    height: 44px; /* Asegúrate de que el alto sea el mismo */
     color: #25D366; /* Color del icono de WhatsApp */
+
+}
+
+.navbar-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute; /* Posición absoluta para el menú desplegable */
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Asegúrate de que esté en la parte superior */
+    top: 60px; /* Ajusta según sea necesario */
+    left: 90px; /* Alineación a la derecha */
+}
+
+.footer-link {
+    padding: 10px 20px; /* Padding para hacer clickeables los enlaces */
+    text-decoration: none;
+    color: black; /* Cambia esto según tu esquema de colores */
 }
 
 .footer-link:hover {
-    background-color: #000; /* Cambia el fondo al pasar el ratón */
-    color: #fff; /* Cambia el color del texto al pasar el ratón */
+    background-color: #f0f0f0; /* Cambia el fondo al pasar el ratón */
 }
-
-.footer-link-2 {
-    text-decoration: none;
-    color: #000; /* Color del texto de los enlaces */
-    font-weight: bold; /* Negrita para el texto */
-    padding: 8px 16px; /* Padding para hacer los enlaces más clickeables */
-    border-radius: 5px; /* Bordes redondeados para los enlaces */
-    transition: background-color 0.3s, color 0.3s; /* Transición suave para hover */
-    margin-left: 950px; /* Ajusta el valor según lo que necesites */
-    height: auto;
-    
-}
-

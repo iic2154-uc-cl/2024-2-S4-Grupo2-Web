@@ -1,6 +1,8 @@
 /*import React, { useState } from 'react';*/
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import '../../styles/users/zturismo.css';
+
 import {
   TextField,
   MenuItem,
@@ -297,7 +299,7 @@ function TurismoForm({ handleNext }) {
       )}
 
       <div>
-      <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+      <Button type="submit" variant="contained" className="submit-button">
         Enviar
       </Button>
       </div>

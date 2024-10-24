@@ -1,4 +1,7 @@
 /* Ajustes generales del contenedor del formulario */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+}
 .form-container {
     @apply mx-auto mt-10 max-w-3xl bg-white rounded-lg shadow-lg p-8;
   }
@@ -46,4 +49,22 @@
   .error-message {
     @apply text-red-500 text-xs italic mt-2;
   }
+  .submit-button {
+    display: block; /* Para que el margen auto funcione */
+    margin: 20px auto; /* Margen superior de 20px y centrado horizontal */
+    background-color: #000; /* Color de fondo (azul) */
+    color: white; /* Color del texto (blanco) */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Relleno del botón */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+    text-transform: none;
+    font-weight: bold;
+}
+.submit-button:hover {
+  background-color: #fc7b03; /* Color al pasar el ratón (más oscuro) */
+}
+
   

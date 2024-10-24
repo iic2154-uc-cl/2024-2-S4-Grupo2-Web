@@ -53,7 +53,6 @@ const Servicios = () => {
             <p>{serviceInfo[selectedService]}</p>
           </div>
         )}
-        <br />
         <button className="button" onClick={handleClick}>
           Publica tu servicio aquí
         </button>

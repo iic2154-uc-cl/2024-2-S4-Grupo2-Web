@@ -1,3 +1,6 @@
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Usar San Francisco */
+}
 #publicar-container {
     display: flex;
     flex-direction: column;
@@ -5,6 +8,7 @@
 }
 
 .publicar-header {
+  margin:20px
     /* Estilos para el encabezado */
 }
 
@@ -29,6 +33,15 @@
     align-items: center; /* Centra todos los items del formulario */
     margin: auto; /* Centra el contenedor en el espacio disponible */
 }
+.form-control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+  width: 100%; /* O ajusta al tamaño necesario */
+  margin: auto; /* Centra el contenedor dentro de su padre */
+}
+
 
 .publicar-form-row {
     display: flex;
@@ -101,3 +114,6 @@
   .image-upload-container {
     
 }
+
+
+
