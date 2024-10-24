@@ -1,4 +1,3 @@
-navbar.jsx
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/navbar.css'; // Asegúrate de que la ruta del CSS es correcta
@@ -69,3 +68,4 @@ function NavBar() {
         </div>
     );
 }
+export default NavBar;
