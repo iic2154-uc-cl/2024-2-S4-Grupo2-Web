@@ -1,0 +1,54 @@
+html, body {
+    height: 100%;  /* Asegura que el html y el body ocupen toda la altura de la ventana */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#perfil-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;  /* Asegura que el contenedor mínimo tenga la altura de la ventana */
+    flex: 2;  /* Permite que el contenedor crezca si es necesario */
+}
+
+.perfil-info {
+    flex: 1; /* Esto hará que el contenedor de la información se expanda para ocupar todo el espacio disponible */
+}
+
+
+/* Otras clases permanecen igual */
+
+.perfil-title {
+    color: #714dc9;
+    margin-bottom: 20px;
+}
+
+.avatar-container {
+    margin: 20px 0;
+}
+
+.perfil-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.perfil-name {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.perfil-item {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.perfil-label {
+    font-weight: bold;
+    color: #333;
+}

@@ -1,0 +1,55 @@
+html {
+    height: 100%; /* Establece la altura del elemento raíz al 100% del viewport */
+}
+body {
+    min-height: 100%; /* Asegura que el body tenga al menos la altura del viewport */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Permite que el body crezca para ocupar cualquier espacio disponible */
+}
+
+main {
+    flex: 1; /* Asegura que el elemento main expanda para llenar el espacio disponible */
+    padding: 20px;
+    overflow: auto; /* Añade desplazamiento al main si el contenido excede el tamaño de la ventana */
+}
+
+.footer {
+    width: 100%;
+    padding: 32px 0;
+    background-color: #f1f1f1;
+    text-align: center;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.footer-link:hover {
+    background-color: #ff914d;
+    color: #fff;
+}
+
+#perfil-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que ocupe al menos todo el viewport vertical */
+}
+

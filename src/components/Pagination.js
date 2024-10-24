@@ -1,55 +1,66 @@
-/* eslint-disable react/button-has-type */
+import React, { useState } from 'react';
+import Dropzone from 'react-dropzone';
 
-export default function Pagination({
-  handleNextPage,
-  handlePreviousPage,
-  nextPage,
-  previousPage,
-}) {
+function ImageUpload({ files, setFiles }) {
+  const [error, setError] = useState('');
+
+  const handleMaxFiles = (acceptedFiles) => {
+    if (acceptedFiles.length + files.length > 5) {
+      setError('Solo se permiten un máximo de 5 imágenes');
+    } else {
+      setError('');
+      const newFiles = acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      }));
+      setFiles([...files, ...newFiles]);
+    }
+  };
+
+  const handleRemoveFile = (index) => {
+    const updatedFiles = files.filter((_, idx) => idx !== index);
+    setFiles(updatedFiles);
+    URL.revokeObjectURL(files[index].preview); // Clean up
+  };
+
+  // Asegura que `files` sea siempre tratado como un arreglo.
+  const safeFiles = files || [];
+
   return (
-    <div className="mb-2 flex justify-center gap-3">
-      {previousPage && (
-        <button
-          className="flex w-[130px] items-center rounded-full bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-blue-500 focus:ring-2 focus:ring-gray-500"
-          onClick={handlePreviousPage}
+    <div className="mb-4">
+      <label className="block text-sm font-medium text-black">
+        Cargar imágenes de publicación
+      </label>
+      <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5">
+        <Dropzone
+          onDrop={handleMaxFiles}
+          accept="image/*"
+          multiple
         >
-          <svg
-            aria-hidden="true"
-            className="mr-2 h-5 w-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Anterior
-        </button>
-      )}
-      {nextPage && (
-        <button
-          className="flex w-[130px] items-center rounded-full bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-blue-500 focus:ring-2 focus:ring-gray-500"
-          onClick={handleNextPage}
-        >
-          Siguiente
-          <svg
-            aria-hidden="true"
-            className="ml-2 h-5 w-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      )}
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps({ className: 'dropzone' })}>
+              <input {...getInputProps()} />
+              <p>Arrastra algunas imágenes aquí, o haz clic para seleccionar imágenes</p>
+            </div>
+          )}
+        </Dropzone>
+        {safeFiles.length > 0 && (
+          <div className="flex flex-wrap">
+            {safeFiles.map((file, index) => (
+              <div key={index} className="w-1/4 p-1">
+                <div className="relative">
+                  <img src={file.preview} alt={`preview ${index}`} />
+                  <button type="button" onClick={() => handleRemoveFile(index)}>
+                    X
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }
+
+export default ImageUpload;

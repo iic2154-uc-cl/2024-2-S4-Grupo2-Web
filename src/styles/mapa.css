@@ -1,0 +1,326 @@
+/* Contenedor del mapa */
+#map {
+  height: 300px; /* Altura del mapa */
+  width: 50%;   /* Ancho del mapa */
+}
+
+/* Botón de actualización de ubicación */
+.update-location-btnn {
+  background-color: #714dc9;
+  color: white;
+  font-weight: bold;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Montserrat', sans-serif;
+  margin-right: 10px; /* Añade espacio entre los botones */
+  /* Elimina las siguientes propiedades que causan problemas */
+  /* left: 0; */
+  /* position: absolute; */
+  /* margin-left: 19px; */
+}
+
+  
+.update-location-btnn:hover {
+  background-color: #e67e22;  /* Un tono más oscuro de naranja para el hover */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Sombra ligera para resaltar el botón */
+}
+
+/* Contenedor de la información del lugar seleccionado */
+.info-lugar {
+  margin-top: 50px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-lugar.show {
+  display: block; /* Mostrar la información del lugar */
+}
+
+.info-lugar h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.info-lugar p {
+  margin-top: 10px;
+  color: #555;
+}  
+
+.boton_ubi {
+  align-items: left;
+}
+
+
+
+/* Contenedor principal que alinea mapa e información */
+
+
+/* Estilo del mapa */
+
+
+/* Botón de actualización de ubicación */
+
+/* Estilo del contenedor de información */
+.info-lugar {
+  flex: 0;  /* Ocupa 1 parte del espacio disponible */
+  height: 700px; /* Altura para alinear con el mapa */
+  overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white; /* Fondo blanco para la legibilidad */
+}
+
+/* Mostrar la información del lugar */
+.info-lugar.show {
+  display: block; /* Asegura que el panel de información se muestre */
+}
+
+/* Encabezados y párrafos en el panel de información */
+.info-lugar h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.info-lugar p {
+  margin-top: 10px;
+  color: #555;
+}
+
+
+
+
+.buttons-container {
+display: flex;
+gap: 20px; /* Añade espacio entre los botones */
+justify-content: center; /* Alinea los botones horizontalmente en el centro */
+align-items: center; /* Alinea los botones verticalmente */
+
+}
+
+
+
+.info-panel h2 {
+color: #714dc9; /* Título en morado */
+font-family: 'Montserrat', sans-serif;
+font-size: 24px;
+margin-bottom: 15px;
+}
+
+.description {
+color: #333;
+font-size: 16px;
+margin-bottom: 10px;
+
+}
+
+.details {
+font-size: 15px;
+text-align: left;
+}
+
+.details p {
+color: #555;
+margin: 5px 0;
+}
+
+.details p strong {
+color: #ff914d; /* Texto destacado en color naranja */
+}
+
+.info-panel p {
+font-family: 'Montserrat', sans-serif;
+}
+
+.info-panel p:last-child {
+margin-bottom: 0;
+}
+
+.map-info-container {
+display: flex;
+align-items: stretch; /* Esto asegura que ambos hijos tengan la misma altura */
+justify-content: space-between;
+width: 100%;
+margin: 20px 0;
+}
+
+.map-container {
+flex: 1;  /* Ocupa el espacio disponible */
+height: 700px; /* Altura específica para el mapa */
+}
+
+.info-panel {
+width: 400px;  /* Fija el ancho del panel a 400px */
+height: 660px; /* Misma altura que el mapa */
+overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+background-color: white; /* Fondo blanco para la legibilidad */
+}
+
+/* Contenedor principal */
+.container {
+  position: relative; /* Para manejar el posicionamiento del modal */
+}
+
+/* Estilos de la caja de filtros */
+.filter-box {
+  background-color: #ffcc80; /* Naranja claro */
+  width: 600px; /* Ancho del cuadro de filtros */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
+  margin-bottom: 20px; /* Espaciado inferior */
+}
+
+/* Botón para cerrar el filtro */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #b2b6c7; /* Color del botón de cierre */
+  float: right;
+  cursor: pointer;
+}
+
+/* Estilo del campo de búsqueda */
+.search-input {
+  width: 80%; /* Ancho completo */
+  padding: 12px;
+  margin-top: 20px; /* Espaciado superior */
+  margin-bottom: 20px; /* Espaciado inferior */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #ffffff; /* Cambia el fondo a blanco */
+}
+
+/* Lista de checkboxes */
+.checkbox-list {
+  margin: 10px 0; /* Espaciado superior e inferior */
+  
+}
+
+/* Estilo de cada checkbox */
+.checkbox-list label {
+  display: flex;
+  align-items: center; /* Alinear verticalmente */
+  margin-bottom: 10px; /* Espaciado inferior */
+  font-size: 16px;
+  
+}
+
+/* Estilo del mensaje "No results found" */
+.no-results-message {
+  color: #999; /* Color gris para el mensaje */
+  padding: 10px 0; /* Espaciado vertical */
+}
+
+/* Estilo de los botones */
+.buttons {
+  display: flex; /* Usa flexbox para los botones */
+  justify-content: space-between; /* Espaciado entre botones */
+  margin-top: 20px; /* Espaciado superior */
+  
+}
+
+.reset-btn,
+.show-results-btn {
+  padding: 10px 15px; /* Espaciado interno */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.reset-btn {
+  background: none; /* Sin fondo para el botón de reiniciar */
+  color: #2b3864; /* Color del texto */
+}
+
+.show-results-btn {
+  background-color: #714dc9; /* Fondo del botón de mostrar resultados (morado) */
+  color: white; /* Color del texto */
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.show-results-btn:hover {
+  background-color: #5820a1; /* Color más oscuro al pasar el ratón */
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none; /* Oculta el modal por defecto */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(193, 184, 184, 0.5); /* Fondo semitransparente */
+}
+
+.modal-content {
+  background-color: #ffffff; /* Fondo blanco para el modal */
+  margin: 15% auto; /* Centrar el modal */
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px; /* Ancho del modal */
+  text-align: center; /* Centrar el contenido del modal */
+  box-shadow: 0px 0px 15px rgba(224, 224, 224, 0.2); /* Sombra */
+}
+
+.close-modal {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  margin-top: -20px; /* Ajuste para el espacio superior */
+}
+
+/* Contenedor de la simbología */
+.simbologia-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Esquinas redondeadas */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  margin-bottom: 20px; /* Espaciado inferior */
+}
+
+/* Contenedor para los iconos */
+.icon-container {
+  display: flex;
+  gap: 20px; /* Espacio entre iconos */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+
+
+/* Efecto de hover en el icono */
+.icon:hover {
+  transform: scale(1.1); /* Aumenta el tamaño al pasar el ratón */
+}
+
+/* Estilo del título seleccionado */
+.selected-title {
+  margin-top: 20px; /* Espaciado superior */
+  font-size: 1.5rem; /* Tamaño de fuente para el título */
+  font-weight: bold; /* Negrita */
+  color: #714dc9; /* Color morado para el título */
+}
+
